@@ -1,0 +1,22 @@
+{
+  "option":[{
+    "type":["widget","param","board"],
+    "chart_type":"ALL",
+    "group":"边框样式",
+    "class":[{
+      "id": "borderStyle03",
+      "name":"无边框",
+      "class":["borderStyleNone"],
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget","param","board"],
+    "chart_type":"ALL",
+    "group":"标题样式",
+    "class":[{
+      "id": "titleStyle01",
+      "name":"无标题",
+      "class":["titleStyleNone"],
+      "thumb":"c1.jpg"
+    }]}
+  ]
+}

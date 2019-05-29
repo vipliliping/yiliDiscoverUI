@@ -1,0 +1,52 @@
+{
+  "theme": [
+    {
+      "name": "theme_Yili",
+      "url": "/theme/theme_Yili/style.css",
+      "thumb": "/theme/theme_Yili/images/thumbImg.png",
+      "chartTheme": "/theme/theme_Yili/chartTheme.js"
+    },
+    {
+      "name": "theme_Shanghai",
+      "url": "/theme/theme_Shanghai/style.css",
+      "thumb": "/theme/theme_Shanghai/images/thumbImg.png",
+      "chartTheme": "/theme/theme_Shanghai/chartTheme.js"
+    },
+    {
+      "name": "theme_Beili01",
+      "url": "/theme/theme_Beili01/style.css",
+      "thumb": "/theme/theme_Beili01/images/thumb.jpg",
+      "chartTheme": "/theme/theme_Beili01/chartTheme.js"
+    },
+    {
+      "name": "theme_Beili03",
+      "url": "/theme/theme_Beili03/style.css",
+      "thumb": "/theme/theme_Beili03/images/thumbImg.png",
+      "chartTheme": "/theme/theme_Beili03/chartTheme.js"
+    },
+    {
+      "name": "theme_Yili",
+      "url": "/theme/theme_Yili/style.css",
+      "thumb": "/theme/theme_Yili/images/thumbImg.png",
+      "chartTheme": "/theme/theme_Yili/chartTheme.js"
+    },
+    {
+      "name": "theme_Purplepassion",
+      "url": "/theme/theme_Purplepassion/style.css",
+      "thumb": "/theme/theme_Purplepassion/images/thumbImg.png",
+      "chartTheme": "/theme/theme_Purplepassion/chartTheme.js"
+    },
+    {
+      "name": "theme_Infographic",
+      "url": "/theme/theme_Infographic/style.css",
+      "thumb": "/theme/theme_Infographic/images/thumb.png",
+      "chartTheme": "/theme/theme_Infographic/chartTheme.js"
+    },
+    {
+      "name": "theme_Beifang",
+      "url": "/theme/theme_Beifang/style.css",
+      "thumb": "/theme/theme_Beifang/images/thumb.jpg",
+      "chartTheme": "/theme/theme_Beifang/chartTheme.js"
+    }
+  ]
+}

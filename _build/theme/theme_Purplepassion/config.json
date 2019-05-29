@@ -1,0 +1,275 @@
+{
+  "option":[{
+      "type":["widget","param","board"],
+      "chart_type":"ALL",
+      "group":"边框样式",
+      "class":[{
+        "id": "borderStyle03",
+        "name":"无边框",
+        "class":["borderStyleNone"],
+        "thumb":"c1.jpg"
+    }]},{
+      "type":["widget","param","board"],
+      "chart_type":"ALL",
+      "group":"标题样式",
+      "class":[{
+        "id": "titleStyle01",
+        "name":"无标题",
+        "class":["titleStyleNone"],
+        "thumb":"c1.jpg"
+      },{
+        "id": "titleIcon01",
+        "name":"图标1",
+        "class":["titleIcon01"],
+        "thumb":"c1.jpg"
+      },{
+        "id": "titleIcon02",
+        "name":"图标2",
+        "class":["titleIcon02"],
+        "thumb":"c1.jpg"
+      },{
+        "id": "titleIcon03",
+        "name":"图标3",
+        "class":["titleIcon03"],
+        "thumb":"c1.jpg"
+      }]},{
+    "type":["widget"],
+    "chart_type":"ALL",
+    "group":"图表网格线",
+    "class":[{
+      "id": "chartNoAxis",
+      "name":"无网格线",
+      "option":"noAxis",
+      "thumb":"a1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":"ALL",
+    "group":"图表轴线",
+    "class":[{
+      "id": "noAxisLine",
+      "name":"无轴线",
+      "option":"noAxisLine",
+      "thumb":"a1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":"ALL",
+    "group":"类轴字号",
+    "class":[{
+      "id": "chartCategoryFontSize00",
+      "name":"8px",
+      "option":"chartCategoryFontSize00",
+      "thumb":"a1.jpg"
+    },{
+      "id": "chartCategoryFontSize01",
+      "name":"12px",
+      "option":"chartCategoryFontSize01",
+      "thumb":"a1.jpg"
+    },{
+      "id": "chartCategoryFontSize02",
+      "name":"14px",
+      "option":"chartCategoryFontSize02",
+      "thumb":"a1.jpg"
+    },{
+      "id": "chartCategoryFontSize03",
+      "name":"16px",
+      "option":"chartCategoryFontSize03",
+      "thumb":"a1.jpg"
+    },{
+      "id": "chartCategoryFontSize04",
+      "name":"18px",
+      "option":"chartCategoryFontSize04",
+      "thumb":"a1.jpg"
+    }]},{
+    "type":["widget","param","board"],
+    "chart_type":"ALL",
+    "group":"背景样式",
+    "class":[{
+      "id": "backgroundStyle01",
+      "name":"背景样式1",
+      "class":["backgroundStyle01"],
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":"ALL",
+    "group":"坐标轴颜色",
+    "class":[{
+      "id": "chartAxisStyle01",
+      "name":"白灰",
+      "option":"chartAxisStyle01",
+      "thumb":"a1.jpg"
+    }]},{
+      "type":["widget","param","board"],
+      "chart_type":"ALL",
+      "group":"图表颜色",
+      "class":[{
+        "id": "chartAloneColor00",
+        "name":"单色-1",
+        "option":"chartAloneColor00",
+        "thumb":"c1.jpg"
+      },{
+        "id": "chartAloneColor01",
+        "name":"单色-2",
+        "option":"chartAloneColor01",
+        "thumb":"c1.jpg"
+      },{
+        "id": "chartAloneColor02",
+        "name":"单色-3",
+        "option":"chartAloneColor02",
+        "thumb":"c1.jpg"
+      },{
+        "id": "chartAloneColor03",
+        "name":"单色-4",
+        "option":"chartAloneColor03",
+        "thumb":"c1.jpg"
+      },{
+        "id": "chartAloneColor04",
+        "name":"单色-5",
+        "option":"chartAloneColor04",
+        "thumb":"c1.jpg"
+      },{
+        "id": "chartAloneColor05",
+        "name":"单色-6",
+        "option":"chartAloneColor05",
+        "thumb":"c1.jpg"
+      },{
+        "id": "chartDoubleColor00",
+        "name":"双色-1",
+        "option":"chartDoubleColor00",
+        "thumb":"c1.jpg"
+      },{
+        "id": "chartColor01",
+        "name":"1-2项",
+        "option":"chartColor01",
+        "thumb":"c1.jpg"
+      },{
+        "id": "chartColor00",
+        "name":"3-5项",
+        "option":"chartColor00",
+        "thumb":"c1.jpg"
+      },{
+        "id": "chartColor02",
+        "name":"6-10项",
+        "option":"chartColor02",
+        "thumb":"c1.jpg"
+      },{
+        "id": "chartColor03",
+        "name":"10项以上",
+        "option":"chartColor03",
+        "thumb":"c1.jpg"
+      },{
+        "id": "chartColor04",
+        "name":"战区色",
+        "option":"chartColor04",
+        "thumb":"c1.jpg"
+      },{
+        "id": "flexTextColor01",
+        "name":"灵活配置颜色1",
+        "class":"flexTextColor01",
+        "thumb":"c1.jpg"
+      }]},{
+    "type":["widget","board"],
+    "chart_type":["pieProportion"],
+    "group":"图表颜色",
+    "class":[{
+      "id": "chartBeiliColor01",
+      "name":"百分比图样式1",
+      "option":"chartBeiliColor01",
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":["line"],
+    "group":"线图特别配色",
+    "class":[{
+      "id": "chartLineOnlyColor01",
+      "name":"单线条显示面积图",
+      "option":"chartLineOnlyColor01",
+      "thumb":"c1.jpg"
+    },{
+      "id": "chartLineColor00",
+      "name":"线图3-5项",
+      "option":"chartLineColor00",
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":["treeMap"],
+    "group":"树图特别配色",
+    "class":[{
+      "id": "chartTreemapColor",
+      "name":"树图特别配色",
+      "option":"chartTreemapColor",
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":["pie"],
+    "group":"饼图特别配色",
+    "class":[{
+      "id": "chartPieColor",
+      "name":"饼图特别配色-5项",
+      "option":"chartPieColor",
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":["line"],
+    "group":"线图定制",
+    "class":[{
+      "id": "chartLineIntactRateTheme",
+      "name":"完好率特别定制",
+      "option":"chartLineIntactRate",
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":["line"],
+    "group":"线图定制",
+    "class":[{
+      "id": "chartLineNodeDisplay",
+      "name":"节点显隐",
+      "option":"chartLineNodeDisplay",
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":["line"],
+    "group":"线图定制2",
+    "class":[{
+      "id": "chartDeleteAxis",
+      "name":"去除坐标轴",
+      "option":"chartDeleteAxis",
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget","param","board"],
+    "chart_type":"ALL",
+    "group":"上边框",
+    "class":[{
+      "id": "noTopBorder",
+      "name":"无上边框",
+      "class":["noTopBorder"],
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget","param","board"],
+    "chart_type":"ALL",
+    "group":"下边框",
+    "class":[{
+      "id": "noBottomBorder",
+      "name":"无下边框",
+      "class":["noBottomBorder"],
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget","param","board"],
+    "chart_type":"ALL",
+    "group":"左边框",
+    "class":[{
+      "id": "noLeftBorder",
+      "name":"无左边框",
+      "class":["noLeftBorder"],
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget","param","board"],
+    "chart_type":"ALL",
+    "group":"右边框",
+    "class":[{
+      "id": "noRightBorder",
+      "name":"无右边框",
+      "class":["noRightBorder"],
+      "thumb":"c1.jpg"
+    }]}
+  ]
+}

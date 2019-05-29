@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html ng-controller="cScreenCtrl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Screen</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <link rel="stylesheet" href="css/screen.css"/>
+
+    <script src="js/jquery.js"></script>
+</head>
+<body style="overflow-y: hidden;
+        overflow-x: hidden;">
+<iframe src="" frameborder="0"></iframe>
+<div class="centerTitle" style="display: none"></div>
+<div class="mainnav" style="display: none">
+    <div class="nav_guide top_menu_item"><img src="imgs/screen/seatHome.png"></div>
+    <div class="nav_leftbox">
+        <ul class="mainnav_left">
+            <li class="expandLeft"></li>
+            <li class="hover_noColor"><a data-i="-1"></a></li>
+        </ul>
+    </div>
+    <div class="nav_rightbox">
+        <ul class="mainnav_right">
+            <li class="hover_noColor"><a data-i="-1"></a></li>
+            <li class="expandRight"></li>
+        </ul>
+    </div>
+</div>
+<div class="rightMenu" style="display: none">
+    <div class="searchBar">
+        <h1>选择面板<i class="fa fa-pencil" id="gotoDocs"></i></h1>
+        <input type="text" class="form-control searchBarIpt" placeholder="搜索面板">
+    </div>
+    <ul>
+    </ul>
+    <i class="glyphicon glyphicon-chevron-left"></i>
+</div>
+
+<!-- 右侧快捷通道 -->
+<div id="YCKJTD" class="abstruct-panel gallery-panel" style="display: none">
+    <h1>QTRK</h1>
+    <div id="menuList"></div>
+    <i class="fa fa-caret-right"></i>
+</div>
+</body>
+
+<script src="js/screen.js"></script>
+
+<script src="config.js"></script>
+<script>
+  $(function () {
+    window.canHide = true
+    var utils = {
+      showTopMenu: function () {
+        if (window.canHide == true) {
+          $('.mainnav').stop()
+          $('.nav_guide').stop()
+          $('.mainnav').animate({
+            marginTop: 0
+          }, 500)
+          $('.nav_guide').animate({
+            top: -10
+          }, 500)
+        }
+      },
+      hideTopMenu: function () {
+        if (window.canHide == true) {
+          $('.mainnav').stop()
+          $('.nav_guide').stop()
+          $('.mainnav').animate({
+            marginTop: -50
+          }, 500)
+          $('.nav_guide').animate({
+            top: -50
+          }, 500)
+        }
+      },
+      createTopMenu: function () {
+        return
+        if (dlut && dlut.option && dlut.option.mainMenu) {
+          function jumpScheme (menuItem) {
+            var scheme = {}
+            for (var role in menuItem) {
+              var url = menuItem[role]
+              if ($.type(url) != 'string') {
+                url = url.url
+              }
+              scheme[role] = JCZC_URL + url
+            }
+            return scheme
+          }
+
+          //left
+          if (dlut.option.mainMenu.left) {
+            for (var name in dlut.option.mainMenu.left) {
+              var menuItem = dlut.option.mainMenu.left[name]
+              var $menuItem = $('<li class=\'top_menu_item\'><a>' + name + '</a></li>')
+              var scheme = jumpScheme(menuItem)
+              $menuItem.data('jumpScheme', scheme)
+              $('.mainnav_left').append($menuItem)
+            }
+          }
+          //center
+          if (dlut.option.mainMenu.center) {
+            var scheme = jumpScheme(dlut.option.mainMenu.center)
+            console.log('center', scheme)
+            $('.nav_guide').data('jumpScheme', scheme)
+          }
+          //right
+
+          if (dlut.option.mainMenu.right) {
+            for (var name in dlut.option.mainMenu.right) {
+              var menuItem = dlut.option.mainMenu.right[name]
+              var $menuItem = $('<li class=\'top_menu_item\'><a>' + name + '</a></li>')
+              var scheme = jumpScheme(menuItem)
+              $menuItem.data('jumpScheme', scheme)
+              $('.mainnav_right').prepend($menuItem)
+            }
+          }
+          $('.top_menu_item').on('click', function (e) {
+            var $target = $(e.currentTarget),
+              jumpScheme = $target.data('jumpScheme')
+            dlut.PostMan.post('all', '3TV_route:page_change', jumpScheme)
+          })
+          $('.mainnav').show()
+          $('.mainnav').on('mouseover', function () {
+            utils.showTopMenu()
+          })
+          $('.mainnav').on('mouseout', function () {
+            utils.hideTopMenu()
+          })
+        }
+      },
+      createRightMenu: function () {
+        if (!$.isEmptyObject(screenMap)) {
+          for (var id in screenMap) {
+            var item = screenMap[id]
+            $('.rightMenu>ul').append('<li data-id=\'' + id + '\' class=\'right_menu_item\'>' + item.title + '</li>')
+          }
+          $('#gotoDocs').on('click', function () {
+            var jumpScheme = DOCS_URL
+            dlut.PostMan.post('all', '3TV_route:page_change', jumpScheme)
+          })
+          $('.editDocsWidget').on('click', function () {
+          })
+          $('.right_menu_item').on('click', function (e) {
+            var $target = $(e.currentTarget),
+              menuId = $target.attr('data-id')
+            utils.showMultiPage(menuId)
+            if (role == 'center') {
+              utils.createCenterTitle(e.currentTarget.innerText)
+            }
+          })
+          $('.searchBar>input').on('change', function (e) {
+            var $target = $(e.currentTarget),
+              searchStr = $target.val()
+            var $rightMenuList = $('.right_menu_item')
+            $rightMenuList.each(function ($menu) {
+              var text = $(this).text()
+              if (text.indexOf(searchStr) != -1) {
+                $(this).show()
+              } else {
+                $(this).hide()
+              }
+            })
+          })
+          $('.rightMenu').show()
+        }
+      },
+      showPage: function (url) {
+        var $iframe = $('iframe')
+        $iframe.attr('src', url)
+      },
+      showMultiPage2: function (target) {
+        dlut.PostMan.post('all', 'WS:screenSkip', {
+          scope: 'all',
+          type: 'WS:screenSkip',
+          data: {
+            param: [],
+            history: [],
+            target: target
+          }
+        })
+//                EventService.trigger("WS:screenSkip", , "all");
+      },
+      showMultiPage: function (menuId) {
+        if (screenMap[menuId] && screenMap[menuId].dashboardScreenMenuItems) {
+          var menuItemList = screenMap[menuId].dashboardScreenMenuItems
+          var jumpScheme = {}
+          for (var i = 0; i < menuItemList.length; i++) {
+            var item = menuItemList[i]
+            jumpScheme[item.type] = PREVIEW_URL + item.dashboardId + '/' + item.type
+          }
+          jumpScheme.name = screenMap[menuId].title
+          dlut.PostMan.post('all', '3TV_route:page_change', jumpScheme)
+        }
+      },
+      screenSkip: function (dashboardId) {
+
+      },
+      createCenterTitle: function (title) {
+        $('.centerTitle').attr('data-text', title)
+        $('.centerTitle').show()
+      },
+      createYWJMenu: function () {
+        if (dlut && dlut.option && dlut.option.ywjMenu) {
+          var menu = ''
+
+          for (var y = 0; y < dlut.option.ywjMenu.length; y++) {
+            var ywj = dlut.option.ywjMenu[y]
+            menu += '<div class="unit_style icon" data-id="' + ywj.unitId + '" data-name="' + ywj.unitName + '"> ' +
+              '        <i class="' + ywj.unitName + '"></i>' +
+              '        <span>' + ywj.unitName + '</span>' +
+              '    </div>'
+          }
+
+          $('#menuList').html(menu)
+          $('#YCKJTD').show()
+          $.getScript(JCZC_URL + '/pages/url.js', function () {
+            $(document).on('click', '.icon', function () {
+              var $this = $(this)
+              dlut.flewOver($this.data('name'))
+            })
+          })
+
+          //
+
+//                    $(document).on("click", ".xxx", function (e) {
+//                        dlut.PostMan.post("all", "3TV_route:page_change", {
+//                            "left_iframe": JCZC_URL + $(e.currentTarget).attr("data-url")
+//                        });
+//                    })
+          //
+        }
+      }
+    }
+    var role = dlut.utils.GetQueryString('role'),
+      screenMap = {}
+    $.get(baseUrl + '/screens/getScreenShowList.do', function (screenList) {
+      if (screenList.result) {
+        screenList = screenList.result
+        if ($.isArray(screenList) && screenList.length > 0) {
+          for (var i = 0; i < screenList.length; i++) {
+            var item = screenList[i]
+            screenMap[item.id] = item
+          }
+          var startScreen = screenList[0],
+            dashboardList = startScreen.dashboardScreenMenuItems,
+            dashboardMap = {}
+          for (var i = 0; i < dashboardList.length; i++) {
+            var type = dashboardList[i].type
+            dashboardMap[type] = dashboardList[i]
+          }
+          //1. 获得配置参数(i.位置[左中右],ii.
+          if (role == 'left') {
+            // utils.createTopMenu()
+            // utils.createYWJMenu()
+          } else if (role == 'right') {
+            utils.createRightMenu()
+          } else if (role == 'center') {
+            utils.createCenterTitle(startScreen.title)
+          }
+          if (dashboardMap[role] && dashboardMap[role].dashboardId) {
+            utils.showPage(PREVIEW_URL + dashboardMap[role].dashboardId + '/' + role)
+//                        utils.screenSkip(dashboardMap[role].dashboardId);
+          }
+          dlut.PostMan.init({
+            office: OFFICE_URL
+          })
+          dlut.PostMan.whenReceive('3TV_route:page_change', function (letter) {
+              console.log('3TV_route:page_change', letter)
+              var url = false
+              if (letter[role]) url = letter[role]
+              if (url) {
+                utils.showPage(url)
+              }
+              if (role == 'center') {
+                if (letter.center.indexOf('http') == 0) {
+                  $('.centerTitle').hide()
+                } else {
+                  utils.createCenterTitle(letter.name)
+                }
+              } else if (role == 'left') {
+                if (letter.left.indexOf('http') == 0) {
+                  utils.showTopMenu()
+                  window.canHide = false
+                } else {
+                  $('.mainnav').css({
+                    marginTop: -50
+                  }, 500)
+                  $('.nav_guide').css({
+                    top: -50
+                  }, 500)
+//                                    utils.hideTopMenu();
+                  window.canHide = true
+                }
+              }
+//                        if (letter.target && letter.url) {
+//                            if (letter.target == role) {
+//                                utils.showPage(letter.url);
+//                            }
+//                        }
+            }
+          )
+        }
+      }
+    })
+
+  })
+</script>
+</html>

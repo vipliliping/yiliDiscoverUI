@@ -1,0 +1,235 @@
+<div class="leftpanelinner">
+    <div class="media leftpanel-profile" style="display: none">
+        <div class="media-left">
+            <a href="#/nv/home">
+                <img src="{{user.avatar}}" alt="" class="media-object img-circle">
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">
+                {{user.username}}
+                <!--<a data-toggle="collapse"-->
+                <!--data-target="#loguserinfo" class="pull-right">-->
+                <!--<i class="fa fa-angle-down"></i>-->
+                <!--</a>-->
+            </h4>
+            <span>{{user.name}}</span>
+        </div>
+    </div><!-- leftpanel-profile -->
+
+    <div class="leftpanel-userinfo collapse" id="loguserinfo">
+        <!--<h5 class="sidebar-title">Address</h5>-->
+        <!--<address>-->
+        <!--4975 Cambridge Road-->
+        <!--Miami Gardens, FL 33056-->
+        <!--</address>-->
+        <h5 class="sidebar-title">{{user.username}}</h5>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <label class="pull-left">信息</label>
+                <span class="pull-right">信息</span>
+            </li>
+        </ul>
+    </div>
+
+    <ul style="display: none;" class="nav nav-tabs nav-justified nav-sidebar">
+        <li class="tooltips active" data-toggle="tooltip" title="Main Menu"><a data-toggle="tab"
+                                                                               data-target="#mainmenu"><i
+                class="tooltips fa fa-ellipsis-h"></i></a></li>
+        <li class="tooltips unread" data-toggle="tooltip" title="Check Mail"><a data-toggle="tab"
+                                                                                data-target="#emailmenu"><i
+                class="tooltips fa fa-envelope"></i></a></li>
+        <li class="tooltips" data-toggle="tooltip" title="Contacts"><a data-toggle="tab"
+                                                                       data-target="#contactmenu"><i
+                class="fa fa-user"></i></a></li>
+        <li class="tooltips" data-toggle="tooltip" title="Settings"><a data-toggle="tab"
+                                                                       data-target="#settings"><i
+                class="fa fa-cog"></i></a></li>
+        <li class="tooltips" data-toggle="tooltip" title="Log Out"><a href="signin.html"><i
+                class="fa fa-sign-out"></i></a></li>
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- ################# MAIN MENU ################### -->
+
+        <div class="tab-pane active" id="mainmenu">
+            <!--<h5 class="sidebar-title">Favorites</h5>-->
+            <ul class="nav nav-pills nav-stacked nav-quirk">
+
+                <li>
+                    <a ui-sref="nv.homepage">
+                        <i class="fa fa-home"></i><span>{{'NV.MENU.HOMEPAGE'|translate}}</span>
+                    </a>
+                </li>
+                <li ng-if="isShowMenu('config.datasource')">
+                    <a ui-sref="nv.datasource">
+                        <i class="fa fa-database"></i><span>数据源</span>
+                    </a>
+                </li>
+                <li ng-if="isShowMenu('config.dataset')&&isShowMenu('config.dataset_editable')">
+                    <a ui-sref="nv.cube">
+                        <i class="fa fa-cube"></i><span>{{'NV.MENU.CUBE'|translate}}</span>
+                    </a>
+                </li>
+                <li ng-if="isShowMenu('config.widget')">
+                    <a ui-sref="nv.explore">
+                        <i class="fa fa-pie-chart"></i><span>{{'NV.MENU.EXPLORE'|translate}}</span>
+                    </a>
+                </li>
+                <li ng-if="isShowMenu('config.dataset')&&!isShowMenu('config.dataset_editable')">
+                    <a ui-sref="nv.cube_view">
+                        <i class="fa fa-cube"></i><span>{{'NV.MENU.CUBE'|translate}}</span>
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="nv.dashboard_panel">
+                        <i class="fa fa-cubes"></i><span>数据主题</span>
+                    </a>
+                </li>
+                <li ng-if="isShowMenu('config.screen_menu')">
+                    <a ui-sref="nv.screen_menu">
+                        <i class="fa fa-th"></i><span>大屏菜单</span>
+                    </a>
+                </li>
+                <li ng-if="isShowMenu('nv.mind')">
+                    <a ui-sref="nv.mind_list">
+                        <i class="fa fa-sitemap"></i><span>思维面板</span>
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="nv.knowledgegraph">
+                        <i class="fa fa-adn"></i><span>资源导图</span>
+                    </a>
+                </li>
+                <li>
+                    <a ng-href="{{baseUrl}}/flow/index.html" target="_blank">
+                        <i class="fa fa-files-o"></i><span>算法编排</span>
+                    </a>
+                </li>
+                <li ng-if="isShowMenu('config.role')">
+                    <a ui-sref="nv.share">
+                        <i class="fa fa-fw fa-group"></i><span>{{'NV.MENU.SHARE'|translate}}</span>
+                    </a>
+                </li>
+                <li ng-if="isShowMenu('config.statistics')">
+                    <a ui-sref="nv.statistics">
+                        <i class="glyphicon glyphicon-stats"></i><span>统计</span>
+                    </a>
+                </li>
+                <li ng-if="isShowMenu('admin.user')">
+                    <a ui-sref="admin.user">
+                        <i class="fa fa-user"></i><span>用户管理</span>
+                    </a>
+                </li>
+
+                <!--<li ng-if="isShowMenu('config.role')">-->
+                    <!--<a ui-sref="nv.neo_vis">-->
+                        <!--<i class="fa fa-fw fa-group"></i><span>{{'NV.MENU.NEOVIS'|translate}}</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+            </ul>
+
+            <h5 class="sidebar-title">{{'SIDEBAR.C_DASHBOARD'|translate}}
+                <i class="fa fa-plus pull-right" title="添加看板" style="display: none;"></i>
+            </h5>
+
+            <ul class="border-menu nav nav-pills nav-stacked nav-quirk">
+                <li class="nav-parent" style="display: none;">
+                    <a href=""><i class="fa fa-check-square"></i>
+                        <span>{{'SIDEBAR.C_DASHBOARD'|translate}}</span>
+                    </a>
+                    <ul class="children">
+                        <li ui-sref-active="active" ng-repeat="c in categoryList | hasBoards : boardList">
+                            <a>{{c.name}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <a href="">
+                        <i class="fa fa-suitcase"></i>
+                        <span>{{'SIDEBAR.MY_DASHBOARD'|translate}}</span>
+                    </a>
+                    <a ui-sref="nv.typeControl" class="badge pull-right"><i title="管理分类" class="glyphicon glyphicon-cog"
+                                                                            style="margin-top: 15px;"></i></a>
+                </li>
+                <li class="nav-parent" ui-sref-active="active" ng-show="(boardList | hasCategoryId).length > 0">
+                    <a href=""><i class="fa fa-folder-o"></i>
+                        <span>我的数据主题</span>
+                    </a>
+                    <ul class="children">
+                        <li style="cursor: pointer" ui-sref-active="active"
+                            ng-repeat="b in boardList | filter:{categoryId:c.id}:true | hasCategoryId : boardList">
+                            <!--<a ng-href="#/nv/dashboard/Demo/{{b.id}}">{{b.name}}</a>-->
+                            <a ui-sref="nv.dashboard.view({id:b.id,param:[],history:[]})">{{b.name}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-parent" ui-sref-active="active"
+                    ng-repeat="c in categoryList | hasBoards : boardList">
+                    <a href=""><i class="fa fa-folder-o"></i>
+                        <span>{{c.name}}</span>
+                    </a>
+                    <ul class="children" style="display: none;">
+                        <li style="cursor: pointer" ui-sref-active="active"
+                            ng-repeat="b in boardList | filter:{categoryId:c.id}:true">
+                            <!--<a ng-href="#/nv/dashboard/Demo/{{b.id}}"><i class="fa fa-dashboard"></i>{{b.name}}</a>-->
+                            <a ui-sref="nv.dashboard.view({id:b.id,param:[],history:[]})">{{b.name}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- tab-pane -->
+
+
+    </div><!-- tab-content -->
+
+</div><!-- leftpanelinner -->
+<script>
+  $(function() {
+//        debugger;
+    $('.border-menu').on('click', '.nav-parent > a', function() {
+      $(this).parent().find('ul.children').slideToggle(200)
+      $(this).find('i').toggleClass('fa-folder-open-o')
+    })
+//        $('.nav li.nav-parent>a').on('click', function () {
+//            $(this).parent().find('ul.children').slideToggle(200);
+////            return false
+//        })
+    /*$('.nav-parent > a').on('click', function () {
+        var gran = $(this).closest('.nav');
+        var parent = $(this).parent();
+        var sub = parent.find('> ul');
+
+        if (sub.is(':visible')) {
+            sub.slideUp(200);
+            if (parent.hasClass('nav-active')) {
+                parent.removeClass('nav-active');
+            }
+        } else {
+
+            $(gran).find('.children').each(function () {
+                $(this).slideUp();
+            });
+
+            sub.slideDown(200);
+            if (!parent.hasClass('active')) {
+                parent.addClass('nav-active');
+            }
+        }
+        return false;
+
+    });
+
+    function closeVisibleSubMenu() {
+        $('.leftpanel .nav-parent').each(function () {
+            var t = jQuery(this);
+            if (t.hasClass('nav-active')) {
+                t.find('> ul').slideUp(200, function () {
+                    t.removeClass('nav-active');
+                });
+            }
+        });
+    }*/
+  })
+</script>

@@ -1,0 +1,52 @@
+{
+  "theme": [
+    {
+      "name": "theme_Default",
+      "url": "/theme/theme_Default/style.css",
+      "thumb": "/theme/theme_Default/thumbImg.jpg",
+      "chartTheme": "/theme/theme_Default/chartTheme.js"
+    },
+    {
+      "name": "theme_StarrySky",
+      "url": "/theme/theme_StarrySky/style.css",
+      "thumb": "/theme/theme_StarrySky/thumbImg.jpg",
+      "chartTheme": "/theme/theme_StarrySky/chartTheme.js"
+    },
+    {
+      "name": "theme_Shanghai",
+      "url": "/theme/theme_Shanghai/style.css",
+      "thumb": "/theme/theme_Shanghai/thumbImg.jpg",
+      "chartTheme": "/theme/theme_Shanghai/chartTheme.js"
+    },
+    {
+      "name": "theme_Beili01",
+      "url": "/theme/theme_Beili01/style.css",
+      "thumb": "/theme/theme_Beili01/thumbImg.jpg",
+      "chartTheme": "/theme/theme_Beili01/chartTheme.js"
+    },
+    {
+      "name": "theme_Beili03",
+      "url": "/theme/theme_Beili03/style.css",
+      "thumb": "/theme/theme_Beili03/thumbImg.jpg",
+      "chartTheme": "/theme/theme_Beili03/chartTheme.js"
+    },
+    {
+      "name": "theme_Westeros",
+      "url": "/theme/theme_Westeros/style.css",
+      "thumb": "/theme/theme_Westeros/thumbImg.jpg",
+      "chartTheme": "/theme/theme_Westeros/chartTheme.js"
+    },
+    {
+      "name": "theme_Purplepassion",
+      "url": "/theme/theme_Purplepassion/style.css",
+      "thumb": "/theme/theme_Purplepassion/thumbImg.jpg",
+      "chartTheme": "/theme/theme_Purplepassion/chartTheme.js"
+    },
+    {
+      "name": "theme_Infographic",
+      "url": "/theme/theme_Infographic/style.css",
+      "thumb": "/theme/theme_Infographic/thumbImg.jpg",
+      "chartTheme": "/theme/theme_Infographic/chartTheme.js"
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html ng-controller="discoveryCtrl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Discovery | Starter</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="css/style.css"/>
+
+    <!--[if lt IE 9]>
+    <script src="lib/html5shiv.min.js"></script>
+    <script src="lib/respond.min.js"></script>
+    <![endif]-->
+
+    <!--<link rel="stylesheet" href="theme/ample/css/style.css">-->
+    <!--<link rel="stylesheet" href="../lib/jquery-toggles/toggles-full.css">-->
+    <style>
+        .modal-fit .modal-dialog {
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            padding: 50px;
+        }
+
+        .modal-fit .modal-body {
+            height: calc(100vh - 200px);
+            overflow: auto;
+        }
+
+        @media (min-width: 768px) {
+            .modal-fit .modal-dialog {
+                width: auto;
+            }
+        }
+
+        .mainpanel {
+            margin: 0 !important;
+            padding: 0 !important;
+            position: relative;
+            top: 64px;
+        }
+
+        .preview-hide {
+            display: none !important;
+        }
+
+        html {
+            overflow: hidden !important;
+        }
+
+        .contentTheme {
+            padding: 85px 10px 0 10px;
+        }
+
+        .signLine {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+<header class="main-header">
+    <div class="headerpanel" ng-include="'theme/quirk/main-header-home.html'"></div>
+</header>
+<section>
+    <div class="mainpanel">
+        <div class="contentpanel">
+            <ui-view>
+            </ui-view>
+        </div><!-- contentpanel -->
+    </div><!-- mainpanel -->
+</section>
+
+<script src="config.js"></script>
+<script src="js/jquery.js"></script>
+
+<script src="js/libs.js"></script>
+
+<script src="js/app.js"></script>
+
+
+<script type="text/javascript" src="js/templates.js"></script>
+
+<script type="text/ng-template" id="echartContent">
+    <div class="col-md-{{widget.width}}">
+        <div class="box box-solid" style="z-index: 99;">
+            <div class="box-header" ng-mouseover="x=true" ng-mouseleave="x=false">
+                <!--<i class="fa fa-bar-chart-o"></i>-->
+                <h3 class="box-title">{{widget.name}}</h3>
+                <div class="box-tools pull-right" ng-show="x" ng-init="x=false">
+                    <button type="button" class="btn btn-box-tool" ng-click="reload(widget)"><i
+                            class="fa fa-refresh"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" ng-if="widgetCfg" ng-click="config(widget)"><i
+                            class="fa fa-wrench"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" ng-click="modalChart(widget)"><i
+                            class="fa fa-square-o"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" ng-style="{height:myheight+'px'}" style="padding: 3px 0px 3px 13px;">
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="kpiContent">
+    <div class="col-md-{{widget.width}} kpi-body">
+    </div>
+</script>
+<script type="text/ng-template" id="chartContent">
+    <div class="col-md-{{widget.width}}" style="z-index: 99;">
+        <div class="box box-solid">
+            <div class="box-header" ng-mouseover="x=true" ng-mouseleave="x=false">
+                <!--<i class="fa fa-bar-chart-o"></i>-->
+                <h3 class="box-title">{{widget.name}}</h3>
+                <div class="box-tools pull-right" ng-show="x" ng-init="x=false">
+                    <button type="button" class="btn btn-box-tool" ng-click="reload(widget)"><i
+                            class="fa fa-refresh"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" ng-if="widgetCfg" ng-click="config(widget)"><i
+                            class="fa fa-wrench"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" ng-click="modalTable(widget)"><i
+                            class="fa fa-square-o"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" ng-style="{height:myheight+'px'}" style="padding: 3px 0px 3px 13px;">
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="nvD3Content">
+    <div class="box-body" style="height:100%;width:100%"></div>
+</script>
+<script type="text/ng-template" id="nvEchartContent">
+    <div class="box-body" style="height:100%;width:100%"></div>
+</script>
+<script type="text/ng-template" id="nvKpiContent">
+    <div class="kpi-body" style="height:100%;width:100%"></div>
+</script>
+<script type="text/ng-template" id="nvChartContent">
+    <div class="box-body" style="height:100%;width:100%"></div>
+</script>
+</body>
+</html>
