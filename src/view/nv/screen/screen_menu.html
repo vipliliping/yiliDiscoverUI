@@ -1,0 +1,156 @@
+<style>
+    .mainpanel {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .contentpanel {
+        position: absolute;
+        top: 65px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .people-list .people-options {
+        margin-bottom: 5px;
+    }
+
+    .screenItem {
+        padding-top: 10px;
+    }
+
+    .screenItem ul {
+        padding: 0px;
+        margin: 0px;
+        list-style: none;
+    }
+
+    .screenItem ul li {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .screenItemList {
+        border: 1px dashed #ccc;
+        height: 40px;
+    }
+</style>
+<div id="inner-container" class="content">
+    <div class="row">
+        <div class="col-sm-3">
+            <div style="overflow: auto" id="boardList">
+                <div class="panel" style="margin-bottom: 0px;">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><i class="fa fa-cubes"></i> 看板列表
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <input type="text" class="form-control" placeholder="搜索" ng-model="keywords"
+                               ng-change="searchNode()" title="dsr:kylin ds:Bill">
+                        <div id="screenTreeID" js-tree="screenTreeConfig" ng-model="treeData"
+                             tree="treeInstance" tree-events-obj="treeEventsObj">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="people-list ng-scope">
+                <div class="people-options">
+                    <form class="ng-pristine ng-valid">
+                        <div class="clearfix">
+                            <button class="btn btn-warning pull-right" ng-click="addScreeItem()">
+                                <i class="fa fa-plus"></i> 添加面板
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-body" id="screenMenuList" style=" overflow: auto">
+                    <div class="screenItem">
+                        <ul id="screens">
+                            <li ng-repeat="item in screens" id="{{item.id}}">
+                                <div class="form-horizontal clearfix">
+                                    <div class="form-group col-sm-3">
+                                        <label class="control-label col-sm-2">题目</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="item.title" id="item.id"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-2 dropable"
+                                         menu_id="{{item.id}}"
+                                         type="left"
+                                         border_id="{{item.type.left.dashboardId}}">
+                                        <label class="control-label col-sm-2">左</label>
+                                        <div class="col-sm-8">
+                                            <div class="screenItemList">
+                                                {{item.type.left.name}}
+                                                <span ng-if="item.type.left.name" ng-click="emptyBoard(item.type.left)"><i class="fa fa-trash-o"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-2 dropable"
+                                         menu_id="{{item.id}}"
+                                         type="center"
+                                         border_id="{{item.type.center.dashboardId}}">
+                                        <label class="control-label col-sm-2">中</label>
+                                        <div class="col-sm-8">
+                                            <div class="screenItemList">
+                                                {{item.type.center.name}}
+                                                <span ng-if="item.type.center.name" ng-click="emptyBoard(item.type.center)"><i class="fa fa-trash-o"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-2 dropable"
+                                         menu_id="{{item.id}}"
+                                         type="right"
+                                         border_id="{{item.type.right.dashboardId}}">
+                                        <label class="control-label col-sm-2">右</label>
+                                        <div class="col-sm-8">
+                                            <div class="screenItemList">
+                                                {{item.type.right.name}}
+                                                <span ng-if="item.type.right.name" ng-click="emptyBoard(item.type.right)"><i class="fa fa-trash-o"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <select ng-model="item.status" class="form-control">
+                                            <option value="0">隐藏</option>
+                                            <option value="1">显示</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2">
+
+                                        <button class="btn btn-success btn-sm ng-binding" ng-click="saveScreen(item)">
+                                            <i class="fa fa-save"></i>
+                                            保存
+                                        </button>
+                                        <button class="btn btn-danger btn-sm ng-binding" ng-click="deleteScreen(item)">
+                                            <i class="fa fa-trash-o"></i>
+                                            删除
+                                        </button>
+                                        <!--<label class="sortScreen">-->
+                                            <!--<i class="glyphicon glyphicon-chevron-left asc" ng-click="updateScreenSort(item.id, item.orderId, sort)" ng-init="sort='desc'"></i>-->
+                                            <!--<i class="glyphicon glyphicon-chevron-right desc" ng-click="updateScreenSort(item.id,item.orderId)"></i>-->
+                                        <!--</label>-->
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('#screenMenuList').height(window.innerHeight-210);
+        $('#boardList').height(window.innerHeight-111);
+    })
+</script>

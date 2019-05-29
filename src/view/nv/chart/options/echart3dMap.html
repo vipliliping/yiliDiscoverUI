@@ -1,0 +1,65 @@
+<div class="col-md-12">
+    <ul class="nav nav-tabs"><!-- 'tabs-right' for right tabs -->
+        <li class="active"><a href="tabs.html#legend" data-toggle="tab">{{'NV.EXPLORE.LEGEND'|translate}}</a></li>
+        <li><a href="tabs.html#describe" data-toggle="tab">描述</a></li>
+</ul>
+</div>
+<div class="col-md-12">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="legend">
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <!--{{curWidget.config.option}}-->
+                            <input type="checkbox" ng-model="curWidget.config.option.autoRotate"
+                                   ng-init="curWidget.config.option.autoRotate ? null : curWidget.config.option.autoRotate=false">自动转动
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <!--{{curWidget.config.option}}-->
+                            <input type="checkbox" ng-model="curWidget.config.option.height"
+                                   ng-init="curWidget.config.option.height ? null : curWidget.config.option.height=false">取消高度纹理
+                        </label>
+                    </div>
+                </div>
+                <label class="col-md-4 control-label">着色效果</label>
+                <div class="col-md-8">
+                    <select class="form-control" ng-model="curWidget.config.option.dye" >
+                        <option value="color">颜色</option>
+                        <option value="lambert">lambert着色</option>
+                        <option value="realistic">真实渲染</option>
+                    </select>
+                </div>
+                <label class="col-md-4 control-label">背景</label>
+                <div class="col-md-8">
+                    <select class="form-control" ng-model="curWidget.config.option.bgImg">
+                        <option value="../imgs/base.jpg">默认</option>
+                        <option value="../imgs/base2.gif">北理01</option>
+                        <option value="../imgs/base3.png">北理02</option>
+                        <option value="../imgs/base4.png">北理03</option>
+                        <option value="../imgs/base5.png">北理04</option>
+                        <option value="../imgs/base6.png">北理05</option>
+                        <option value="../imgs/base7.png">北理06</option>
+                    </select>
+                </div>
+                <label class="col-md-4 control-label">倍数</label>
+                <div class="col-md-8">
+                    <input type="text" ng-model="curWidget.config.option.multiple" class="form-control" />
+                </div>
+            </div>
+            <!--<ng-include src="'src/view/nv/chart/options/common/legend.html'"></ng-include>-->
+        </div>
+        <div class="tab-pane" id="describe">
+            <form class="form-horizontal form-index">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <textarea ng-model="curWidget.config.option.describe" class="chartDescribe form-control" placeholder="请输入对图表的描述" style="min-height: 100px;"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

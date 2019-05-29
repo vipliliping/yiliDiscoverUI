@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="close()">
+        <span aria-hidden="true">×</span></button>
+    <h4 class="modal-title">分享</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12 form-horizontal">
+            <!--{{existRoleList}}-->
+            <table class="table" style="text-align: center">
+                <thead>
+                <tr>
+                    <th style="text-align: center">用户名</th>
+                    <th style="text-align: center">读取</th>
+                    <th style="text-align: center">更新</th>
+                    <th style="text-align: center">删除</th>
+                    <th style="text-align: center">ADMIN</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="exist in existRoleList">
+                    <td>{{exist.roleName}}</td>
+                    <td>
+                        <label class="ckbox ckbox-primary">
+                            <input type="checkbox" ng-model="exist.read" ng-change="checkR(exist)">
+                            <span></span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="ckbox ckbox-primary">
+                            <input type="checkbox" ng-model="exist.update" ng-change="checkU(exist)">
+                            <span></span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="ckbox ckbox-primary">
+                            <input type="checkbox" ng-model="exist.delete" ng-change="checkD(exist)">
+                            <span></span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="ckbox ckbox-primary">
+                            <input type="checkbox" ng-model="exist.admin" ng-change="checkA(exist)">
+                            <span></span>
+                        </label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default pull-left" data-dismiss="modal" ng-click="close()">{{'COMMON.CANCEL'|translate}}</button>
+    <button type="button" class="btn btn-primary" ng-click="ok()">{{'COMMON.OK'|translate}}</button>
+</div>

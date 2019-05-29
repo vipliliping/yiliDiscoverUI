@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="close()">
+        <span aria-hidden="true">×</span></button>
+    <h4 class="modal-title">显示方式</h4>
+</div>
+<div class="modal-body box-solid">
+    <div class="list-group list-group-lg no-radius no-border no-bg m-b-none">
+        <a ng-repeat="(key, item) in typeList" class="list-group-item m-l ng-scope"
+           ng-class="{'select': key == selected }"
+           ng-click="selectItem(key)" style="">
+            <span class="block text-ellipsis m-l-n text-md ng-binding">
+                <i class="fa fa-check-circle" aria-hidden="true" ng-if="key == selected"></i>
+                <span>{{item}}</span>
+                <!--<input ng-if="key == 'percent' && selected == 'percent'" ng-model="percentNum" type="number">-->
+                <input id="percentNum" ng-if="key == 'percent' && selected == 'percent'" type="number" ng-model="percentNum" ng-click="$event.stopPropagation()">
+            </span>
+        </a>
+        <textarea ng-if="selected == 'custom'" ng-model="customCode" id="editCustomCode" style="width: 100%"></textarea>
+        <!--{{customCode}}-->
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default pull-left" data-dismiss="modal" ng-click="close()">
+        {{'COMMON.CANCEL'|translate}}
+    </button>
+    <button type="button" class="btn btn-primary" ng-click="ok()">{{'COMMON.OK'|translate}}</button>
+</div>
+<style>
+    .list-group-item.select {
+        position: relative;
+        z-index: 1;
+        background-color: #dbeef9 !important;
+        border-color: #c5e4f5;
+    }
+</style>

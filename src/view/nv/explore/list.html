@@ -1,0 +1,184 @@
+<div id="inner-container" class="content">
+    <div class="people-list ng-scope">
+        <div class="people-options">
+            <form class="ng-pristine ng-valid">
+                <div class="clearfix">
+                    <button type="button" class="btn btn-success" ng-click="goToCreateChart()"><i
+                            class="fa fa-plus"></i> 新建图表
+                    </button>
+                    <button type="button" class="btn btn-success" ng-click="autoBuildModel()"><i class="fa fa-plus"></i> 选择表新建
+                    </button>
+                    <button type="button" class="btn btn-danger ml5" ng-click="deleteNode()"><i
+                            class="fa fa-trash-o"></i> 删除选中
+                    </button>
+                    <!--<div class="input-group" style="display: inline-block">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>-->
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel" ng-class="{true:'collapsed-box'}[schema?true:false]">
+                <div class="panel-heading">
+                    <h4 class="panel-title ng-binding"><i class="fa fa-bar-chart-o"></i>
+                        {{'NV.EXPLORE.ANALYSIS'|translate}}
+                        <div class="box-tools pull-right">
+                            <!--<i class="fa fa-plus toolbar-icon" ng-click="newWgt()" title="{{'COMMON.NEW'|translate}}"></i>&nbsp;&nbsp;-->
+                            <i class="fa fa-copy toolbar-icon" ng-click="copyNode()"
+                               title="{{'COMMON.COPY'|translate}}"></i>&nbsp;&nbsp;
+                            <!--<i class="fa fa-edit toolbar-icon" ng-click="editNode()"
+                               title="{{'COMMON.EDIT'|translate}}"></i>&nbsp;&nbsp;-->
+                            <!--<i class="fa fa-trash-o toolbar-icon" ng-click="deleteNode()"
+                               title="{{'COMMON.DELETE'|translate}}"></i>&nbsp;&nbsp;
+                            <i class="fa fa-reorder toolbar-icon" data-widget="collapse"></i>-->
+                        </div>
+                    </h4>
+
+                </div>
+                <div class="panel-body">
+                    <input type="text" class="form-control" placeholder="搜索" ng-model="keywords"
+                           ng-change="searchNode()" title="dsr:kylin ds:Bill wg:test">
+                    <div id="widgetTreeID" js-tree="treeConfig" should-apply="applyModelChanges()"
+                         ng-model="treeData" tree="treeInstance"
+                         tree-events-obj="treeEventsObj"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8" ng-show="previewList.length>0">
+            <div class="panel" ng-class="{true:'collapsed-box'}[schema?true:false]">
+                <div class="panel-heading">
+                    <h4 class="panel-title ng-binding"><i class="fa fa-bar-chart-o"></i>
+                        {{'NV.EXPLORE.CHART'|translate}}</h4>
+                </div>
+                <style>
+                    nv-dashboard-widget > div {
+                        min-height: 500px;
+                        width: 100%
+                    }
+                </style>
+                <div class="panel-body">
+                    <!--<div>左侧选择查看图表</div>-->
+                    <div ng-repeat="widget in previewList">
+                        <nv-dashboard-widget ng-show="widget.loading == false"></nv-dashboard-widget>
+                        <div ng-if="widget.loading || !widget.show" style="padding:20px">
+                            <i class="fa fa-spinner fa-spin"></i>
+                            {{"COMMON.LOADING" | translate}}
+                        </div>
+                        <!--<button type="button" ng-show="widget.loading == false"
+                                class="btn btn-success pull-right" ng-click="goToEditWidget(widget)">
+                            编辑
+                        </button>-->
+                    </div>
+                </div>
+            </div>
+            <div class="panel" ng-class="{true:'collapsed-box'}[schema?true:false]">
+                <div class="panel-heading">
+                    <h4 class="panel-title ng-binding"><i class="fa fa-cogs"></i> 图表配置信息</h4>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-inverse nomargin">
+                        <thead>
+                        <tr>
+                            <th>模型</th>
+                            <th>列维</th>
+                            <th>行维</th>
+                            <th>指标</th>
+                            <th>事件</th>
+                            <th>过滤器</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <td ng-repeat="widget in previewList">
+                            <a ng-click="gotoDataset(widget.widget.data.datasetId)">{{widget.widget.data.datasetId}}</a>
+                        </td>
+                        <td ng-repeat="widget in previewList">
+                                <span ng-repeat="keys in widget.widget.data.config.keys">
+                                    {{keys.col}},
+                                </span>
+                        </td>
+                        <td ng-repeat="widget in previewList">
+                                <span ng-repeat="groups in widget.widget.data.config.keys">
+                                    {{groups.col}},
+                                </span>
+                        </td>
+                        <td ng-repeat="widget in previewList">
+                                <span ng-repeat="values in widget.widget.data.config.values">
+                                    <span ng-repeat="v in values.cols">
+                                        {{v.col}},
+                                    </span>
+                                </span>
+                        </td>
+                        <td ng-repeat="widget in previewList">
+                                <span ng-repeat="events in widget.widget.data.config.events">
+                                    {{events.col}},
+                                </span>
+                        </td>
+                        <td ng-repeat="widget in previewList">
+                                <span ng-repeat="filters in widget.widget.data.config.filters">
+                                    <span ng-repeat="v in filters.filters">
+                                        {{v.col}},
+                                    </span>
+                                </span>
+                        </td>
+                        </tbody>
+                    </table>
+                    <!--<div>
+                        <form class="form-horizontal">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">列维</label>
+                                    <div class="col-sm-9" ng-repeat="widget in previewList">
+                                        <span ng-repeat="keys in widget.widget.data.config.keys">
+                                            {{keys.col}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">行维</label>
+                                    <div class="col-sm-9" ng-repeat="widget in previewList">
+                                        <span ng-repeat="groups in widget.widget.data.config.keys">
+                                            {{groups.col}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">指标</label>
+                                    <div class="col-sm-9" ng-repeat="widget in previewList">
+                                        <span ng-repeat="values in widget.widget.data.config.values">
+                                            <span ng-repeat="v in values.cols">
+                                                {{v.col}}
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">事件</label>
+                                    <div class="col-sm-9" ng-repeat="widget in previewList">
+                                        <span ng-repeat="events in widget.widget.data.config.events">
+                                            {{events.col}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">过滤器</label>
+                                    <div class="col-sm-9" ng-repeat="widget in previewList">
+                                        <span ng-repeat="filters in widget.widget.data.config.filters">
+                                            <span ng-repeat="v in filters.filters">
+                                                {{v.col}}
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

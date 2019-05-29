@@ -1,0 +1,116 @@
+<div class="automodel-header">
+    <b class="automodel-close-b-style">选择表</b>
+    <button type="button" class="close automodel-close-bt-style" data-dismiss="modal" aria-label="Close" ng-click="close()">
+        <span class="automodel-close-sp-style" aria-hidden="true">×</span></button>
+</div>
+
+
+    <div class="row automodel-list-district" >
+        <div class="form-group">
+            <label>输入搜索</label>
+            <input type="text" ng-model="searchStr" class="form-control">
+        </div>
+        <div class="col-md-12" style="max-height:400px;overflow-y:auto;">
+            <ul>
+                <li ng-repeat="o in tableList | filter: searchStr">
+                    <a ng-click="selectTable($event, o)">{{o}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+<div class="automodel-footer">
+    <button type="reset" class="btn btn-quirk btn-default" data-dismiss="modal" aria-label="Close" ng-click="close()">
+        <span aria-hidden="true">取消</span></button>
+    <button type="button" class="btn btn-primary" ng-click="ok()">{{'COMMON.OK'|translate}}</button>
+</div>
+
+
+<style>
+    /*::-webkit-scrollbar {background:  #9ba1af;}  !*上下箭头*!*/
+    /*::-webkit-scrollbar {width: 6px;}*/
+    /*这是控制模态框圆角*/
+    .modal-content {
+        border-radius: 6px;
+    }
+    .automodel-footer {
+        border-radius: 4px;
+    }
+    .automodel-header {
+        border-radius: 4px 4px 0px 0px;
+    }
+
+    /*这是模态框头部样式*/
+    .automodel-header {
+        font-size: 14px;line-height: 45px;padding: 0 20px;background-color: #464f63;
+    }
+    .automodel-close-b-style {
+        color: white;font-weight: 700;letter-spacing: 1px;
+    }
+    .automodel-close-bt-style {
+        outline: none;
+    }
+    .automodel-close-sp-style {
+        line-height: 45px;color: white;
+    }
+
+    /*这是横线下--数据列表区域*/
+    .automodel-list-district {
+        padding:20px 20px 10px;
+    }
+
+    /*这是a、ul、li、hover、覆盖原来样式--修正*/
+    a {
+        color: #333333;
+    }
+    ul {
+        border-radius: 4px;
+        background-color: #fcfcfd;
+        padding-left: 0;
+    }
+    ul li a {
+        display: block;
+        padding: 5px 7px;
+    }
+    ul li {
+        list-style-type: none;
+    }
+    .automodel-list-district ul li {
+        width: 100%;
+        list-style-type: none;
+        margin: 4px 0;
+    }
+    ul li :hover {
+        padding: 5px 7px;
+        border-radius: 2px;
+        background-color: #bdc3d1;
+        color: white;
+        transition: all 0.2s ease-out 0s;
+    }
+    .data-active {
+        color: white;
+        border-radius: 2px;
+        background: #464f63 !important;
+        transition: all 0.5s ease-out 0s;
+    }
+    .table-active {
+        color: white;
+        border-radius: 2px;
+        background: #464f63 !important;
+    }
+
+    /*这是尾部样式*/
+    .automodel-footer {
+        background-color: #f6f7f8;
+        padding: 15px 15px 15px;
+        text-align: right;
+    }
+
+
+
+
+
+
+
+</style>

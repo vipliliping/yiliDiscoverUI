@@ -1,0 +1,62 @@
+<div class="col-md-12">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"><!-- 'tabs-right' for right tabs -->
+        <li class="active"><a href="tabs.html#option" data-toggle="tab">选项</a></li>
+        <li><a href="tabs.html#advance" data-toggle="tab">高级功能</a></li>
+    </ul>
+</div>
+<div class="col-md-12">
+    <div class="tab-content">
+        <div class="tab-pane active" id="option">
+            <table style="background-color: transparent">
+                <tbody>
+                <tr>
+                    <td>默认初始项(选中后不加初始值)</td>
+                    <td><input type="checkbox" ng-model="curWidget.config.init"/></td>
+                </tr>
+                <tr>
+                    <td>是否增加筛选项</td>
+                    <td><input type="checkbox" ng-model="curWidget.config.isFilter"/></td>
+                </tr>
+                <tr>
+                    <td title="单选时，可以赋值默认选中项">设置初始化选中</td>
+                    <td><input type="text" ng-model="curWidget.config.initSelected"/></td>
+                </tr>
+                <tr>
+                    <td>自定义方法</td>
+                    <td colspan="3">
+                        <textarea class="form-control" ng-model="curWidget.config.customCode"></textarea>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table style="background-color: transparent">
+                <thead>
+                <tr>
+                    <th style="width: 40px">原名</th>
+                    <th style="width: 80px">是否单选</th>
+                    <th>事件名</th>
+                    <th>别名</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="key in curWidget.config.keys">
+                <tr>
+                    <td>{{key.col}}</td>
+                    <td><input ng-model="key.isSingle" type="checkbox"/></td>
+                    <td><input ng-model="key.eventName" class="form-control" type="text" placeholder="默认：event"/></td>
+                    <td><input ng-model="key.showName" class="form-control" type="text" placeholder="默认：列维名"/></td>
+                </tr>
+                <tr>
+                    <td>事件回调</td>
+                    <td colspan="3">
+                        <textarea class="form-control" ng-model="key.change"></textarea>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane" id="advance">
+            <ng-include src="'src/view/nv/chart/options/common/advance.html'"></ng-include>
+        </div>
+    </div>
+</div>

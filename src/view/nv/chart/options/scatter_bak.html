@@ -1,0 +1,75 @@
+<div class="panel">
+    <div class="panel-heading">
+        <h4 class="panel-title"><i class="glyphicon glyphicon-tasks"></i> {{'NV.EXPLORE.ITEM'|translate}}</h4>
+    </div>
+    <div class="panel-body">
+        <div class="panel-group" id="accordion3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion3" href="tabs-accordions.html#collapseOne3">
+                            Grid
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne3" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <ng-include src="'src/view/nv/chart/options/common/grid.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" href="tabs-accordions.html#collapseTwo3">
+                            Legend
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ng-include src="'src/view/nv/chart/options/common/legend.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" href="tabs-accordions.html#collapseThree3">
+                            Category Axis
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ng-include src="'src/view/nv/chart/options/common/categoryAxis.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion4" href="tabs-accordions.html#collapseThree4">
+                            Ext
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree4" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <form class="form-horizontal form-index">
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" ng-model="curWidget.config.option.dataZoom" ng-init="curWidget.config.option.dataZoom=false"> {{'NV.EXPLORE.SHOWLEGEND'|translate}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

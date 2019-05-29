@@ -1,0 +1,27 @@
+<link href="/theme/theme_Beili01/style.css" rel="stylesheet"/>
+<div class="contentTheme" style="overflow-y: auto;">
+    <div ng-repeat="widget in widgetList" class="col-sm-6 panelTheme">
+        <div ng-class="widget.theme.classes" class="box box-solid" ng-controller="CustomWidgetCtrl">
+            <div class="box-header with-border">
+            <span>
+                <div class="horn-left"></div>
+                <i title="{{ widget.name }}">{{ widget.name }}</i>
+                <div class="horn-right"></div>
+            </span>
+                <div ng-if="widget.hasRole != false" class="box-header-btns pull-right ng-scope">
+                    <a title="编辑" ng-click="editDocsWidget(widget.widget.id)">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-content" style="min-height:300px;display:flex;width:100%">
+                <div nv-dashboard-widget style="display: flex;flex:1">
+                </div>
+                <!--<div ng-show="widget.loading || !widget.show" style="padding:20px;width:100%;height:100%">-->
+                <!--<i class="fa fa-spinner fa-spin"></i>-->
+                <!--{{"COMMON.LOADING" | translate}}-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>

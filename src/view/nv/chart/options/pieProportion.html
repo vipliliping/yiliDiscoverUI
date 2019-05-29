@@ -1,0 +1,46 @@
+<div class="col-md-12">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="tabs.html#grid" data-toggle="tab">{{'NV.EXPLORE.GRID'|translate}}</a></li>
+        <li><a href="tabs.html#legend" data-toggle="tab">{{'NV.EXPLORE.LEGEND'|translate}}</a></li>
+        <li><a href="tabs.html#ctgAxis" data-toggle="tab">{{'NV.EXPLORE.CAXIS'|translate}}</a></li>
+        <li><a href="tabs.html#ext" data-toggle="tab">{{'NV.EXPLORE.EXT'|translate}}</a></li>
+        <li><a href="tabs.html#describe" data-toggle="tab">描述</a></li>
+    </ul>
+</div>
+<div class="col-md-12">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="grid">
+            <ng-include src="'src/view/config/chart/options/common/grid.html'"></ng-include>
+        </div>
+        <div class="tab-pane" id="legend">
+            <ng-include src="'src/view/config/chart/options/common/legend.html'"></ng-include>
+        </div>
+        <div class="tab-pane" id="ctgAxis">
+            <ng-include src="'src/view/config/chart/options/common/categoryAxis.html'"></ng-include>
+        </div>
+        <div class="tab-pane" id="ext">
+            <form class="form-horizontal form-index">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="curWidget.config.option.dataZoom" ng-init="curWidget.config.option.dataZoom=false"> {{'NV.EXPLORE.SHOWLEGEND'|translate}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane" id="describe">
+            <form class="form-horizontal form-index">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <textarea ng-model="curWidget.config.option.describe" class="chartDescribe form-control" placeholder="请输入对图表的描述" style="min-height: 100px;"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

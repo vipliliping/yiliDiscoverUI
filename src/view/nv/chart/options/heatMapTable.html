@@ -1,0 +1,106 @@
+<div class="col-md-12">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"><!-- 'tabs-right' for right tabs -->
+        <li class="active"><a href="tabs.html#grid" data-toggle="tab">{{'NV.EXPLORE.GRID'|translate}}</a></li>
+        <li><a href="tabs.html#ext" data-toggle="tab">{{'NV.EXPLORE.EXT'|translate}}</a></li>
+        <li><a href="tabs.html#describe" data-toggle="tab">描述</a></li>
+        <li><a href="tabs.html#tootip" data-toggle="tab">tootip</a></li>
+    </ul>
+</div>
+<div class="col-md-12">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane  active" id="grid">
+            <ng-include src="'src/view/nv/chart/options/common/grid.html'"></ng-include>
+        </div>
+        <div class="tab-pane" id="ext">
+            <form class="form-horizontal form-index">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'CONFIG.WIDGET.STYLE'|translate}}</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" ng-model="curWidget.config.values[0].styles"
+                                ng-options="s.value as s.name for s in heatmap_styles"></select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane" id="describe">
+            <form class="form-horizontal form-index">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <textarea ng-model="curWidget.config.option.describe" class="chartDescribe form-control" placeholder="请输入对图表的描述" style="min-height: 100px;"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane" id="tootip">
+            <form class="form-horizontal form-index">
+                <div class="row">
+                    <div class="col-md-2">
+                        变量
+                    </div>
+                    <div class="col-md-5">
+                        别名
+                    </div>
+                    <div class="col-md-1">
+                        显示
+                    </div>
+                    <div class="col-md-4">
+                        格式化
+                    </div>
+                </div>
+                <div class="row" ng-repeat="(index, item) in curWidget.config.keys">
+                    <div class="col-md-2">
+                        {{item.col}}
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" ng-model="curWidget.config.option.tooltip[item.col].col" class="form-control"/>
+                    </div>
+                    <div class="col-md-1" ng-init="(curWidget.config.option.tooltip[item.col].isShow == undefined)?curWidget.config.option.tooltip[item.col].isShow=true:''">
+                        <input type="checkbox" ng-model="curWidget.config.option.tooltip[item.col].isShow"/>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="curWidget.config.option.tooltip[item.col].formatter" class="form-control" />
+                    </div>
+                </div>
+                <div class="row" ng-repeat="(index, items) in curWidget.config.values">
+                    <div ng-repeat="(index, item) in items.cols">
+                        <div>
+                            <div class="col-md-2">
+                                {{item.alias}}
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" ng-model="curWidget.config.option.tooltipTarget[item.alias].col"
+                                       class="form-control"/>
+                            </div>
+                            <div class="col-md-1"
+                                 ng-init="(curWidget.config.option.tooltipTarget[item.alias].isShow == undefined)?curWidget.config.option.tooltipTarget[item.alias].isShow=true:''">
+                                <input type="checkbox"
+                                       ng-model="curWidget.config.option.tooltipTarget[item.alias].isShow"/>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text"
+                                       ng-model="curWidget.config.option.tooltipTarget[item.alias].formatter"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-repeat="(index, item) in curWidget.config.groups">
+                    <div class="col-md-2">
+                        {{item.col}}
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" ng-model="curWidget.config.option.tooltipGroups[item.col].col" class="form-control" />
+                    </div>
+                    <div class="col-md-1" ng-init="(curWidget.config.option.tooltipGroups[item.col].isShow == undefined)?curWidget.config.option.tooltipGroups[item.col].isShow=true:''">
+                        <input type="checkbox" ng-model="curWidget.config.option.tooltipGroups[item.col].isShow"/>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="curWidget.config.option.tooltipGroups[item.col].formatter"  class="form-control"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

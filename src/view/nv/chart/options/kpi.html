@@ -1,0 +1,90 @@
+<style>
+    .kpi.textLeft {
+        text-align: left;
+    }
+
+    .kpi.textCenter {
+        text-align: center;
+    }
+
+    .kpi.textRight {
+        text-align: right;
+    }
+</style>
+<div class="col-md-12">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"><!-- 'tabs-right' for right tabs -->
+        <li class="active"><a href="tabs.html#ext" data-toggle="tab">{{'NV.EXPLORE.EXT'|translate}}</a></li>
+        <li><a href="tabs.html#describe" data-toggle="tab">描述</a></li>
+    </ul>
+</div>
+<div class="col-md-12">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="ext">
+            <form class="form-horizontal form-index">
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{'CONFIG.WIDGET.LABEL'|translate}}</label>
+                        <div class="col-sm-10">
+                            <input type="text" ng-model="curWidget.config.values[0].name" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{'CONFIG.WIDGET.FORMATTER'|translate}}</label>
+                        <div class="col-sm-10">
+                            <input type="text" ng-model="curWidget.config.values[0].format" class="form-control"/>
+                            <span class="help-block">{{'CONFIG.WIDGET.EXAMPLE'|translate}}：'0,0.00' '0.00' '0%' '0.00%'</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{'CONFIG.WIDGET.STYLE'|translate}}</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" ng-model="curWidget.config.values[0].style"
+                                    ng-options="s.value as s.name for s in kpi_styles"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">对齐</label>
+                        <div class="col-sm-10">
+                            <ul class="iconList clearfix">
+                                <li ng-repeat="icon in alignIcon" ng-class="{'active':(curWidget.config.values[0].align==icon.align)}" ng-click="switchAlign(icon.align)">
+                                    <i ng-class="[icon.value]"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图标</label>
+                        <div class="col-sm-10">
+                            <ul class="iconList clearfix">
+                               <li ng-repeat="icon in iconList" ng-class="{'active':(curWidget.config.values[0].icon==icon.value)}" ng-click="iconActive(icon.value)">
+                                   <i ng-class="[icon.value]"></i>
+                               </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane" id="describe">
+            <form class="form-horizontal form-index">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <textarea ng-model="curWidget.config.option.describe" class="chartDescribe form-control" placeholder="请输入对图表的描述" style="min-height: 100px;"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,390 @@
+<style>
+    .panel {
+        margin-bottom: 5px;
+    }
+
+    .nav > li > a {
+        padding: 10px 8px;
+    }
+
+    .widgetTable {
+        width: 100%;
+        background: #fff;
+    }
+
+    .widgetTable tbody {
+        padding: 5px 0 5px 0;
+        border-bottom: 1px dashed #ccc;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .widgetTable tbody:last-child {
+        border-bottom: none;
+    }
+
+    .widgetTable tbody tr {
+        margin-bottom: 5px;
+    }
+
+    .widgetTable tr > td:first-child {
+        width: 45px;
+        display: inline-block;
+        padding-top: 3px;
+    }
+
+    .form-control {
+        height: 29px;
+        padding: 2px 5px;
+        margin-bottom: 5px;
+    }
+
+    .form-index .control-label {
+        padding-top: 0px;
+        margin-top: 5px;
+    }
+
+    .tab-pane {
+        padding: 10px;
+    }
+
+    .form-index .checkbox {
+        padding-top: 0px;
+    }
+
+    .form-index .form-group {
+        margin-bottom: 5px;
+    }
+
+    .form-index .row {
+        margin-top: 5px;
+    }
+</style>
+<script type="text/ng-template" id="explore-dataset.html">
+    <div class="panel panel-less-padding flex1 flex-col">
+        <div class="panel-heading">
+            <h4 class="panel-title"><i class="fa fa-cubes"></i> {{'CONFIG.DATASET.DATASET'|translate}}</h4>
+        </div>
+        <div class="panel-body flex1 flex-col" style="overflow: auto">
+            <!--数据源-->
+            <div class="row" ng-show="!customDs">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <!--<div class="control-label">-->
+                        <div>
+                            <label>{{'CONFIG.WIDGET.DATASET'|translate}} </label>
+                            <a ng-show="curWidget.datasetId" class="pull-right" ng-click="refresh()" style="cursor: pointer">&nbsp;刷新</a>
+                            <a ng-show="isAdmin&&curWidget.datasetId" class="pull-right" ng-click="goToCube()" style="cursor: pointer">编辑</a>
+                            <a ng-show="isAdmin&&!curWidget.datasetId" class="pull-right" ng-click="newData()" style="cursor: pointer">新建</a>
+                        </div>
+                        <ui-select ng-model="curWidget.datasetId" on-select="loadData()">
+                            <ui-select-match>
+                                {{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices group-by="datasetGroup"
+                                               repeat="w.id as w in datasetList | filter:{name : $select.search}">
+                                {{w.name}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-show="customDs">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">{{'CONFIG.WIDGET.DATA_SOURCE'|translate}}</label>
+                        <select class="form-control" ng-model="datasource"
+                                ng-change="changeDs()"
+                                ng-options="d as d.name+' ('+d.type+')' for d in datasourceList"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-show="customDs">
+                <div class="col-md-12" ng-show="datasource.name"
+                     ng-include="datasource.type?('dashboard/getConfigView.do?type=' + datasource.type + '&page=widget.html'):''"></div>
+            </div>
+            <div class="row" style="display: none">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-xs-12 col-sm-5 col-md-4 col-lg-2">
+                            <a class="btn btn-block btn-success" ng-click="customDs=!customDs">
+                                <i class="fa fa-fw {{customDs?'fa-table':'fa-edit'}}"></i>{{(customDs?'CONFIG.WIDGET.EXIST_QUERY':'CONFIG.WIDGET.NEW_QUERY')|translate}}
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-5 col-md-3 col-lg-2">
+                            <button type="button" class="btn btn-block btn-success"
+                                    ng-click="loadData()">
+                                {{'CONFIG.WIDGET.LOAD_DATA'|translate}}
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-sm-5 col-md-3 col-lg-2">
+                            <label>
+                                <input type="checkbox" ng-model="loadFromCache">
+                                {{'CONFIG.WIDGET.FROM_CACHE'|translate}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-repeat="alert in alerts">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div uib-alert ng-class="'alert-' + (alert.type || 'warning')"
+                                 close="alerts.splice($index, 1)">{{alert.msg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-include="'src/view/config/chart/template/schema.html'" class="flex1 flex-col"
+                 ng-if="schema"></div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="explore-filter.html">
+    <div class="panel panel-less-padding flex1 flex-col" ng-if="schema">
+        <div class="panel-heading with-border">
+            <h4 class="panel-title"><i class="glyphicon glyphicon-filter"></i> {{'NV.EXPLORE.FILTER'|translate}}</h4>
+        </div>
+        <div class="panel-body flex1" style="overflow: auto">
+            <div class="form-group" ng-if="configRule[curWidget.config.chart_type].filters!=0"
+                 ng-include="'src/view/nv/chart/template/filters.html'"></div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="explore-events.html">
+    <div class="panel panel-less-padding flex1 flex-col" ng-if="schema">
+        <div class="panel-heading with-border">
+            <h4 class="panel-title"><i class="fa fa-bell"></i>事件</h4>
+        </div>
+        <div class="panel-body flex1" style="overflow: auto">
+            <div class="form-group" ng-if="configRule[curWidget.config.chart_type].events!=0"
+                 ng-include="'src/view/nv/chart/template/events.html'"></div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="explore-chart-option.html">
+    <ul class="chart-list list-inline" ng-model="curWidget.config.chart_type">
+        <li ng-repeat="chart in chart_types" class="ng-scope nav-item"
+            ng-mouseover="showTooltip(chart, $event)"
+            ng-mouseout="hideTooltip(chart, $event)"
+            ng-click="changeChart(chart.value)">
+            <a class="ng-scope"
+               ng-class="[chart_types_status[chart.value]] && chart.value == curWidget.config.chart_type ? 'active':''">
+                <i class="chart-type-icon {{chart.class}} "
+                   ng-class="{true:'',false:'disabled' }[chart_types_status[chart.value]]"></i>
+            </a>
+            <div class="chart-tip">
+                <em class="arrow"></em>
+                <span class="tooltip-title">{{chart.name}}</span>
+
+                <span><b>{{chart.column}}</b> &nbsp; {{'CONFIG.WIDGET.TIPS_COLUMN_DIM'|translate}} </span>
+                <span><b>{{chart.measure}}</b> &nbsp; {{'CONFIG.WIDGET.TIPS_MEASURE'|translate}} </span>
+            </div>
+        </li>
+    </ul>
+</script>
+<style>
+
+</style>
+<script type="text/ng-template" id="explore-chart-option2.html">
+    <em class="arrow"></em>
+    <div ng-model="curWidget.config.chart_group">
+        <!--{{curWidget}}-->
+        <div ng-repeat="group in chart_group">
+            <div class="chart_group_name">{{group.name}}</div>
+            <ul class="chart-group-list list-inline clearfix">
+                <li ng-repeat="chart in group.list" class="ng-scope nav-item"
+                    ng-class="{'active':(chart.value == curWidget.config.chart_type)}"
+                    ng-mouseover="showTooltip(chart, $event)"
+                    ng-mouseout="hideTooltip(chart, $event)"
+                    ng-click="changeChart(chart.value)">
+                    <a class="ng-scope"
+                       ng-class="[chart_types_status[chart.value]] && chart.value == curWidget.config.chart_type ? 'active':''">
+                        <i class="chart-type-icon {{chart.class}} "
+                           ng-class="{true:'',false:'disabled' }[chart_types_status[chart.value]]"></i>
+                    </a>
+                    <div class="chart-tip">
+                        <em class="arrow"></em>
+                        <span class="tooltip-title">{{chart.name}}</span>
+
+                        <span><b>{{chart.column}}</b> &nbsp; {{'CONFIG.WIDGET.TIPS_COLUMN_DIM'|translate}} </span>
+                        <span><b>{{chart.measure}}</b> &nbsp; {{'CONFIG.WIDGET.TIPS_MEASURE'|translate}} </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</script>
+<!--<script type="text/ng-template" id="">-->
+
+<!--</script>-->
+<style>
+    .mainpanel {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .contentpanel {
+        position: absolute;
+        top: 65px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .people-list .people-options {
+        margin-bottom: 5px;
+    }
+</style>
+<div class="flex-col" style="position:absolute;top:10px;left:10px;right:10px;bottom:0;">
+    <!--{{curWidget}}-->
+    <div class="people-list ng-scope">
+        <div class="people-options">
+            <form class="ng-pristine ng-valid">
+                <div class="clearfix">
+                    <button class="btn pull-left" style="margin-right: 5px" ng-click="goBack()">
+                        <i class="fa fa-fw fa-arrow-circle-left"></i>
+                    </button>
+                    <input id="widgetName" style="width:250px;height: 38px;margin: 0;" ng-model="widgetName"
+                           class="form-control col-sm-12"
+                           placeholder="{{'CONFIG.WIDGET.CATEGORY'|translate}}/{{'CONFIG.WIDGET.WIDGET_NAME'|translate}}"/>
+                    <!--<div class="errorMess pull-left" id="errorMess"
+                         style="display: none; margin-top:13px; margin-left: 5px;">
+                        <i class="glyphicon glyphicon-minus-sign"></i>
+                    </div>-->
+                    <input id="redis" ng-model="redis" type="checkbox" class="redis-input">
+                    <label for="redis" class="redis-label">redis</label>
+                    <div ng-if="alerts.length>0" class="errorMess pull-left">
+                        <span ng-repeat="alert in alerts">
+                            <i class="glyphicon glyphicon-minus-sign"></i>{{alert.msg}}
+                        </span>
+                    </div>
+                    <!--<div class="flex1" ng-include="'explore-chart-option.html'"
+                         style="height:38px;overflow: hidden"></div>-->
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button type="submit" ng-click="permissionSetting()" class="btn btn-success ml5">
+                                <i class="fa fa-fw fa-group"></i> 分享
+                            </button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" ng-click="preview()" class="btn btn-success ml5">
+                                <i class="glyphicon glyphicon-picture"></i> {{'CONFIG.WIDGET.PREVIEW'|translate}}
+                            </button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" ng-click="saveWgt()" class="btn btn-primary" id="saveWgt">
+                                <i class="fa fa-save"></i> {{'CONFIG.WIDGET.SAVE'|translate}}
+                            </button>
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li ng-click="saveWgtAs()"><a>另存为</a></li>
+                            </ul>
+                        </div>
+                        <span ng-controller="personCtrl">
+                            <div ng-show="myChartOption" ng-include="'explore-chart-option2.html'"
+                                 class="myChartOption"></div>
+                            <button type="submit" ng-click="openChartOption()" class="btn btn-default">
+                                <i class="fa fa-bar-chart"></i> 图表
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="flex1" style="position:relative">
+        <div class="flexbox-content flexbox" style="height:100%;">
+            <div style="width:220px;min-width:150px">
+                <div class="flex-col" style="height: 100%" ng-include="'explore-dataset.html'">
+                </div>
+            </div>
+            <div splitter="left"></div>
+            <div class="flexbox column" style="width:300px;min-width:150px;overflow: inherit">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="tabs.html#edit_option" data-toggle="tab">选项</a></li>
+                    <li class=""><a href="tabs.html#edit_options" data-toggle="tab">配置项</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="edit_option" style="overflow: auto">
+                        <div ng-if="configRule[curWidget.config.chart_type].values!=0">
+                            <div class="panel panel-less-padding flex-col" style="height:100%">
+                                <div class="panel-heading"><h4 class="panel-title"><i
+                                        class="fa fa-sort-numeric-asc"></i> {{'NV.EXPLORE.INDEX'|translate}}</h4></div>
+                                <div class="panel-body flex1" ng-include="getChartView()" style="border: 1px solid #eee">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex-col" ng-include="'explore-filter.html'"></div>
+                        </div>
+                        <div ng-show="isAdmin">
+                            <div class="flex-col" ng-include="'explore-events.html'"></div>
+                        </div>
+                        <!--<div splitter="up"></div>-->
+                    </div>
+                    <div class="tab-pane" id="edit_options">
+                        <div class="flex flex-col">
+                            <div class="panel panel-less-padding flex-col flex1"
+                                 ng-show="hasOption()">
+                               <!-- <div class="panel-heading">
+                                    <h4 class="panel-title"><i class="glyphicon glyphicon-tasks"></i>
+                                        {{'NV.EXPLORE.ITEM'|translate}}</h4>
+                                </div>-->
+                                <div class="panel-body" ng-include="getOptionsView()" style="overflow: auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div splitter="up"></div>-->
+            </div>
+            <div splitter="left"></div>
+            <div class="flex">
+                <div class="panel flex-col" style="height:100%">
+                    <div class="panel-heading">
+                        <div>
+                            <div class=" clearfix" ng-if="configRule[curWidget.config.chart_type].keys!=0"
+                                 ng-include="'src/view/nv/chart/template/keys.html'"></div>
+                        </div>
+                        <div style="margin-bottom: 5px;">
+                            <div class=" clearfix" ng-if="configRule[curWidget.config.chart_type].groups!=0"
+                                 ng-include="'src/view/nv/chart/template/groups.html'"></div>
+                        </div>
+                    </div>
+                    <div class="panel-body flex1">
+                        <div class="tab-pane active" id="preview_widget2"
+                             style="min-height: 300px;height: 100%;width:100%">
+                            <div ng-show="true" id="preview_widget"
+                                 style="min-height: 300px;height:100%;width:100%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--<div class="overlay fa box box-solid" ng-show="loading">-->
+        <!--<div class="box-header with-border">-->
+        <!--&lt;!&ndash;<h3 class="box-title"></h3>&ndash;&gt;-->
+        <!--<div class="box-tools pull-right">-->
+        <!--<button type="button" class="btn btn-box-tool" data-widget="remove">-->
+        <!--<i class="fa fa-times" style="font-size: large"></i></button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<i class="fa fa-spinner fa-spin"></i>-->
+        <!--</div>-->
+    </div>
+</div>
+<script>
+    $("#saveWgt").click(function () {
+        if ($('#widgetName').val() == '') {
+            $('#errorMess').show();
+        } else {
+            $('#errorMess').hide();
+        }
+    });
+</script>

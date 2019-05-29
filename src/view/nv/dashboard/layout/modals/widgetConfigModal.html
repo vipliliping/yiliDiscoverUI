@@ -1,0 +1,537 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
+        <span aria-hidden="true">×</span></button>
+    <h4 class="modal-title">设置</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <!--showActionTab:{{showActionTab}}isAdmin:{{isAdmin}}-->
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="tabs#editChartName" data-toggle="tab" class="ng-binding">基本设置</a>
+            </li>
+            <li ng-if="showActionTab" class="">
+                <a href="tabs#addAction" data-toggle="tab" class="ng-binding">动作</a>
+            </li>
+            <li ng-if="showActionTab&&isAdmin" class="">
+                <a href="tabs#setScreenAction" data-toggle="tab" class="ng-binding">三屏联动</a>
+            </li>
+            <li ng-if="canSelectFilterList.length>0" class="">
+                <a href="tabs#addFilter" data-toggle="tab" class="ng-binding">过滤器</a>
+            </li>
+            <li ng-if="widgetThemeConfigGroups" class="">
+                <a href="tabs#setTheme" data-toggle="tab" class="ng-binding">主题配置</a>
+            </li>
+            <li ng-if="widget.config.isallow" class="">
+                <a href="tabs#setMaximize" data-toggle="tab" class="ng-binding">最大化</a>
+            </li>
+            <!--<li ng-if="widget.config.relevanceDrill" class="">-->
+                <!--<a href="tabs#setRelevanceDrill" data-toggle="tab" class="ng-binding">关联下钻</a>-->
+            <!--</li>-->
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="editChartName">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label">显示名称：</label>
+                        <div class="col-sm-7" ng-init="widget.config.showName">
+                            <input ng-model="widget.config.showName" class="form-control ng-pristine ng-untouched ng-valid">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label">名称：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="widget.name" class="form-control ng-pristine ng-untouched ng-valid">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-5">
+                            <label class="ckbox ckbox-primary">
+                                <input type="checkbox" ng-model="widget.tab.id">
+                                <span>在全部tab中共享</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-5">
+                            <label class="ckbox ckbox-primary">
+                                <input type="checkbox" ng-model="widget.config.ignoreEvent">
+                                <span>不响应事件</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-5">
+                            <label class="ckbox ckbox-primary" ng-init="widget.config.noTitle">
+                                <input type="checkbox" ng-model="widget.config.noTitle">
+                                <span>无标题</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-5">
+                            <label class="ckbox ckbox-primary" ng-init="widget.config.noBorder">
+                                <input type="checkbox" ng-model="widget.config.noBorder">
+                                <span>无边框</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label">自定义class：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="widget.config.customClass" class="form-control ng-pristine ng-untouched ng-valid">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'timePicker'">
+                        <div class="col-sm-offset-5">
+                            <label class="ckbox ckbox-primary">
+                                <input type="checkbox" ng-model="widget.config.isExist">
+                                <span>是否存在</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group"  ng-show="widget.type!='board'">
+                        <div class="col-sm-offset-5">
+                            <label class="ckbox ckbox-primary" ng-init="widget.config.isInit==undefined?widget.config.isInit=true:''">
+                                <input type="checkbox" ng-model="widget.config.isInit">
+                                <span>初始化</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="widget.widget.data.config.chart_type=='crossTable'">
+                        <div class="col-sm-offset-5">
+                            <label class="ckbox ckbox-primary">
+                                <input type="checkbox" ng-model="widget.config.transposition">
+                                <span>是否转置</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type!='param' && widget.type!='board'">
+                        <div class="col-sm-offset-5">
+                            <label class="ckbox ckbox-primary">
+                                <input type="checkbox" ng-model="widget.config.isallow">
+                                <span>允许最大化</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'capsule'">
+                        <label class="col-sm-5 control-label">回调方法：</label>
+                        <div class="col-sm-7">
+                            <textarea ng-model="widget.config.functions" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <!--<div class="form-group" ng-show="widget.type!='param' && widget.type!='board'">-->
+                        <!--<div class="col-sm-offset-5">-->
+                            <!--<label class="ckbox ckbox-primary">-->
+                                <!--<input type="checkbox" ng-model="widget.config.relevanceDrill">-->
+                                <!--<span>是否开启关联下钻</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'iframe'">
+                        <label class="col-sm-5 control-label">iframe地址：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="widget.config.url" class="form-control">
+                            <label class="label-control col-sm-5">动态表达式</label>
+                            <div class="col-sm-7">
+                                <input type="checkbox" ng-model="widget.config.isExp">
+                            </div>
+                            <div class="col-sm-12" ng-if="widget.config.isExp">
+                                <textarea ng-model="widget.config.exp"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'timePicker'">
+                        <label class="col-sm-5 control-label">事件名：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="widget.config.eventName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'timePicker'">
+                        <label class="col-sm-5 control-label">设置初始值：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="widget.config.initTime" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'timePicker'">
+                        <label class="col-sm-5 control-label">时间：</label>
+                        <div class="col-sm-7">
+                            <!--<input ng-model="widget.config.eventName" class="form-control">-->
+                            <select ng-model="widget.config.timeType" class="form-control">
+                                <option value ="{{key}}" ng-repeat="(key,value) in widget.timeOptions">{{value}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'timePicker'" style="display:none ">
+                        <label class="col-sm-5 control-label">初始化选项：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="widget.config.initConfig" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'input'">
+                        <label class="col-sm-5 control-label">事件名：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="widget.config.eventName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'input'">
+                        <label class="col-sm-5 control-label">默认值：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="widget.config.defaultValue" class="form-control">
+                        </div>
+                    </div>
+                    <!--<div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'input'">-->
+                        <!--<label class="col-sm-5 control-label">计算公式：</label>-->
+                        <!--<div class="col-sm-7">-->
+                            <!--<input ng-model="widget.config.calcFormula" class="form-control">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'flex'">
+                        <label class="col-sm-5 control-label">事件名：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="widget.config.eventName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="(widget.type == 'board')&&(widget.sign== 'flex')">
+                        <label class="col-sm-5 control-label">自定义计算式：</label>
+                        <div class="col-sm-7" ng-init="widget.config.flexCode?'':widget.config.flexCode=''">
+                            <textarea ng-model="widget.config.flexCode" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'columns'">
+                        <label class="col-sm-5 control-label">事件名：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="widget.config.eventName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'columns'">
+                        <label class="col-sm-5 control-label">字段：</label>
+                        <div class="col-sm-7">
+                            <textarea ng-model="columnsText" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="(widget.type == 'board')&&(widget.sign== 'columns'||widget.sign== 'input'||widget.sign== 'customTrigger'
+                    ||widget.sign== 'timePicker')">
+                        <label class="col-sm-5 control-label">自定义计算式：</label>
+                        <div class="col-sm-7" ng-init="widget.config.customCode?'':widget.config.customCode=''">
+                            <textarea ng-model="widget.config.customCode" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="(widget.type == 'board')&&(widget.sign== 'input')">
+                        <label class="col-sm-5 control-label">获得焦点自定义计算式：</label>
+                        <div class="col-sm-7" ng-init="widget.config.customFocusCode?'':widget.config.customFocusCode=''">
+                            <textarea ng-model="widget.config.customFocusCode" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'columns'">
+                        <label class="col-sm-5 control-label">选择方式：</label>
+                        <div class="col-sm-7">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios" ng-model="widget.config.chooseType" value="1" checked="">
+                                    单选
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios" ng-model="widget.config.chooseType" value="2" checked="">
+                                    多选
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'customTrigger'">
+                        <label class="col-sm-5 control-label">触发名称：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="widget.customName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'customTrigger'">
+                        <label class="col-sm-5 control-label">触发图标：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="widget.customIcon" class="form-control">
+                        </div>
+                    </div>
+                    <!--图片上传-->
+                    <!--<div class="form-group" ng-show="widget.type == 'board'&&widget.sign== 'img'">-->
+                    <!--<div>-->
+                    <!--<div ngf-drop ngf-select ng-model="files" class="drop-box"-->
+                    <!--ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"-->
+                    <!--accept="image/*,application/pdf"-->
+                    <!--ngf-pattern="'image/*,application/pdf'">点击上传图片<br>或将图片拖拽至此-->
+                    <!--</div>-->
+                    <!--<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+
+            <div class="tab-pane" id="addFilter">
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table nomargin">
+                            <thead>
+                            <tr>
+                                <th class="text-center" width="50">
+                                </th>
+                                <th class="text-center">过滤器</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="filter in canSelectFilterList">
+                                <td class="text-center">
+                                    <label class="ckbox ckbox-primary">
+                                        <input type="checkbox" ng-model="filter.selected">
+                                        <span></span>
+                                    </label>
+                                </td>
+                                <td class="text-center"> {{filter.group}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-offset-5">
+                            <label class="ckbox ckbox-primary">
+                                <input type="checkbox" ng-model="rotateFilters.enable">
+                                <span>过滤器轮换</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="rotateFilters.enable">
+                        <label class="col-sm-5 control-label">间隔时间(毫秒)：</label>
+                        <div class="col-sm-7">
+                            <input ng-model="rotateFilters.interval"
+                                   class="form-control ng-pristine ng-untouched ng-valid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="setScreenAction">
+                <input type="text" class="form-control" placeholder="搜索" ng-model="searchStr">
+                <div style="max-height:200px;overflow: auto;">
+                    <ul class="themeList">
+                        <li ng-repeat="screen in screenList | filter:searchStr" ng-click="checkScreen(screen.id)"
+                            ng-class="{'active':(screen.id == screenAction.target)}">
+                            {{screen.title}}
+                        </li>
+                    </ul>
+                    <!--<div ng-repeat="screen in screenList">-->
+                    <!--<input type="radio" ng-value="screen.id"-->
+                    <!--ng-model="screenAction.target" id="{{'screen_'+screen.id}}"/>-->
+                    <!--<label for="{{'screen_'+screen.id}}">{{screen.title}}</label>-->
+                    <!--</div>-->
+                </div>
+                <h4>可选参数</h4>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table nomargin">
+                            <thead>
+                            <tr>
+                                <th class="text-center">
+                                </th>
+                                <th class="text-center">名称</th>
+                                <th class="text-center">参数</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="param in screenAction.param">
+                                <td class="text-center">
+                                    <label class="ckbox ckbox-primary">
+                                        <input type="checkbox" ng-model="param.selected">
+                                        <span></span>
+                                    </label>
+                                </td>
+                                <td class="text-center"> {{param.name}}</td>
+                                <td class="text-center"> {{param.col}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="addAction">
+                <div class="row">
+                    <label class="ckbox ckbox-primary">
+                        <input type="checkbox" ng-model="action.regular">
+                        <span>根据值的正则确定跳转</span>
+                    </label>
+                </div>
+                <div ng-repeat="ac in action.list">
+                    <h4>跳转目标 <a class="pull-right"
+                                    ng-if="action.list.length > 1"
+                                    ng-click="deleteActionList($index)"><i class="fa fa-trash-o"></i></a></h4>
+                    <div class="row">
+                        <select ng-model="ac.type"
+                                class="form-control"
+                                ng-options="type.value as type.name for type in TARGET_SELECT"></select>
+                    </div>
+                    <div class="row">
+                        <div ng-switch="ac.type">
+                            <div ng-switch-when="self">
+                                <label class="ckbox ckbox-primary">
+                                    <input type="checkbox" ng-model="ac.ignoreSelf">
+                                    <span>不影响自身</span>
+                                </label>
+                            </div>
+                            <div ng-switch-when="dashboard">
+                                <input type="text" class="form-control" placeholder="搜索" ng-model="ac.searchStr">
+                                <div style="height: 200px; overflow: auto">
+                                    <ul class="themeList">
+                                        <li ng-repeat="board in boardList | filter:ac.searchStr" ng-click="checkRegular(board.id, ac)"
+                                            ng-class="{'active':(board.id == ac.target)}">
+                                            {{board.name}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div ng-switch-when="url">
+                                <div>跳转链接</div>
+                                <input type="text" ng-model="ac.target">
+                            </div>
+                        </div>
+                    </div>
+                    <h4>可选参数</h4>
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table class="table nomargin">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">
+                                    </th>
+                                    <th class="text-center">名称</th>
+                                    <th class="text-center">参数</th>
+                                    <th class="text-center" ng-if="action.regular">正则表达式</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="param in ac.param">
+                                    <td class="text-center">
+                                        <label class="ckbox ckbox-primary">
+                                            <input type="checkbox" ng-model="param.selected">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td class="text-center"> {{param.name}}</td>
+                                    <td class="text-center"> {{param.col}}</td>
+                                    <td class="text-center" ng-if="action.regular"> <input type="text" ng-model="param.regular" class="form-control"/></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <button ng-click="pushActionList()"
+                        ng-if="action.regular"
+                        class="btn btn-primary"
+                        style="margin-top: 10px;margin-left: -5px;">增加正则表达式</button>
+            </div>
+            <div class="tab-pane" id="setTheme">
+                <!--选中的样式：{{selectTheme.classes}}-->
+                <ul class="themeList" ng-repeat="(groupName,group) in widgetThemeConfigGroups">
+                    {{groupName}}
+                    <li ng-repeat="classItem in group" ng-click="changePzTheme(groupName,classItem)"
+                        ng-class="{'active':(classItem.id == selectTheme.select[groupName])}">
+                        {{classItem.name}}
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-pane" id="setMaximize">
+                <select ng-model="maximizeOption.type"
+                        ng-options="type.value as type.name for type in MAXIMIZE_TYPE">
+                </select>
+                <div class="row">
+                    <div ng-switch="maximizeOption.type">
+                        <div ng-switch-when="default">
+
+                        </div>
+                        <div ng-switch-when="filter">
+                            <div class="table-responsive">
+                                <table class="table nomargin">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center" width="50">
+                                        </th>
+                                        <th class="text-center">过滤器</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody ng-init="maxFilterInit()">
+                                    <tr ng-repeat="maximizeOption in maximizeSelectFilterList">
+                                        <td class="text-center">
+                                            <label class="ckbox ckbox-primary">
+                                                <input type="checkbox" ng-model="maximizeOption.selected">
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                        <td class="text-center"> {{maximizeOption.group}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div ng-switch-when="tab">
+                            <ul class="themeList">
+                                <li ng-repeat="tab in tabs"
+                                    ng-click="changeTab(tab)"
+                                    ng-class="{'active':(tab.id == maximizeOption.tabSelect)}">
+                                    {{tab.name}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="ckbox ckbox-primary">
+                                    <input type="checkbox" ng-model="maximizeOption.custumSize">
+                                    <span>自定义范围</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="maximizeOption.custumSize">
+                            <div class="col-sm-6">
+                                <label class="control-label col-sm-4">col</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="maximizeOption.col"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="control-label col-sm-4">row</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="maximizeOption.row"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="control-label col-sm-4">sizeX</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="maximizeOption.sizeX"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="control-label col-sm-4">sizeY</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="maximizeOption.sizeY"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="tab-pane" id="setRelevanceDrill">-->
+                <!--<div class="form-horizontal">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-5 control-label">关联面板名称：</label>-->
+                        <!--<div class="col-sm-7">-->
+                            <!--<input ng-model="widget.config.relevanceWidget" class="form-control ng-pristine ng-untouched ng-valid">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">{{'COMMON.OK'|translate}}</button>
+    <!--<button class="btn btn-warning" type="button" ng-click="cancel()">{{'COMMON.CANCEL'|translate}}</button>-->
+</div>

@@ -1,0 +1,19 @@
+<div style="overflow: auto">
+    <table class="table table-bordered table-inverse nomargin">
+        <thead>
+        <tr>
+            <th ng-repeat="item in column">{{item}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="ng-scope" ng-repeat="item in data track by $index">
+            <td class="ng-binding" ng-repeat="c in item track by $index">
+                {{c}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <label ng-if="column.length==0">暂无数据</label>
+    <!-- <ul uib-pagination total-items="totalItems" ng-model="page" ng-change="pageChanged()"></ul> -->
+    <ul ng-if="column.length!=0" uib-pagination ng-change="pageChanged(page)"  total-items="pageSize*pageCount" ng-model="page" max-size="5" class="pagination-sm"></ul>
+</div>

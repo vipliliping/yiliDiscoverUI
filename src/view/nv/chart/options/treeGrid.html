@@ -1,0 +1,98 @@
+<div class="col-md-12">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"><!-- 'tabs-right' for right tabs -->
+        <li class="active"><a href="tabs.html#select" data-toggle="tab">选项</a></li>
+        <li><a href="tabs.html#option" data-toggle="tab">配置</a></li>
+        <li><a href="tabs.html#code" data-toggle="tab">code</a></li>
+        <li><a href="tabs.html#describe" data-toggle="tab">描述</a></li>
+    </ul>
+</div>
+<div class="col-md-12">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="select">
+            <table style="background-color: transparent">
+                <tbody>
+                <tr>
+                    <td>设置根节点列</td>
+                    <td><input ng-model="curWidget.config.option.root" type="text" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <td>是否排序</td>
+                    <td><input ng-model="curWidget.config.option.isSort" type="checkbox"/></td>
+                </tr>
+                <tr>
+                    <td>是否翻页</td>
+                    <td><input ng-model="curWidget.config.option.isPageable" type="checkbox"/></td>
+                </tr>
+                <tr ng-if="curWidget.config.option.isPageable">
+                    <td>每页记录数</td>
+                    <td><input ng-model="curWidget.config.option.pageSize" class="form-control"/></td>
+                </tr>
+                <tr title="下钻时，发送的列维前N项">
+                    <td>下钻发送项数</td>
+                    <td><input ng-model="curWidget.config.option.drillDownNum" class="form-control"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane" id="option">
+            <table style="background-color: transparent">
+                <thead>
+                <tr>h
+                    <th>表头名称</th>
+                    <!--<th>自定义</th>-->
+                    <th>宽度设置</th>
+                    <!--<th>设置类型</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="ktd in curWidget.config.keys">
+                    <td>{{ktd.col}}</td>
+                    <td><input ng-model="ktd.width" class="form-control"/></td>
+                    <!--<td>-->
+                        <!--<select ng-model="ktd.treeType" class="form-control">-->
+                            <!--<option value="string">string</option>-->
+                            <!--<option value="number">number</option>-->
+                            <!--<option value="date">date</option>-->
+                        <!--</select>-->
+                    <!--</td>-->
+                </tr>
+                <tr ng-repeat="vtd in curWidget.config.values[0].cols">
+                    <td>{{vtd.col}}</td>
+                    <td><input ng-model="vtd.width" class="form-control"/></td>
+                    <!--<td><textarea ng-model="vtd.render" class="form-control"></textarea></td>-->
+                    <!--<td>-->
+                        <!--<select ng-model="vtd.treeType" class="form-control">-->
+                            <!--<option value="string">string</option>-->
+                            <!--<option value="number">number</option>-->
+                            <!--<option value="date">date</option>-->
+                        <!--</select>-->
+                    <!--</td>-->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane" id="code">
+            <div style="width: 100%; height: 100px;" id="optionEdit" ui-ace="{
+            mode: 'javascript',
+            rendererOptions: {
+              fontSize: '14px',
+              maxLines: 100,
+              minLines: 20
+            }
+          }" ng-model="curWidget.config.option.code" class="form-control"></div>
+        </div>
+        <div class="tab-pane" id="describe">
+            <form class="form-horizontal form-index">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <textarea ng-model="curWidget.config.option.describe" class="form-control chartDescribe"
+                                  placeholder="请输入对图表的描述" style="min-height: 100px;"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

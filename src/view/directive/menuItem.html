@@ -1,0 +1,94 @@
+    <ul class="nav navbar-nav">
+        <li class="dropdown drop-pos" ng-repeat="firstList in tree.children">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown"
+               role="button" aria-haspopup="true" aria-expanded="false">{{firstList.name}}<span class="caret"></span></a>
+            <ul class="dropdown-menu dropdown-bk" aria-labelledby="dropdownMenu1">
+                <li menu-item-directive="firstList.children" ng-repeat="item in firstList.children"
+                    class="dropdown-submenu" ng-class="{lastChildren:item.children.length==0}">
+                    <a ng-if="item.type == 'file'" href="#" class="dropdown-font" ng-href="{{'#/nv/dashboard/Demo/'+ item.id}}">{{item.name}}</a>
+                    <a ng-if="item.type == 'folder'" href="#" class="dropdown-font">{{item.name}}</a>
+                    <ul class="dropdown-menu dropdown-bk" ng-if="item.children.length!==0">
+                        <li menu-item-children-directive="item.children"></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+<style>
+    .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+        color: white;
+        background-color: transparent;
+    }
+    .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+        background: none;
+    }
+    .navbar-default .navbar-toggle {
+        border: none;
+        background: none;
+    }
+    .drop-pos {
+        padding-top: 7px;
+    }
+    .navbar-default .navbar-nav > li > a {
+        color: white;
+    }
+    .navbar-default .nav .open>a, .navbar-default .nav .open>a:focus,.navbar-default .nav .open>a:hover {
+        color: white;
+        background: none;
+    }
+    .navbar-default .navbar-collapse, .navbar-default .navbar-form {
+        border: none
+    }
+    .dropdown-bk {
+        background-color: #262b36;
+        color: white;
+    }
+    .dropdown-font {
+        color: white !important;
+    }
+    .dropdown-submenu {
+        position: relative;
+    }
+    .dropdown-submenu > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -6px;
+        margin-left: -1px;
+        -webkit-border-radius: 0 6px 6px 6px;
+        -moz-border-radius: 0 6px 6px;
+        border-radius: 0 6px 6px 6px;
+    }
+    .dropdown-submenu:hover > .dropdown-menu {
+        display: block;
+    }
+    .lastChildren > a:after {
+        display: none !important;
+    }
+    .dropdown-submenu > a:after {
+        display: block;
+        content: " ";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #ccc;
+        margin-top: 5px;
+        margin-right: -10px;
+    }
+    .dropdown-submenu:hover > a:after {
+        border-left-color: #fff;
+    }
+    .dropdown-submenu.pull-left {
+        float: none;
+    }
+    .dropdown-submenu.pull-left > .dropdown-menu {
+        left: -100%;
+        margin-left: 10px;
+        -webkit-border-radius: 6px 0 6px 6px;
+        -moz-border-radius: 6px 0 6px 6px;
+        border-radius: 6px 0 6px 6px;
+    }
+</style>

@@ -1,0 +1,193 @@
+<div class="col-md-12">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"><!-- 'tabs-right' for right tabs -->
+        <li class="active"><a href="tabs.html#ext" data-toggle="tab">{{'NV.EXPLORE.EXT'|translate}}</a></li>
+        <li><a href="tabs.html#tootip" data-toggle="tab">tootip</a></li>
+        <li><a href="tabs.html#threshold" data-toggle="tab">阈值</a></li>
+        <li><a href="tabs.html#markLine" data-toggle="tab">标线</a></li>
+        <li><a href="tabs.html#option" data-toggle="tab">OPTION</a></li>
+    </ul>
+</div>
+<div class="col-md-12">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="ext">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'CONFIG.WIDGET.MAX_COLOR'|translate}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" ng-model="curWidget.config.option.maxColor" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'CONFIG.WIDGET.MIN_COLOR'|translate}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" ng-model="curWidget.config.option.minColor" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'CONFIG.WIDGET.CITY_MAX_RADIUS'|translate}}</label>
+                    <div class="col-sm-9">
+                        <input type="number" ng-model="curWidget.config.option.cityMaxRadius" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'CONFIG.WIDGET.CITY_MIN_RADIUS'|translate}}</label>
+                    <div class="col-sm-9">
+                        <input type="number" ng-model="curWidget.config.option.cityMinRadius" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'CONFIG.WIDGET.IS_ENLARGE'|translate}}</label>
+                    <div class="col-sm-9">
+                        <input type="checkbox" ng-model="curWidget.config.option.isEnLarge"/>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="curWidget.config.option.isEnLarge==true">
+                    <label class="col-sm-3 control-label">{{'CONFIG.WIDGET.ZOOM'|translate}}</label>
+                    <div class="col-sm-9">
+                        <input type="input"
+                               ng-model="curWidget.config.option.zoom"
+                               ng-init="curWidget.config.option.zoom=5"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane" id="tootip">
+            <form class="form-horizontal form-index">
+                <div class="row">
+                    <div class="col-md-2">
+                        变量
+                    </div>
+                    <div class="col-md-5">
+                        别名
+                    </div>
+                    <div class="col-md-1">
+                        显示
+                    </div>
+                    <div class="col-md-4">
+                        格式化
+                    </div>
+                </div>
+                <div class="row" ng-repeat="(index, item) in curWidget.config.keys">
+                    <div class="col-md-2">
+                        {{item.col}}
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" ng-model="curWidget.config.option.tooltip[item.col].col"
+                               class="form-control"/>
+                    </div>
+                    <div class="col-md-1"
+                         ng-init="(curWidget.config.option.tooltip[item.col].isShow == undefined)?curWidget.config.option.tooltip[item.col].isShow=true:''">
+                        <input type="checkbox" ng-model="curWidget.config.option.tooltip[item.col].isShow"/>
+                    </div>
+                    <div class="col-md-4">
+                        <textarea class="form-control" ng-model="curWidget.config.option.tooltip[item.col].formatter"></textarea>
+                        <!--<input type="text" ng-model="curWidget.config.option.tooltip[item.col].formatter"-->
+                               <!--class="form-control"/>-->
+                    </div>
+                </div>
+                <!-- <div class="row" ng-repeat="(index, items) in curWidget.config.values">
+                    <div ng-repeat="(index, item) in items">
+                        <div ng-if="item[0].col != undefined">
+                            <div class="col-md-2">
+                                {{item[0].col}}
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" ng-model="curWidget.config.option.tooltipTarget[item[0].col].col"
+                                       class="form-control"/>
+                            </div>
+                            <div class="col-md-1"
+                                 ng-init="(curWidget.config.option.tooltipTarget[item[0].col].isShow == undefined)?curWidget.config.option.tooltipTarget[item[0].col].isShow=true:''">
+                                <input type="checkbox"
+                                       ng-model="curWidget.config.option.tooltipTarget[item[0].col].isShow"/>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text"
+                                       ng-model="curWidget.config.option.tooltipTarget[item[0].col].formatter"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row" ng-repeat="(index, items) in curWidget.config.values">
+                    <div ng-repeat="(index, item) in items.cols">
+                        <div class="row">
+                            <div class="col-md-2">
+                                {{item.alias}}
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" ng-model="curWidget.config.option.tooltipTarget[item.alias].col"
+                                       class="form-control"/>
+                            </div>
+                            <div class="col-md-1"
+                                 ng-init="(curWidget.config.option.tooltipTarget[item.alias].isShow == undefined)?curWidget.config.option.tooltipTarget[item.alias].isShow=true:''">
+                                <input type="checkbox"
+                                       ng-model="curWidget.config.option.tooltipTarget[item.alias].isShow"/>
+                            </div>
+                            <div class="col-md-4">
+                                <textarea class="form-control" ng-model="curWidget.config.option.tooltipTarget[item.alias].formatter"></textarea>
+                                <!--<input type="text"-->
+                                       <!--ng-model="curWidget.config.option.tooltipTarget[item.alias].formatter"-->
+                                       <!--class="form-control"/>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-repeat="(index, item) in curWidget.config.groups">
+                    <div class="col-md-2">
+                        {{item.col}}
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" ng-model="curWidget.config.option.tooltipGroups[item.col].col"
+                               class="form-control"/>
+                    </div>
+                    <div class="col-md-1"
+                         ng-init="(curWidget.config.option.tooltipGroups[item.col].isShow == undefined)?curWidget.config.option.tooltipGroups[item.col].isShow=true:''">
+                        <input type="checkbox" ng-model="curWidget.config.option.tooltipGroups[item.col].isShow"/>
+                    </div>
+                    <div class="col-md-4">
+                        <textarea class="form-control" ng-model="curWidget.config.option.tooltipGroups[item.col].formatter"></textarea>
+                        <!--<input type="text" ng-model="curWidget.config.option.tooltipGroups[item.col].formatter"-->
+                               <!--class="form-control"/>-->
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane" id="threshold">
+            <div style="width: 100%; height: 100px;" id="editMap" ui-ace="{
+            mode: 'javascript',
+            rendererOptions: {
+              fontSize: '14px',
+              maxLines: 100,
+              minLines: 20
+            }
+          }"
+             ng-model="curWidget.config.thresholdCode" class="form-control"></div>
+        </div>
+        <div class="tab-pane" id="markLine">
+            <div style="width: 100%; height: 100px;" id="editLine" ui-ace="{
+            mode: 'javascript',
+            rendererOptions: {
+              fontSize: '14px',
+              maxLines: 100,
+              minLines: 20
+            }
+          }"
+                 ng-model="curWidget.config.markLineCode" class="form-control"></div>
+        </div>
+        <div class="tab-pane" id="option">
+            <div style="width: 100%; height: 100px;" id="optionEdit" ui-ace="{
+            mode: 'javascript',
+            rendererOptions: {
+              fontSize: '14px',
+              maxLines: 100,
+              minLines: 20
+            }
+          }"
+                 ng-model="curWidget.config.optionCode" class="form-control"></div>
+        </div>
+    </div>
+</div>
+
+

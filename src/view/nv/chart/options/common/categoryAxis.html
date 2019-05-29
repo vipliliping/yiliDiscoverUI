@@ -1,0 +1,72 @@
+<form class="form-horizontal form-index">
+    <div class="row">
+        <div class="form-group">
+            <label class="col-md-3 control-label">{{'NV.EXPLORE.INTERVAL'|translate}}</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" ng-model="curWidget.config.option.ctgLabelInterval">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">{{'NV.EXPLORE.ROTATE'|translate}}</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" ng-model="curWidget.config.option.ctgLabelRotate">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">X轴名称</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" ng-model="curWidget.config.option.xAxisName">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Y轴名称</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" ng-model="curWidget.config.option.yAxisName">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">x轴显示位置</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" ng-model="curWidget.config.option.xAxisPosition">
+            </div>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="curWidget.config.option.dataZoom"
+                       ng-init="curWidget.config.option.dataZoom">
+                缩放X轴
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="curWidget.config.option.dataZoomY"
+                       ng-init="curWidget.config.option.dataZoomY">
+                缩放Y轴
+            </label>
+        </div>
+        <div class="form-group" ng-if="curWidget.config.option.dataZoom">
+            <label class="col-md-3 control-label">缩放X轴开始位置</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" ng-model="curWidget.config.option.dataZoomStart">
+            </div>
+        </div>
+        <div class="form-group" ng-if="curWidget.config.option.dataZoom">
+            <label class="col-md-3 control-label">缩放X轴结束位置</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" ng-model="curWidget.config.option.dataZoomEnd">
+            </div>
+        </div>
+        <div class="form-group" ng-if="curWidget.config.option.dataZoomY">
+            <label class="col-md-3 control-label">缩放Y轴开始位置</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" ng-model="curWidget.config.option.dataZoomStartY">
+            </div>
+        </div>
+        <div class="form-group" ng-if="curWidget.config.option.dataZoomY">
+            <label class="col-md-3 control-label">缩放Y轴结束位置</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" ng-model="curWidget.config.option.dataZoomEndY">
+            </div>
+        </div>
+    </div>
+</form>

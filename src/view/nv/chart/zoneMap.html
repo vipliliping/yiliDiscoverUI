@@ -1,0 +1,106 @@
+<!-- <div ng-include="'src/view/nv/chart/template/config.html'"></div> -->
+<div class="form-group">
+    <!--<label class="col-sm-2 control-label">{{'CONFIG.WIDGET.VALUE_AXIS'|translate}}</label>-->
+    <div class="col-sm-12">
+        <!--<button type="button" class="btn btn-info btn-sm"-->
+        <!--ng-click="curWidget.config.valueAxis=curWidget.config.valueAxis == 'horizontal'?'vertical':'horizontal';console.log(curWidget.config.valueAxis);">-->
+        <!--{{'CONFIG.WIDGET.'+curWidget.config.valueAxis|uppercase|translate}}-->
+        <!--</button>-->
+        <button type="button" class="btn btn-info btn-sm" ng-click="add_value()" style="display: none">
+            {{'CONFIG.WIDGET.ADD_NEW_AXIS'|translate}}
+        </button>
+        <table class="widgetTable">
+            <!--{{curWidget.config}}-->
+            <tbody ng-repeat="v in curWidget.config.values">
+            <!--<tr>-->
+            <!--<td>类型</td>-->
+            <!--<td>-->
+            <!--<select class="form-control" ng-model="v.series_type"-->
+            <!--ng-options="type.value as type.name for type in value_series_Mtypes"></select>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>颜色</td>-->
+            <!--<td>-->
+            <!--<select class="form-control" ng-model="v.series_color"-->
+            <!--ng-options="type.value as type.name for type in value_series_color"></select>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <tr>
+                <td>{{'CONFIG.WIDGET.VALUE'|translate}}</td>
+                <td dnd-list="v.cols" dnd-inserted="dndTransfer.toCol(v.cols,index,item,type)"
+                    dnd-allowed-types="['measure','select','col','exp','computed']"
+                    style="width: 100%; height: 35px;border:1px solid #bdc3d1;border-radius: 2px">
+                    <div class="dndPlaceholder sort-highlight"
+                         style="height: 24px; width: 93px;margin: 3px 3px;display: inline-block;vertical-align: middle;">
+                    </div>
+                    <div ng-repeat="o in v.cols" dnd-draggable="o" dnd-type="o.type=='exp'?'exp':'col'"
+                         dnd-effect-allowed="move"
+                         dnd-moved="v.cols.splice($index, 1)" class="btn-group" style="margin: 3px 3px;">
+                        <ng-switch on="o.type">
+                            <div ng-switch-when="exp" class="btn-group">
+                                <button type="button" class="btn btn-primary btn-sm" style="cursor: move;"
+                                        ng-click="v.cols.splice($index, 1);">
+                                    {{o.alias}}
+                                </button>
+                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                        ng-click="editSort(o);cleanRowSort(o);">
+                                    <span class="fa"
+                                          ng-class="{undefined:'fa-sort','asc':'fa-sort-asc','desc':'fa-sort-desc'}[o.sort]"></span>
+                                </button>
+                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    <span class="fa fa-edit"></span>
+                                </button>
+                                <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                                    <li ng-if="!isDsExpression(o)">
+                                        <a href="javascript:void(0)" ng-click="editExp(o)">{{'COMMON.EDIT'|translate}}</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" ng-click="editVFilter(o)">{{'CONFIG.WIDGET.FILTER'|translate}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div ng-switch-default class="btn-group">
+                                <button type="button"
+                                        ng-click="v.cols.splice($index, 1);"
+                                        class="btn btn-default btn-sm" style="cursor: move;">
+                                    {{'['+o.aggregate_type+']'+(o.alias?o.alias:o.col)}}
+                                    <!--{{o.aggregate_type+'('+o.col+')'+ (o.alias?(' -> '+o.alias):'')}}-->
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle"
+                                        ng-click="editSort(o);cleanRowSort(o);">
+                                    <span class="fa"
+                                          ng-class="{undefined:'fa-sort','asc':'fa-sort-asc','desc':'fa-sort-desc'}[o.sort]"></span>
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    <span class="fa fa-edit"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><input class="form-control" ng-model="o.alias"
+                                               placeholder="{{'CONFIG.WIDGET.ALIAS'|translate}}"></li>
+                                    <li ng-repeat="a in value_aggregate_types">
+                                        <a ng-click="o.aggregate_type=a.value" ng-style="{color:o.aggregate_type==a.value?'blue':null}">{{a.name}}</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" ng-click="editVFilter(o)">{{'CONFIG.WIDGET.FILTER'|translate}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ng-switch>
+                    </div>
+                </td>
+            </tr>
+            <!--<tr>-->
+            <!--<td rowspan="2">-->
+            <!--<span class="text-red">-->
+            <!--<i class="fa fa-trash-o" style="cursor: pointer;vertical-align: middle;"-->
+            <!--ng-click="deleteValue(v.cols);curWidget.config.values.splice($index, 1)"></i>-->
+            <!--</span>-->
+            <!--</td>-->
+            <!--</tr>-->
+            </tbody>
+        </table>
+    </div>
+</div>

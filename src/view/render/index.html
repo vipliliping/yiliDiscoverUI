@@ -1,0 +1,37 @@
+<div id="inner-container" class="content">
+    <div class="panel" ng-class="{true:'collapsed-box'}[schema?true:false]">
+        <style>
+            .main-header, .leftpanel  {
+                display: none;
+            }
+            .contentpanel {
+                position: unset;
+            }
+            .content {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+            }
+            nv-dashboard-widget > div {
+                min-height: 600px;
+                width: 800px
+            }
+        </style>
+        <div class="panel-body">
+            <!--<div>左侧选择查看图表</div>-->
+            <div ng-repeat="widget in previewList">
+                <nv-dashboard-widget ng-show="widget.loading == false"></nv-dashboard-widget>
+                <div ng-if="widget.loading || !widget.show" style="padding:20px">
+                    <i class="fa fa-spinner fa-spin"></i>
+                    {{"COMMON.LOADING" | translate}}
+                </div>
+                <!--<button type="button" ng-show="widget.loading == false"
+                        class="btn btn-success pull-right" ng-click="goToEditWidget(widget)">
+                    编辑
+                </button>-->
+            </div>
+        </div>
+    </div>
+</div>

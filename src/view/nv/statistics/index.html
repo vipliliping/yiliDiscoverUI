@@ -1,0 +1,58 @@
+<div id="inner-container" class="content" style="overflow: auto">
+    <div class="col-sm-12">
+        <ul class="nav nav-tabs nav-primary">
+            <li class="active"><a href="tabs.html#popular5" data-toggle="tab"><strong>数据统计</strong></a></li>
+            <li><a href="tabs.html#recent5" data-toggle="tab"><strong>图表统计</strong></a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content mb20">
+            <div class="tab-pane active" id="popular5">
+                <table class="table table-bordered table-inverse nomargin">
+                    <thead>
+                    <tr>
+                        <th>模型</th>
+                        <th class="text-center">应用次数</th>
+                        <!--<th>应用到的图表</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="cube in cubeList">
+                        <td>
+                            <!--<a ng-href="{{'#/nv/dashboard/Demo/'+board.id}}">-->
+                                {{cube.dataset}}
+                            <!--</a></td>-->
+                        <td>{{cube.countIt}}</td>
+                        <!--<td></td>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="recent5">
+                <table class="table table-bordered table-inverse nomargin">
+                    <thead>
+                    <tr>
+                        <th>图表</th>
+                        <th>应用次数</th>
+                        <!--<th>应用到的面板</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="dataset in datasetList">
+                        <td>
+                            <a ng-href="{{'#/nv/cube/'+dataset.id}}">
+                                {{dataset.name}}
+                            </a>
+                        </td>
+                        <td>
+                        </td>
+                        <!--<td>
+                        </td>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

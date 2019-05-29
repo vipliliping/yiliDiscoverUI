@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
+        <span aria-hidden="true">×</span></button>
+    <h4 class="modal-title">新建数据</h4>
+</div>
+<div class="modal-body">
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-2"><label style="line-height: 29px;">数据源</label></div>
+            <div class="col-md-10">
+                <select class="form-control" ng-model="datasource"
+                    ng-change="changeSource()"
+                    ng-options="d as d.name+' ('+d.type+')' for d in datasourceList"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><label style="line-height: 29px;">数据列表</label></div>
+            <div class="col-md-10">
+                <select class="form-control" ng-model="selectTable"
+                        ng-change="changeTable()"
+                        ng-options="table for table in dataTables"></select>
+            </div>
+        </div>
+        <div class="row">
+            <span class="btn btn-sm btn-primary" style="margin: 3px 3px;" ng-repeat="item in columns">{{item}}</span>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">{{'COMMON.OK'|translate}}</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">{{'COMMON.CANCEL'|translate}}</button>
+</div>

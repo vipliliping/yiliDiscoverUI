@@ -1,0 +1,33 @@
+<div>
+    <uib-accordion class="panel-profile list-view">
+        <div uib-accordion-group class="panel-default"
+             ng-repeat="role in adminUserService.roleList track by role.roleId"
+             ng-click="openRoleInfo(role.roleId)">
+            <uib-accordion-heading>
+                <div class="media">
+                    <div class="media-left">
+                        <a>
+                            <img class="media-object img-circle" src="imgs/user-male-circle-blue-128.png" alt="">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading ng-binding">
+                            {{role.roleName}}
+                            <i class="fa fa-angle-double-up" style="margin-left: 10px;"
+                               ng-class="{true:'fa-angle-double-down',false:'fa-angle-double-up'}[activeRoleId == role.roleId]"></i>
+                        </h4>
+                    </div>
+                </div>
+            </uib-accordion-heading>
+            <div class="col-sm-12 ng-scope people-info">
+                <div class="info-group">
+                    <label><span ng-class="title">用户:</span></label>
+                    <span ng-repeat="user in roleUserMap[role.roleId] track by role.roleId"
+                          class="role-item ng-binding ng-scope">
+                            {{user.userName}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </uib-accordion>
+</div>

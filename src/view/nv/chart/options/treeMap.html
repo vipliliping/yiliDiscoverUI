@@ -1,0 +1,47 @@
+<div class="col-md-12">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"><!-- 'tabs-right' for right tabs -->
+        <li class="active"><a href="tabs.html#ext" data-toggle="tab">{{'NV.EXPLORE.CAXIS'|translate}}</a></li>
+        <li><a href="tabs.html#describe" data-toggle="tab">描述</a></li>
+    </ul>
+</div>
+<div class="col-md-12">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="ext">
+            <form class="form-horizontal form-index">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'CONFIG.WIDGET.LABEL'|translate}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" ng-model="curWidget.config.values[0].name" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'CONFIG.WIDGET.LEAF_DEPTH'|translate}}</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" ng-model="curWidget.config.values[0].leafDepth"
+                                ng-options="curWidget.config.keys.indexOf(key)+1 as curWidget.config.keys.indexOf(key)+1 for key in curWidget.config.keys"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'CONFIG.WIDGET.STYLE'|translate}}</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" ng-model="curWidget.config.values[0].style"
+                                ng-options="s.value as s.name for s in treemap_styles"></select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane" id="describe">
+            <form class="form-horizontal form-index">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <textarea ng-model="curWidget.config.option.describe" class="chartDescribe form-control" placeholder="请输入对图表的描述" style="min-height: 100px;"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

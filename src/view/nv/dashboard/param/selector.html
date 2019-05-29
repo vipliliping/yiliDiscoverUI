@@ -1,0 +1,66 @@
+<div class="btn-group term" ng-controller="newParamSelector as ctrl" style="margin-right: 10px">
+    <h5 title="{{param.title}}" ng-click="editParam()">
+        {{param.name}}
+    </h5>
+    <div class="form-group pull-left" ng-if="param.paramType == 'selector'">
+        <ui-select multiple ng-model="param.values"
+                   ng-disabled="false" close-on-select="false"
+                   on-select="selectedChange($item)">
+            <ui-select-match placeholder="请选择">{{$item}}</ui-select-match>
+            <ui-select-choices repeat="select in param.selects">
+                {{select}}
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="form-group pull-left" ng-if="param.paramType == 'default'">
+        <ui-select multiple ng-model="param.values"
+                   ng-disabled="false" close-on-select="false">
+            <ui-select-match placeholder="请选择">{{$item}}</ui-select-match>
+            <ui-select-choices repeat="select in param.selects">
+                {{select}}
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="form-group pull-left" ng-if="param.paramType == 'inputor'">
+        <input placeholder="请输入" type="text" ng-model="$parent.inputParam" ng-keypress="enterKeyUp($event)" class="inputor"/>
+    </div>
+    <div class="form-group pull-left">
+        <div class="dropdown ng-scope" style="display: inline-block" ng-if="isAdmin">
+            <button class="btn btn-sm btn-default" type="button" id="dropdownMenu2" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-cog"></i>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                <li ng-class="{'active':(param.paramType == 'default')}" role="presentation"
+                    ng-click="param.paramType = 'default'">
+                    <a role="menuitem" tabindex="-1"><i class="fa fa-plus-square"></i> 默认</a></li>
+                <li ng-class="{'active':(param.paramType == 'selector')}" role="presentation"
+                    ng-click="param.paramType = 'selector'">
+                    <a role="menuitem" tabindex="-1"><i class="fa fa-plus-square"></i> 多选</a></li>
+                <li ng-class="{'active':(param.paramType == 'inputor')}" role="presentation"
+                    ng-click="param.paramType = 'inputor'">
+                    <a role="menuitem" tabindex="-1"><i class="fa fa-edit"></i> 输入</a></li>
+                <li class="divider"></li>
+                <li role="presentation" ng-click="deleteParam(row,$index)">
+                    <a role="menuitem" tabindex="-1"><i class="fa fa-close"></i> 删除</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-group pull-left" ng-show="param.paramType == 'inputor'">
+        <button type="button" ng-click="clickSearch()" class="btn btn-sm pull-left dropdown-toggle"
+                ng-class="{true:'btn-primary',false:'btn-default'}[param.values.length>0]">
+            <span class="fa fa-search"></span>
+        </button>
+    </div>
+    <div class="form-group pull-left" ng-show="param.paramType == 'selector'">
+        <button type="button" ng-click="param.values = []" class="btn btn-sm pull-left dropdown-toggle"
+                ng-class="{true:'btn-primary',false:'btn-default'}[param.values.length>0]">
+            <span class="fa fa-refresh"></span>
+        </button>
+    </div>
+    <div class="form-group pull-left" ng-show="param.paramType == 'default'">
+        <button type="button" ng-click="param.values = []" class="btn btn-sm pull-left dropdown-toggle"
+                ng-class="{true:'btn-primary',false:'btn-default'}[param.values.length>0]">
+            <span class="fa fa-refresh"></span>
+        </button>
+    </div>
+</div>

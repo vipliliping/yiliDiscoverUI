@@ -1,0 +1,178 @@
+<div class="people-list">
+    <div class="people-options">
+        <form id="form1">
+            <div class="clearfix">
+                <!--<div class="btn-toolbar pull-left ml5" style="display: none">-->
+                <!--<a href="javascript:;" class="a-upload pull-left">-->
+                <input style="display: none" type="file" name="filename" id="excel_file" accept="xlsx"
+                       class="btn btn-default">
+                <!--</a>-->
+                <!--</div>-->
+                <div>
+                    <button onclick="selectFile();" type="button" class="btn btn-success">
+                        <i class="glyphicon glyphicon-circle-arrow-up"></i> <span class="showFileName">选择Excel文件</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel">
+    <div class="panel-body" style="display: none;" id="tablePanel">
+        <p><code id="importMsg"></code></p>
+        <table id="table" class="table table-bordered nomargin"></table>
+    </div>
+</div>
+<div class="panel">
+    <div class="panel-body" style="display: none;" id="sourcePanel">
+        <div class="form-horizontal">
+            <div id="source_edit" hidden="hidden" class="form-group" style="margin-bottom: 0">
+                <label class="control-label col-sm-1">数据源名称:</label>
+                <div class="col-sm-3">
+                    <input id="source_name" type="input" value="" class="form-control"/>
+                </div>
+                <div class="col-sm-4">
+                    <button id="upload_button" onclick="upload();" type="button" class="btn btn-success"><i
+                            class="glyphicon glyphicon-circle-arrow-up"></i> 确认导入
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var excel_data;
+
+    function selectFile() {
+        $("#excel_file").trigger("click");
+    }
+
+    function importFile() {
+        var excel_file = $("#excel_file").val();
+        if (excel_file == "" || excel_file.length == 0) {
+            alert("请选择文件路径！");
+            return;
+        }
+
+        var form = new FormData(document.getElementById("form1"));
+        $.ajax({
+            url: "excel/import.do",
+            type: "post",
+            data: form,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.length == 0) {
+                    $("#importMsg").html("上传失败！");
+                    return;
+                }
+
+                $("#importMsg").html("上传成功，请预览数据并选择每一列的数据类型！");
+                $("#tablePanel").show();
+                $("#sourcePanel").show();
+                $("#table").html("");
+                excel_data = data;
+
+                // 列头
+                var html = "<thead><tr>"
+                for (var i = 0; i < data.head.length; i++) {
+                    html += "<th>" + data.head[i] + "</th>";
+                }
+                html += "</tr></thead>"
+
+                // 类型选择
+                html += "<tr>";
+                for (var i = 0; i < data.type.length; i++) {
+                    switch (data.type[i]) {
+                        case "INTEGER":
+                            html += "<td><select class='form-control'>"
+                                + "<option value=\"INTEGER\" selected>整数</option>"
+                                + "<option value=\"REAL\">小数</option>"
+                                + "<option value=\"TEXT\">字符串</option>"
+                                + "</select></td>";
+                            break;
+                        case "REAL":
+                            html += "<td><select class='form-control'>"
+                                + "<option value=\"INTEGER\">整数</option>"
+                                + "<option value=\"REAL\" selected>小数</option>"
+                                + "<option value=\"TEXT\">字符串</option>"
+                                + "</select></td>";
+                            break;
+                        default:
+                            html += "<td><select class='form-control'>"
+                                + "<option value=\"INTEGER\">整数</option>"
+                                + "<option value=\"REAL\">小数</option>"
+                                + "<option value=\"TEXT\" selected>字符串</option>"
+                                + "</select></td>";
+                            break;
+                    }
+                }
+
+                // 数据
+                for (var i = 0; i < data.data.length; i++) {
+                    html += "<tbody><tr>";
+                    for (var j = 0; j < data.data[i].length; j++) {
+                        html += "<td>" + data.data[i][j] + "</td>";
+                    }
+                    html += "</tr></tbody>";
+                }
+                $("#table").append(html);
+                $("#upload_button").show();
+                $("#source_edit").show();
+            },
+            error: function (e) {
+                $("#importMsg").html("上传失败！");
+            }
+        });
+    }
+
+    function upload() {
+        if ($("#source_name").val() == "") {
+            alert("请输入一个数据源名称");
+            return;
+        }
+
+        // 重新加载数据类型
+        var typeList = [];
+        $("#table").find("tr").eq(1).find("td").each(function () {
+            typeList.push($(this).find("select").val());
+        });
+        excel_data.type = typeList;
+
+        $.ajax({
+            url: "sqlite/createTable.do",
+            type: "post",
+            dataType: "json",
+            data: {data: JSON.stringify(excel_data), sourceName: $("#source_name").val()},
+            success: function (data) {
+                if (data.status == 1) {
+                    if (data.id)
+                        window.location.href = "#/nv/cube/"+data.id;
+                    else
+                        window.location.href = "#/nv/cube";
+                } else if (data.status == 2) {
+                    alert(data.msg);
+                } else {
+                    alert("数据保存失败！");
+                }
+            },
+            error: function (e) {
+                alert("数据保存失败！");
+            }
+        });
+    }
+
+    $("#excel_file").on("change", function () {
+        var filePath = $(this).val();
+        if (filePath != null || filePath != '') {
+            var arr = filePath.split('\\');
+            var fileName = arr[arr.length - 1];
+            $(".showFileName").html("重新选择Excel文件");
+            importFile();
+        }
+        if (filePath == null || filePath == '') {
+            $(".showFileName").html("选择Excel文件");
+        }
+    })
+
+</script>

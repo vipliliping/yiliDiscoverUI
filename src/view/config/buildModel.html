@@ -1,0 +1,524 @@
+<!-- Content Wrapper. Contains page content -->
+<div id="inner-container" class="content">
+    <div class="people-list ng-scope">
+        <div class="people-options">
+            <form class="ng-pristine ng-valid">
+                <div class="clearfix">
+                    <button type="button" class="btn btn-success" ng-click="openAddTableModal()"><i class="fa fa-plus"></i>
+                    </button>
+                    <button type="submit" ng-click="save()" class="btn btn-success pull-right"
+                            style="margin-right: 5px" ng-if="!onlyView()">{{'COMMON.SAVE'|translate}}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 g-g-configuration-page">
+            <!--这是上 折叠面板-->
+            <div class="panel" style="margin: 0px">
+                <div class="panel panel-default" style="margin-bottom: 10px">
+
+                    <div class="panel-heading zhe-die"
+                         ng-class="{'has-error': !(verify.dsName || curDataset.name.length)}">
+                        <!--<h4 placeholder="moren1" class="panel-title" style="padding-left: 10px;" ><b>{{curDataset.name}}</b></h4>-->
+                        <div class="panel-title zhe-die-input">
+                            <input id="DatasetName" ng-model="curDataset.name" class="form-control"
+                                   style="font-size: 14px;font-weight: normal"
+                               ng-disabled="onlyView()"
+                               placeholder="{{'CONFIG.DATASET.CATEGORY'|translate}} / {{'CONFIG.DATASET.NAME'|translate}}"/></div>
+                    </div>
+                    <ul class="panel-options" style="padding: 4px 0">
+                        <li><a class="panel-minimize"><i class="fa fa-angle-down"></i></a></li>
+                    </ul>
+
+                    <div class="panel-body zhe-die-xiala">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                        <textarea  rows="2" ng-if="!onlyView()" ng-model="curDataset.data.abstruct"
+                                                   style="font-size: 14px;padding-left: 10px"
+                                                   class="form-control input-sm"
+                                                   placeholder="简介 / 描述">
+                                        </textarea>
+                                <textarea ng-if="onlyView()&&curDataset.data.abstruct"
+                                          ng-model="curDataset.data.abstruct"
+                                          class="form-control input-sm onlyread" disabled="disabled">
+                                        </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--这是中 数据区域-->
+            <div class="panel-body conf-page-body">
+                <div class="row conf-page-body-background">
+                    <!--这是中-数据库配置区域-->
+                    <div class="row conf-page-body-row">
+                        <div class="col-md-12">
+                            <label class="conf-page-body-rowlabel"><i class="fa fa-cube"></i>&nbsp; 数据库配置</label>
+                        </div>
+                        <div class="col-md-12" style="padding:10px">
+                            <div class="form-control conf-page-body-fromcontrol">
+                                    <div class="panel panel-default conf-page-body-panel" ng-repeat="item in tableRelation">
+                                        <div class="panel-heading font-bold conf-page-body-fontbold" style="background: transparent;">
+                                            <div>
+                                                <button class="btn m-b-xs w-xs btn-default"><i class="fa fa-file-text-o"></i> {{item.table.current}}</button> ------
+                                                <button class="btn m-b-xs w-xs btn-success btn-rounded conf-page-body-button"><i class="fa fa-expeditedssl"></i>&nbsp;&nbsp; {{item.table.relation}}</button> ------
+                                                <button class="btn m-b-xs w-xs btn-default"><i class="fa fa-file-text-o"></i>  {{item.table.target}}</button>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body conf-page-body-panelbody">
+                                            <form class="bs-example form-horizontal ng-pristine ng-valid conf-page-body-form">
+                                                <div class="form-group" ng-repeat="o in item.columns">
+                                                    <label class="conf-page-body-label">{{o.current}}&nbsp;&nbsp;{{o.relation}}&nbsp;&nbsp;{{o.target}}</label>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--这是中-数据配置-->
+                    <div class="row" style="margin: 0px">
+                        <!--这是中左侧-->
+                        <div class="col-md-6">
+                            <div class="col-md-12 data-mapping-left">
+                                <label class="col-md-12 data-mapping-left-label">数据配置</label>
+                                <div class="col-md-12" ng-show="curDataset.isVersion!=1" ng-if="!onlyView()">
+                                    <div class="form-control data-mapping-left-control"
+                                            ng-if="!onlyView()">
+                                        <!-- <span ng-repeat="o in testList"
+                                                class="btn btn-sm" style="margin: 3px 3px;"
+                                                ng-class="{true:'btn-primary',false:'btn-default'}[checkExist(o)]"
+                                                dnd-draggable="{type: 'column', column: o}" dnd-type="'column'"
+                                                ng-click="toDimension({type: 'column', column: o})">{{o}}</span> -->
+                                        <div class="cubeTree" ng-if="!onlyView()" style="border: none;">
+                                            <div class="title data-mapping-left-binding">
+                                                <i class="fa fa-file-text"></i>
+                                                <span class="ng-binding">&nbsp;选中的表</span>
+                                            </div>
+                                            <div class="cubes data-mapping-left-cubes">
+                                                <div ng-if="dataList.length" ng-repeat="c in dataList" class="ng-scope" style="margin-bottom: 4px;">
+                                                    <div class="cube form-control" style="height: unset;">
+                                                        <i class="cubeName ng-binding"><img src="lib/adminLTE/img/arrow.png" style="transform: rotate(90deg);">{{c.tableName}}</i>
+                                                        <span ng-repeat="v in c.columns"
+                                                            ng-class="{true:'btn-primary',false:'btn-default'}[checkExist(v.value)]"
+                                                            dnd-draggable="{type: 'column', column: v.value}" dnd-type="'column'"
+                                                            ng-click="toDimension({type: 'column', column: v.value})">
+                                                            {{v.title}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--这是中右侧-->
+                        <div class="col-md-6">
+                            <div class="col-md-12 data-mapping-right">
+                                <label class="col-md-12 data-mapping-right-label">数据配置</label>
+                                <div class="col-md-12 data-mapping-right-binding">
+                                    <i class="fa fa-exchange"></i>
+                                    <span class="ng-binding">&nbsp;&nbsp; 选中项</span>
+                                </div>
+                                <div class="data-mapping-right-tree" ng-class="!onlyView()?'col-md-12':'col-md-12'">
+                                    <div ng-class="curDataset.isVersion!=1?'tree-bg-dragin':''" class="tree"
+                                            style="max-height: 700px; overflow: auto;border: none;margin: 0px;padding: 15px 0 0">
+                                        <ul style="padding-left: 5px;">
+                                            <li class="parent_li">
+                                                <span>
+                                                    <img src="imgs/schema/dimension.png">
+                                                    <b>{{'CONFIG.DATASET.DIMENSION'|translate}}</b>
+                                                </span>
+                                                <img src="imgs/schema/hierarchy_add.png"
+                                                        ng-click="curDataset.data.schema.dimension.push({id:uuid4.generate(),type: 'level', alias: hierarchy, columns: []})"
+                                                        title="{{'CONFIG.DATASET.TIP_ADD_HIERARCHY'|translate}}"
+                                                        style="cursor: pointer" ng-if="!onlyView()"
+                                                />
+                                                <i class="glyphicon glyphicon-plus" ng-click="editDim()"
+                                                    title="{{'COMMON.NEW'|translate}}" ng-if="!onlyView()"></i>
+                                                <ul dnd-list="curDataset.data.schema.dimension"
+                                                    dnd-drop="createNode(item)"
+                                                    dnd-allowed-types="['column','level']">
+                                                    <li class="dndPlaceholder"><span
+                                                            class="sort-highlight btn btn-default btn-xs">+</span></li>
+                                                    <li ng-repeat="o in curDataset.data.schema.dimension"
+                                                        ng-switch="o.type"
+                                                        ng-class="{'level':'parent_li'}[o.type]; {'active': dimMapList[o.column].commonId}">
+                                                        <span ng-switch-when="level" dnd-draggable="o"
+                                                                dnd-type="o.type"
+                                                                dnd-moved="curDataset.data.schema.dimension.splice($index, 1)">
+                                                            <i class="fa fa-caret-down"/>
+                                                            <img src="imgs/schema/hierarchy.png">
+                                                            {{o.alias}}
+                                                        </span>
+                                                        <span ng-switch-when="column" dnd-draggable="o"
+                                                                dnd-type="o.type"
+                                                                dnd-moved="curDataset.data.schema.dimension.splice($index, 1)">
+                                                            <img src="imgs/schema/bullet_blue.png">
+                                                            {{o.alias?o.alias+' ('+o.column+')':o.column}}
+                                                        </span>
+                                                        <i class="fa fa-edit" ng-click="custom(o)"
+                                                            title="{{'CONFIG.DATASET.TIP_EDIT_ALIAS'|translate}}"
+                                                            ng-if="!onlyView()"></i>
+                                                        <i class="fa fa-trash-o"
+                                                            ng-click="toTrash(curDataset.data.schema.dimension,$index)"
+                                                            title="{{'COMMON.DELETE'|translate}}"
+                                                            ng-if="!onlyView()"></i>
+                                                        <i ng-switch-when="column" class="fa fa-exchange"
+                                                            title="{{'CONFIG.DATASET.TIP_SWITCH_TO_MEASURE'|translate}}"
+                                                            ng-click="curDataset.data.schema.dimension.splice($index, 1);curDataset.data.schema.measure.push(o)"
+                                                            ng-if="!onlyView()"></i>
+                                                        <i class="fa fa-font" title="字符" ng-if="o.type!='level'"
+                                                            ng-if="!onlyView()"
+                                                            ng-click="setDataRelated(o,curDataset.id, dimMapList[o.column])"></i>
+                                                        <i class="fa fa-subscript" title="数字" ng-if="o.type!='level'"
+                                                           ng-if="!onlyView()"
+                                                           ng-click="setDataRelated(o,curDataset.id, dimMapList[o.column])"></i>
+                                                        <ul ng-switch-when="level"
+                                                            dnd-list="o.columns"
+                                                            dnd-allowed-types="['column']" dnd-drop="createNode(item)">
+                                                            <li class="dndPlaceholder">
+                                                                <span class="sort-highlight btn btn-default btn-xs">+</span>
+                                                            </li>
+                                                            <li ng-repeat="c in o.columns"
+                                                                ng-class="{'active': dimMapList[c.column].commonId}">
+                                                                <span dnd-draggable="c" dnd-type="c.type"
+                                                                        dnd-moved="o.columns.splice($index, 1)">
+                                                                    <img src="imgs/schema/bullet_blue.png">
+                                                                    {{c.alias?c.alias+' ('+c.column+')':c.column}}
+                                                                </span>
+                                                                <i class="fa fa-edit" ng-click="custom(c)"
+                                                                    ng-if="!onlyView()"
+                                                                    title="{{'CONFIG.DATASET.TIP_EDIT_ALIAS'|translate}}"></i>
+                                                                <i class="fa fa-trash-o" ng-if="!onlyView()"
+                                                                    ng-click="toTrash(o.columns,$index)"
+                                                                    title="{{'COMMON.DELETE'|translate}}"></i>
+                                                                <i class="fa fa-exchange" ng-if="!onlyView()"
+                                                                    title="{{'CONFIG.DATASET.TIP_SWITCH_TO_MEASURE'|translate}}"
+                                                                    ng-click="o.columns.splice($index, 1);curDataset.data.schema.measure.push(c)"></i>
+                                                                <i class="fa fa-gears" title="设置数据关联"
+                                                                    ng-if="!onlyView()"
+                                                                    ng-click="setDataRelated(c,curDataset.id, dimMapList[c.column])"></i>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <ul style="padding-left: 5px">
+                                            <li class="parent_li">
+                                                <span>
+                                                    <img src="imgs/schema/measure.png">
+                                                    <b>{{'CONFIG.DATASET.MEASURE'|translate}}</b>
+                                                </span>
+                                                <i class="glyphicon glyphicon-plus" ng-click="editMea()"
+                                                    title="{{'COMMON.NEW'|translate}}" ng-if="!onlyView()"></i>
+                                                <ul dnd-list="curDataset.data.schema.measure"
+                                                    dnd-allowed-types="['column']" dnd-drop="createNode(item)">
+                                                    <li class="dndPlaceholder"><span
+                                                            class="sort-highlight btn btn-default btn-sm">+</span>
+                                                    </li>
+                                                    <li ng-repeat="o in curDataset.data.schema.measure">
+                                                        <span dnd-draggable="o" dnd-type="o.type"
+                                                                dnd-moved="curDataset.data.schema.measure.splice($index, 1)">
+                                                            <img src="imgs/schema/bullet_red.png">
+                                                            {{o.alias?o.alias+'('+o.column+')':o.column}}
+                                                        </span>
+                                                        <i class="fa fa-edit" ng-init="show=false" ng-click="show=true"
+                                                            title="{{'CONFIG.DATASET.TIP_EDIT_ALIAS'|translate}}"
+                                                            ng-if="!onlyView()">
+                                                            <input ng-show="show" type="text" ng-model="o.alias"
+                                                                    ng-blur="show=false"/></i>
+                                                        <i class="fa fa-trash-o"
+                                                            ng-click="toTrash(curDataset.data.schema.measure,$index)"
+                                                            title="{{'COMMON.DELETE'|translate}}"
+                                                            ng-if="!onlyView()"></i>
+                                                        <i class="fa fa-exchange"
+                                                            title="{{'CONFIG.DATASET.TIP_SWITCH_TO_DIMENSION'|translate}}"
+                                                            ng-click="measureToDimension($index, o);"
+                                                            ng-if="!onlyView()"></i>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <ul style="padding-left: 5px">
+                                            <li class="parent_li">
+                                                <span>
+                                                    <img src="imgs/schema/measure2.png"/>
+                                                    <b>{{'CONFIG.COMMON.CUSTOM_EXPRESSION'|translate}}</b>
+                                                </span>
+                                                <i class="glyphicon glyphicon-plus" ng-click="editExp()"
+                                                    title="{{'COMMON.NEW'|translate}}" ng-if="!onlyView()"></i>
+                                                <ul dnd-list="curDataset.data.expressions" dnd-allowed-types="['exp']">
+                                                    <li class="dndPlaceholder"><span
+                                                            class="sort-highlight btn btn-default btn-sm">+</span>
+                                                    </li>
+                                                    <li ng-repeat="o in curDataset.data.expressions">
+                                                        <span dnd-draggable="o" dnd-type="'exp'"
+                                                                dnd-moved="curDataset.data.expressions.splice($index, 1)"><img
+                                                                src="imgs/schema/bullet_red.png">{{o.alias}}</span>
+                                                        <i class="fa fa-edit" ng-click="editExp(o)"
+                                                            title="{{'COMMON.EDIT'|translate}}" ng-if="!onlyView()"></i>
+                                                        <i class="fa fa-trash-o" ng-click="deleteExp($index)"
+                                                            title="{{'COMMON.DELETE'|translate}}"
+                                                            ng-if="!onlyView()"></i>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <ul style="padding-left: 5px">
+                                            <li class="parent_li">
+                                                <span>
+                                                    <img src="imgs/schema/filter.png"/>
+                                                    <b>{{'COMMON.FILTER_GROUP'|translate}}</b>
+                                                </span>
+                                                <i class="glyphicon glyphicon-plus" ng-click="editFilterGroup()"
+                                                    title="{{'COMMON.NEW'|translate}}" ng-if="!onlyView()"></i>
+                                                <ul dnd-list="curDataset.data.filters"
+                                                    dnd-allowed-types="['filterGroup']">
+                                                    <li class="dndPlaceholder"><span
+                                                            class="sort-highlight btn btn-default btn-sm">+</span>
+                                                    </li>
+                                                    <li ng-repeat="o in curDataset.data.filters">
+                                                        <span dnd-draggable="o" dnd-type="'filterGroup'"
+                                                                dnd-moved="curDataset.data.filters.splice($index, 1)"><img
+                                                                src="imgs/schema/bullet_green.png">{{o.group}}</span>
+                                                        <i class="fa fa-edit" ng-click="editFilterGroup(o)"
+                                                            title="{{'COMMON.EDIT'|translate}}" ng-if="!onlyView()"></i>
+                                                        <i class="fa fa-trash-o" ng-click="deleteFilterGroup($index)"
+                                                            title="{{'COMMON.DELETE'|translate}}"
+                                                            ng-if="!onlyView()"></i>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="row" ng-show="curDataset.isVersion!=1&&!onlyView()">
+                                <div class="col-md-12" ng-show="datasource.name"
+                                        ng-include="datasource.type?('dashboard/getConfigView.do?type=' + datasource.type + '&page=dataset.html'):''"></div>
+                            </div> -->
+                            <!-- <div class="row" ng-show="selects&&curDataset.isVersion!=1" ng-if="!onlyView()">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">
+                                            {{'CONFIG.DATASET.REAL_TIME_INTERVAL'|translate}}
+                                        </label>
+                                        <div class="col-sm-10">
+                                            <input ng-model="curDataset.data.interval" class="form-control"
+                                                    placeholder="{{'CONFIG.DATASET.REAL_TIME_TIP'|translate}}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-sm-12" ng-if="lastTable" style="background-color: white;border-radius: 2px;">
+                            <label class="col-md-12 data-mapping-right-b">&nbsp;&nbsp;当前表： {{lastTable}}</label>
+                            <div class="col-md-12 data-mapping-right-box">
+                                <div table-ctrl id="{{id}}" sql="select * from {{lastTable}}"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--这是最下面-->
+            <div class="box-footer" style="background-color: #505b72;border: none">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="dataset_preview"></div>
+                        </div>
+                    </div>
+             </div>
+
+            <div class="overlay" ng-show="loading">
+                    <i class="fa fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    </div>
+
+<script type="text/ng-template" id="setDataRelated.html">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
+            <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">设置数据关联关系</h4>
+    </div>
+    <div class="modal-body">
+        <div class="dataRelated">
+            {{curDataset.dimension}}
+            <div ng-repeat="list in dataRelatedList">
+                <div class="dataRelated-title">{{list.name}}</div>
+                <label ng-repeat="item in list.dimCommons"
+                        ng-class="{active:activeCommonId==item.commonId}"
+                        ng-click="changeDataRelated(item.commonId)">{{item.commonName}}</label>
+                <!--item.colId&&item.datasetId-->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">{{'COMMON.OK'|translate}}</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">{{'COMMON.CANCEL'|translate}}</button>
+    </div>
+</script>
+<!--这是折叠面板-->
+<script type="text/javascript">
+    // Minimize panel
+    $('.panel-minimize').click(function() {
+        var parent = $(this).closest('.panel');
+
+        parent.find('.panel-body').slideToggle(function() {
+            var panelHeading = parent.find('.panel-heading');
+
+            if(panelHeading.hasClass('min')) {
+                panelHeading.removeClass('min');
+            } else {
+                panelHeading.addClass('min');
+            }
+
+        });
+
+    });
+</script>
+
+<style type="text/css">
+    /*这是上*/
+    @media (min-width: 768px) {
+        .control-label {
+            text-align: right;
+            padding-top: 11px;
+            padding-right: 20px;
+        }
+    }
+    .panel-title {
+        height: 15px;
+    }
+    .panel-default > .panel-heading {
+        background: white;
+    }
+    .panel-default .panel-heading .panel-title {
+        color: #464f63;
+    }
+    .panel-default .panel-options > li > a {
+        font-size: 16px;
+        color: #bdc3d1;
+    }
+
+    .panel-default .panel-options > li > a:hover {
+        color: #464f63 !important;
+    }
+    .form-group-he-du {
+        min-height: 40px;
+    }
+    .zhe-die {
+        padding: 8px 0 0 0!important;
+        border-bottom: #dbdfe6 1px solid!important;
+        min-height: 54px !important;
+        background-color: #505b72!important;
+        border-radius: 2px!important;
+    }
+    .zhe-die-xiala {
+        padding:15px;
+        background-color: #f6f7f8;
+        border-radius: 2px;
+    }
+    .zhe-die-input {
+        padding-left: 10px;
+        padding-right: 40px;
+    }
+    /*这是中间数据区*/
+    .conf-page-body {
+        padding: 0 5px;
+    }
+    .conf-page-body-background {
+        padding: 0 5px;
+        border-radius: 2px;
+        background-color: #505b72;
+    }
+    .conf-page-body-row {
+        border-radius: 2px;
+        background: #505b72;
+    }
+    .conf-page-body-rowlabel {
+        color: white; padding:10px 0 0 10px;
+    }
+    .conf-page-body-fromcontrol {
+        height: auto;background-color: white;min-height: 60px;border: 1px dashed #d2d6de;padding:1px;border-radius: 2px;
+    }
+    .conf-page-body-panel {
+        border-radius:2px;border-left: 0px;border-right: 0px;background-color:transparent;margin: 0!important;
+    }
+    .conf-page-body-fontbold {
+        text-align: center;
+    }
+    .conf-page-body-button {
+        background-color: #464f63;
+    }
+    .conf-page-body-panelbody {
+        text-align: center;background-color: #d8dce3;border-radius: 2px;
+    }
+    .conf-page-body-form {
+        background-color: transparent;
+    }
+    .conf-page-body-label {
+        margin: 0px;color: #464f63;
+    }
+
+
+    /*这是中-左*/
+    .data-mapping-left {
+        padding: 10px;background-color: white;border-radius: 2px;margin-bottom: 20px;
+    }
+    .data-mapping-left-label {
+        margin-bottom: 10px;
+    }
+    .data-mapping-left-control {
+        min-height: 100px;height: auto;padding: 0px;border: none;
+    }
+    .data-mapping-left-binding {
+        background-color: #d8dce3!important;
+        height: 38px!important;
+        line-height: 38px !important;
+        border-radius: 2px!important;
+        color: #696c74!important;
+    }
+    .data-mapping-left-cubes {
+        padding: 4px 0px!important;
+    }
+    /*这是中-右*/
+    .data-mapping-right {
+        padding: 10px;background-color: white;border-radius: 2px;margin-bottom: 20px;
+    }
+    .data-mapping-right-label{
+        margin-bottom: 10px;
+    }
+    .data-mapping-right-binding {
+        background-color: #d8dce3!important;
+        height: 38px!important;
+        line-height: 38px!important;
+        border-radius: 2px!important;
+        padding-left: 15px!important;
+    }
+    .data-mapping-right-tree {
+        border: 1px solid #bdc3d1;border-radius: 2px;margin-top: 4px;min-height: 258px;
+    }
+    .btn-p {
+        background-color: #464f63!important;
+        color: white;
+        border-radius: 2px;
+    }
+    .data-mapping-right-b {
+        background-color: white;line-height: 38px;border-radius: 2px;
+    }
+    .data-mapping-right-box {
+        background-color: white;padding: 0px!important;margin-bottom: 15px;
+    }
+</style>

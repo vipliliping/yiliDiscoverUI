@@ -1,0 +1,43 @@
+<form class="form-horizontal form-index">
+    <div class="row">
+        <div class="form-group col-md-12">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="curWidget.config.option.legendShow"
+                           ng-model="curWidget.config.option.legendShow ? curWidget.config.option.legendShow : false"> {{'NV.EXPLORE.SHOWLEGEND'|translate}}
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label class="col-md-3 control-label">X</label>
+            <div class="col-md-9">
+                <select class="form-control" ng-model="curWidget.config.option.legendX" ng-disabled="!curWidget.config.option.legendShow">
+                    <option value="left">{{'NV.EXPLORE.LEFT'|translate}}</option>
+                    <option value="right">{{'NV.EXPLORE.RIGHT'|translate}}</option>
+                    <option value="center">{{'NV.EXPLORE.CENTER'|translate}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Y</label>
+            <div class="col-md-9">
+                <select class="form-control" ng-model="curWidget.config.option.legendY" ng-disabled="!curWidget.config.option.legendShow">
+                    <option value="top">{{'NV.EXPLORE.TOP'|translate}}</option>
+                    <option value="bottom">{{'NV.EXPLORE.BOTTOM'|translate}}</option>
+                    <option value="center">{{'NV.EXPLORE.CENTER'|translate}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">{{'NV.EXPLORE.ORIENT'|translate}}</label>
+            <div class="col-md-9">
+                <select class="form-control" ng-model="curWidget.config.option.legendOrient" ng-disabled="!curWidget.config.option.legendShow">
+                    <option value="horizontal">{{'NV.EXPLORE.HORIZONTAL'|translate}}</option>
+                    <option value="vertical">{{'NV.EXPLORE.VERTICAL'|translate}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,43 @@
+<div class="col-md-12">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"><!-- 'tabs-right' for right tabs -->
+        <li class="active"><a href="tabs.html#option" data-toggle="tab">选项</a></li>
+        <li><a href="tabs.html#describe" data-toggle="tab">描述</a></li>
+    </ul>
+</div>
+<div class="col-md-12">
+    <div class="tab-content">
+        <div class="tab-pane active" id="option">
+            <form class="form-horizontal form-index">
+                <div class="row">
+                    <div class="col-sm-4">每页个数:</div>
+                    <div class="col-sm-8">
+                        <input ng-model="curWidget.config.option.size" class="form-control" type="text"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">列宽:</div>
+                    <div class="col-sm-8">
+                        <input ng-model="curWidget.config.option.colWidth" class="form-control" type="text"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">显示翻页栏:</div>
+                    <div class="col-sm-8">
+                        <input ng-model="curWidget.config.option.showPage"  type="checkbox"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane" id="describe">
+            <form class="form-horizontal form-index">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <textarea ng-model="curWidget.config.option.describe" class="form-control chartDescribe" placeholder="请输入对图表的描述" style="min-height: 100px;"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

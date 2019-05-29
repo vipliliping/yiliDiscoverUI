@@ -1,0 +1,15 @@
+<div class="btn-group" style="cursor: move;margin: 3px 3px;">
+    <button type="button" class="btn btn-sm" title="{{param.title}}"
+            ng-click="editParam()"
+            ng-class="{true:'btn-primary',false:'btn-default'}[param.values.length>0]">
+        {{param.name}}
+    </button>
+    <button type="button" ng-click="clearParam()" class="btn btn-sm dropdown-toggle"
+            ng-class="{true:'btn-primary',false:'btn-default'}[param.values.length>0]">
+        <span class="fa fa-refresh"></span>
+    </button>
+    <!--<button type="button" ng-click="deleteParam(row,$index)" class="btn btn-sm dropdown-toggle"-->
+            <!--ng-class="{true:'btn-primary',false:'btn-default'}[param.values.length>0]">-->
+        <!--<span class="fa fa-close"></span>-->
+    <!--</button>-->
+</div>

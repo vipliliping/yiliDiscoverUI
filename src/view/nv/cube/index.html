@@ -1,0 +1,733 @@
+<style>
+    .tree li.active .fa-gears {
+        color: #2574ab
+    }
+</style>
+<!-- Content Wrapper. Contains page content -->
+<div id="inner-container" class="content">
+    <div class="people-list ng-scope">
+        <div class="people-options">
+            <form class="ng-pristine ng-valid">
+                <div class="clearfix">
+                    <!--<div class="pull-right">-->
+                    <button type="button" class="btn btn-success" ng-click="newDs()"><i class="fa fa-plus"></i> 新建数据模型
+                    </button>
+                    <button type="submit" ng-show="optFlag=='edit'" ng-click="goToCreateChart()"
+                            class="btn btn-warning pull-right"><i class="fa fa-plus"></i> 以此新建图表
+                    </button>
+                    <!-- <button type="button" class="btn btn-success" ng-click="autoBuildModel()"><i class="fa fa-plus"></i> 选择表新建
+                    </button> -->
+                    <button type="button" class="btn btn-success" ng-click="buildModel()"><i class="fa fa-plus"></i> 图形建模
+                    </button>
+                    <button type="button" class="btn btn-success" ng-click="replaceCols()"><i class="fa fa-plus"></i> 字段切换
+                    </button>
+                    <button type="submit" ng-click="deleteNode()" class="btn btn-danger pull-right"
+                            style="margin-right: 5px" ng-if="!onlyView()">{{'COMMON.DELETE'|translate}}
+                    </button>
+                    <button ng-if="curDataset.data.dataList" style="margin-right: 5px"
+                             type="button" class="btn btn-primary pull-right" ng-click="goEdit()">编辑
+                    </button>
+                    <!--<button type="submit" class="btn btn-warning pull-right"-->
+                    <!--style="margin-right: 5px">{{'COMMON.CANCEL'|translate}}</button>-->
+                    <button type="submit" ng-click="save()" class="btn btn-success pull-right"
+                            style="margin-right: 5px" ng-if="!onlyView()">{{'COMMON.SAVE'|translate}}
+                    </button>
+                    <button type="submit" ng-click="editDemand()" class="btn btn-success pull-right"
+                            style="margin-right: 5px" ng-if="onlyView()">{{'COMMON.DEMAND'|translate}}
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="goToUploadExcel()"><i
+                            class="glyphicon glyphicon-circle-arrow-up"></i> 上传Excel
+                    </button>
+                    <!--</div>-->
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><i class="fa fa-cubes"></i> {{'CONFIG.DATASET.DATASET'|translate}}
+                        <div class="box-tools pull-right">
+                            <!--<i class="fa fa-plus toolbar-icon" ng-click="newDs()" title="{{'COMMON.NEW'|translate}}"></i>&nbsp;&nbsp;-->
+                            <i class="fa fa-copy toolbar-icon" ng-click="copyNode()"
+                               title="{{'COMMON.COPY'|translate}}"></i>&nbsp;&nbsp;
+                            <!--<i class="fa fa-edit toolbar-icon" ng-click="editNode()" title="{{'COMMON.EDIT'|translate}}"></i>&nbsp;&nbsp;
+                            <i class="fa fa-trash-o toolbar-icon"  ng-click="deleteNode()" title="{{'COMMON.DELETE'|translate}}"></i>-->
+                        </div>
+                    </h4>
+                </div>
+                <div class="panel-body" style="overflow: auto;">
+                    <input type="text" class="form-control" placeholder="搜索" ng-model="keywords"
+                           ng-change="searchNode()" title="dsr:kylin ds:Bill">
+                    <div id="dataSetTreeID" js-tree="treeConfig" should-apply="applyModelChanges()" ng-model="treeData"
+                         tree="treeInstance"
+                         tree-events-obj="treeEventsObj"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="panel" ng-show="optFlag == 'new' || optFlag == 'edit'">
+
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        {{curDataset.name}}
+                        <a ng-click="permissionSetting()" class="pull-right" style="cursor: pointer;"> 分享</a>
+                    </h4>
+                    <div class="box-tools pull-right" ng-switch="optFlag">
+                        <!--<span ng-switch-when="edit" class="label label-info">{{'COMMON.EDIT'|translate}}</span>
+                        <span ng-switch-when="new" class="label label-danger">{{'COMMON.NEW'|translate}}</span>-->
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12 form-horizontal">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group"
+                                         ng-class="{'has-error': !(verify.dsName || curDataset.name.length)}">
+                                        <label class="col-sm-2 control-label">{{'CONFIG.DATASET.NAME'|translate}}</label>
+                                        <div class="col-sm-10">
+                                            <input id="DatasetName" ng-model="curDataset.name" class="form-control"
+                                                   ng-disabled="onlyView()"
+                                                   placeholder="{{'CONFIG.DATASET.CATEGORY'|translate}}/{{'CONFIG.DATASET.NAME'|translate}}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">应用图表</label>
+                                        <div class="col-sm-10">
+                                            <div class="chartText"><a style="margin: 3px 3px;"
+                                                                      class="btn btn-sm btn-primary"
+                                                                      ng-repeat="widget in widgetList"
+                                                                      ng-click="openWidget(widget.id)">{{widget.categoryName}}/{{widget.name}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">简介</label>
+                                        <div class="col-sm-10">
+                                            <textarea ng-if="!onlyView()" ng-model="curDataset.data.abstruct"
+                                                      class="form-control input-sm"
+                                                      placeholder="简介">
+                                            <!--{{curDataset.curDataset}}-->
+                                            </textarea>
+                                            <textarea ng-if="onlyView()&&curDataset.data.abstruct"
+                                                      ng-model="curDataset.data.abstruct"
+                                                      class="form-control input-sm onlyread" disabled="disabled">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label">数据配置</label>
+                                <div class="col-md-10" ng-show="curDataset.isVersion!=1" ng-if="!onlyView()">
+                                    <div class="form-control"
+                                         style="min-height: 200px;height: auto;padding: 0px; border: 2px dashed #d2d6de"
+                                         ng-if="!onlyView()">
+                                        <select id="cubeSelects" multiple class="form-control">
+                                            <option ng-repeat="o in selects">{{o}}{{replaceColsData[o]?'(' + replaceColsData[o].tableCols+')':''}}</option>
+                                        </select>
+                                        <div class="form-group" style="margin: 10px 0;">
+                                            <button class="btn btn-success" ng-click="toAllDimension()">增加为维度</button>
+                                            <button class="btn btn-success" ng-click="toAllValue()">增加为指标</button>
+                                            <button class="btn btn-warning" ng-click="clearSelected()">清空选中项</button>
+                                        </div>
+                                        <span ng-repeat="o in selects"
+                                              class="btn btn-sm" style="margin: 3px 3px;"
+                                              ng-class="{true:'btn-primary',false:'btn-default'}[checkExist(o)]"
+                                              dnd-draggable="{type: 'column', column: o}" dnd-type="'column'"
+                                              ng-click="toDimension({type: 'column', column: o})">{{o}}{{replaceColsData[o]?'(' + replaceColsData[o].tableCols+')':''}}</span>
+                                    </div>
+                                    <!--<div class="form-control"-->
+                                    <!--style="overflow-x:scroll;min-height: 200px;height: auto;padding: 0px; border: 2px dashed #d2d6de">-->
+                                    <!--<table border="1" >-->
+                                    <!--<tr bgcolor="#cccccc">-->
+                                    <!--<th ng-repeat="x in selects">{{x}}</th>-->
+                                    <!--</tr>-->
+
+                                    <!--</table>-->
+
+                                    <!--&lt;!&ndash;<span ng-repeat="o in selects"&ndash;&gt;-->
+                                    <!--&lt;!&ndash;class="btn btn-sm" style="margin: 3px 3px;"&ndash;&gt;-->
+                                    <!--&lt;!&ndash;ng-class="{true:'btn-primary',false:'btn-default'}[checkExist(o)]"&ndash;&gt;-->
+                                    <!--&lt;!&ndash;dnd-draggable="{type: 'column', column: o}" dnd-type="'column'"&ndash;&gt;-->
+                                    <!--&lt;!&ndash;ng-click="toDimension({type: 'column', column: o})">{{o}}</span>&ndash;&gt;-->
+                                    <!--</div>-->
+                                    <!--{{widgetList}}-->
+                                </div>
+                                <label class="col-sm-2 control-label">数据配置</label>
+                                <div ng-class="!onlyView()?'col-md-10':'col-md-10'">
+                                    <div ng-class="curDataset.isVersion!=1?'tree-bg-dragin':''" class="tree"
+                                         style="max-height: 700px; overflow: auto;">
+                                        <div style="padding-left: 15px"><i class="fa fa-trash-o" aria-hidden="true" ng-click="deleteTree()"></i></div>
+                                        <ul style="padding-left: 5px">
+                                            <li class="parent_li">
+                                                <span>
+                                                    <img src="imgs/schema/dimension.png">
+                                                    <b>{{'CONFIG.DATASET.DIMENSION'|translate}}</b>
+                                                </span>
+                                                <img src="imgs/schema/hierarchy_add.png"
+                                                     ng-click="curDataset.data.schema.dimension.push({id:uuid4.generate(),type: 'level', alias: hierarchy, columns: []})"
+                                                     title="{{'CONFIG.DATASET.TIP_ADD_HIERARCHY'|translate}}"
+                                                     style="cursor: pointer" ng-if="!onlyView()"
+                                                />
+                                                <i class="glyphicon glyphicon-plus" ng-click="editDim()"
+                                                   title="{{'COMMON.NEW'|translate}}" ng-if="!onlyView()"></i>
+                                                <ul dnd-list="curDataset.data.schema.dimension"
+                                                    dnd-drop="createNode(item)"
+                                                    dnd-allowed-types="['column','level']">
+                                                    <li class="dndPlaceholder"><span
+                                                            class="sort-highlight btn btn-default btn-xs">+</span></li>
+                                                    <li ng-repeat="o in curDataset.data.schema.dimension"
+                                                        ng-switch="o.type"
+                                                        ng-class="{'level':'parent_li'}[o.type]; {'active': dimMapList[o.column].commonId}">
+                                                        <span ng-switch-when="level" dnd-draggable="o"
+                                                              dnd-type="o.type"
+                                                              dnd-moved="curDataset.data.schema.dimension.splice($index, 1)">
+                                                            <i class="fa fa-caret-down"/>
+                                                            <img src="imgs/schema/hierarchy.png">
+                                                            {{o.alias}}
+                                                        </span>
+                                                        <span ng-switch-when="column" dnd-draggable="o"
+                                                              dnd-type="o.type"
+                                                              dnd-moved="curDataset.data.schema.dimension.splice($index, 1)">
+                                                            <img src="imgs/schema/bullet_blue.png">
+                                                            {{o.alias?o.alias+' ('+o.column+')':o.column}}
+                                                        </span>
+                                                        <i class="fa fa-edit" ng-click="custom(o)"
+                                                           title="{{'CONFIG.DATASET.TIP_EDIT_ALIAS'|translate}}"
+                                                           ng-if="!onlyView()"></i>
+                                                        <i class="fa fa-trash-o"
+                                                           ng-click="toTrash(curDataset.data.schema.dimension,$index)"
+                                                           title="{{'COMMON.DELETE'|translate}}"
+                                                           ng-if="!onlyView()"></i>
+                                                        <i ng-switch-when="column" class="fa fa-exchange"
+                                                           title="{{'CONFIG.DATASET.TIP_SWITCH_TO_MEASURE'|translate}}"
+                                                           ng-click="curDataset.data.schema.dimension.splice($index, 1);curDataset.data.schema.measure.push(o)"
+                                                           ng-if="!onlyView()"></i>
+                                                        <i class="fa fa-font" title="字符" ng-if="o.style=='string'||!o.style"
+                                                           ng-click="transToNum(o)"></i>
+                                                        <i class="fa fa-subscript" title="数字" ng-if="o.style=='number'"
+                                                           ng-click="transToStr(o)"></i>
+                                                        <ul ng-switch-when="level"
+                                                            dnd-list="o.columns"
+                                                            dnd-allowed-types="['column']" dnd-drop="createNode(item)">
+                                                            <li class="dndPlaceholder">
+                                                                <span class="sort-highlight btn btn-default btn-xs">+</span>
+                                                            </li>
+                                                            <li ng-repeat="c in o.columns"
+                                                                ng-class="{'active': dimMapList[c.column].commonId}">
+                                                                <span dnd-draggable="c" dnd-type="c.type"
+                                                                      dnd-moved="o.columns.splice($index, 1)">
+                                                                    <img src="imgs/schema/bullet_blue.png">
+                                                                    {{c.alias?c.alias+' ('+c.column+')':c.column}}
+                                                                </span>
+                                                                <i class="fa fa-edit" ng-click="custom(c)"
+                                                                   ng-if="!onlyView()"
+                                                                   title="{{'CONFIG.DATASET.TIP_EDIT_ALIAS'|translate}}"></i>
+                                                                <i class="fa fa-trash-o" ng-if="!onlyView()"
+                                                                   ng-click="toTrash(o.columns,$index)"
+                                                                   title="{{'COMMON.DELETE'|translate}}"></i>
+                                                                <i class="fa fa-exchange" ng-if="!onlyView()"
+                                                                   title="{{'CONFIG.DATASET.TIP_SWITCH_TO_MEASURE'|translate}}"
+                                                                   ng-click="o.columns.splice($index, 1);curDataset.data.schema.measure.push(c)"></i>
+                                                                <i class="fa fa-font" title="字符" ng-if="o.style=='string'"
+                                                                   ng-click="transToNum(o)"></i>
+                                                                <i class="fa fa-subscript" title="数字" ng-if="o.style=='number'"
+                                                                   ng-click="transToStr(o)"></i>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <ul style="padding-left: 5px">
+                                            <li class="parent_li">
+                                                <span>
+                                                    <img src="imgs/schema/measure.png">
+                                                    <b>{{'CONFIG.DATASET.MEASURE'|translate}}</b>
+                                                </span>
+                                                <i class="glyphicon glyphicon-plus" ng-click="editMea()"
+                                                   title="{{'COMMON.NEW'|translate}}" ng-if="!onlyView()"></i>
+                                                <ul dnd-list="curDataset.data.schema.measure"
+                                                    dnd-allowed-types="['column']" dnd-drop="createNode(item)">
+                                                    <li class="dndPlaceholder"><span
+                                                            class="sort-highlight btn btn-default btn-sm">+</span>
+                                                    </li>
+                                                    <li ng-repeat="o in curDataset.data.schema.measure">
+                                                        <span dnd-draggable="o" dnd-type="o.type"
+                                                              dnd-moved="curDataset.data.schema.measure.splice($index, 1)">
+                                                            <img src="imgs/schema/bullet_red.png">
+                                                            {{o.alias?o.alias+'('+o.column+')':o.column}}
+                                                        </span>
+                                                        <i class="fa fa-edit" ng-init="show=false" ng-click="show=true"
+                                                           title="{{'CONFIG.DATASET.TIP_EDIT_ALIAS'|translate}}"
+                                                           ng-if="!onlyView()">
+                                                            <input ng-show="show" type="text" ng-model="o.alias"
+                                                                   ng-blur="show=false"/></i>
+                                                        <i class="fa fa-trash-o"
+                                                           ng-click="toTrash(curDataset.data.schema.measure,$index)"
+                                                           title="{{'COMMON.DELETE'|translate}}"
+                                                           ng-if="!onlyView()"></i>
+                                                        <i class="fa fa-exchange"
+                                                           title="{{'CONFIG.DATASET.TIP_SWITCH_TO_DIMENSION'|translate}}"
+                                                           ng-click="measureToDimension($index, o);"
+                                                           ng-if="!onlyView()"></i>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <ul style="padding-left: 5px">
+                                            <li class="parent_li">
+                                                <span>
+                                                    <img src="imgs/schema/measure2.png"/>
+                                                    <b>{{'CONFIG.COMMON.CUSTOM_EXPRESSION'|translate}}</b>
+                                                </span>
+                                                <i class="glyphicon glyphicon-plus" ng-click="editExp()"
+                                                   title="{{'COMMON.NEW'|translate}}" ng-if="!onlyView()"></i>
+                                                <ul dnd-list="curDataset.data.expressions" dnd-allowed-types="['exp']">
+                                                    <li class="dndPlaceholder"><span
+                                                            class="sort-highlight btn btn-default btn-sm">+</span>
+                                                    </li>
+                                                    <li ng-repeat="o in curDataset.data.expressions">
+                                                        <span dnd-draggable="o" dnd-type="'exp'"
+                                                              dnd-moved="curDataset.data.expressions.splice($index, 1)"><img
+                                                                src="imgs/schema/bullet_red.png">{{o.alias}}</span>
+                                                        <i class="fa fa-edit" ng-click="editExp(o)"
+                                                           title="{{'COMMON.EDIT'|translate}}" ng-if="!onlyView()"></i>
+                                                        <i class="fa fa-trash-o" ng-click="deleteExp($index)"
+                                                           title="{{'COMMON.DELETE'|translate}}"
+                                                           ng-if="!onlyView()"></i>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <ul style="padding-left: 5px">
+                                            <li class="parent_li">
+                                                <span>
+                                                    <img src="imgs/schema/filter.png"/>
+                                                    <b>{{'COMMON.FILTER_GROUP'|translate}}</b>
+                                                </span>
+                                                <i class="glyphicon glyphicon-plus" ng-click="editFilterGroup()"
+                                                   title="{{'COMMON.NEW'|translate}}" ng-if="!onlyView()"></i>
+                                                <ul dnd-list="curDataset.data.filters"
+                                                    dnd-allowed-types="['filterGroup']">
+                                                    <li class="dndPlaceholder"><span
+                                                            class="sort-highlight btn btn-default btn-sm">+</span>
+                                                    </li>
+                                                    <li ng-repeat="o in curDataset.data.filters">
+                                                        <span dnd-draggable="o" dnd-type="'filterGroup'"
+                                                              dnd-moved="curDataset.data.filters.splice($index, 1)"><img
+                                                                src="imgs/schema/bullet_green.png">{{o.group}}</span>
+                                                        <i class="fa fa-edit" ng-click="editFilterGroup(o)"
+                                                           title="{{'COMMON.EDIT'|translate}}" ng-if="!onlyView()"></i>
+                                                        <i class="fa fa-trash-o" ng-click="deleteFilterGroup($index)"
+                                                           title="{{'COMMON.DELETE'|translate}}"
+                                                           ng-if="!onlyView()"></i>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="demandList.length">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">需求</label>
+                                        <div class="col-sm-10">
+                                            <div ng-if="demandList.length">
+                                                <table class="table table-bordered table-inverse nomargin">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>需求名称</th>
+                                                        <th>解释</th>
+                                                        <th>状态</th>
+                                                        <th class="text-center">操作</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <!--状态为1是未解决
+                                                        状态为0是待用户反馈
+                                                        状态为-1是已解决-->
+                                                    <tbody>
+                                                    <tr ng-repeat="demand in demandList">
+                                                        <td>
+                                                            <span>{{demand.name}}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span>{{demand.explaination}}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span ng-if="demand.status == 1">未解决</span>
+                                                            <span ng-if="demand.status == 0">待用户反馈</span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-success"
+                                                                    ng-click="updateStatus(demand.id,-1)"
+                                                                    ng-if="onlyView() && demand.option == 1">已解决
+                                                            </button>
+                                                            <button class="btn btn-danger" ng-click="updateStatus(demand.id,1)"
+                                                                    ng-if="onlyView() && demand.option == 1">未解决
+                                                            </button>
+                                                            <button class="btn btn-success" ng-click="updateStatus(demand.id,0)"
+                                                                    ng-if="!onlyView() && demand.status == 1">提交用户反馈
+                                                            </button>
+
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!--{{datasourceList}}-->
+                                <div class="col-md-12" ng-show="curDataset.isVersion!=1&&!onlyView()">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">{{'CONFIG.DATASET.DATASOURCE'|translate}}</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" ng-model="datasource"
+                                                    ng-change="changeDs()"
+                                                    ng-options="d as d.name+' ('+d.type+')' for d in datasourceShowList"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-repeat="alert in alerts">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <div uib-alert ng-class="'alert-' + (alert.type || 'warning')"
+                                         close="alerts.splice($index, 1)">{{alert.msg}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="curDataset.isVersion!=1&&!onlyView()">
+                                <div class="col-md-12" ng-show="datasource.name"
+                                     ng-include="datasource.type?('dashboard/getConfigView.do?type=' + datasource.type + '&page=dataset.html'):''"></div>
+                            </div>
+                            <!--<div>{{datasource.type?('dashboard/getConfigView.do?type=' + datasource.type + '&page=dataset.html'):''}}</div>-->
+                            <div class="row" ng-show="curDataset.isVersion!=1&&!onlyView()">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-2"
+                                             ng-show="curDataset.isVersion!=1&&!onlyView() && datasource.name && datasource.type=='kylin'">
+                                            <button type="button" class="btn btn-block btn-success"
+                                                    ng-click="getSql()">获取SQL
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-2" ng-class="{'col-sm-offset-2': datasource.type!='kylin'}">
+                                            <button type="button" class="btn btn-block btn-success"
+                                                    ng-click="loadData()">{{'CONFIG.DATASET.LOAD_DATA'|translate}}
+                                            </button>
+                                        </div>
+                                        <!--<div class="col-sm-3">
+                                            <button type="button" class="btn btn-block btn-danger"
+                                                    ng-click="loadAggregateData()">读取所有数据(!!!可能会很慢,请谨慎操作)
+                                            </button>
+                                        </div>-->
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-block btn-success"
+                                                    ng-click="preview()">预览
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-block btn-success"
+                                                    ng-click="openSqlEditModal()">打开sql编辑窗口
+                                            </button>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-5 col-md-3 col-lg-2">
+                                            <label>
+                                                <input type="checkbox" ng-model="loadFromCache">
+                                                {{'CONFIG.WIDGET.FROM_CACHE'|translate}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="selects&&curDataset.isVersion!=1" ng-if="!onlyView()">
+                                <label class="col-sm-2 control-label">当前表： {{lastTable}}</label>
+                                <div class="col-md-10">
+                                    <div table-ctrl id="{{datasource.id}}" sql="{{tableSql}}"></div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="selects&&curDataset.isVersion!=1" ng-if="!onlyView()">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">
+                                            {{'CONFIG.DATASET.REAL_TIME_INTERVAL'|translate}}
+                                        </label>
+                                        <div class="col-sm-10">
+                                            <input ng-model="curDataset.data.interval" class="form-control"
+                                                   placeholder="{{'CONFIG.DATASET.REAL_TIME_TIP'|translate}}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="aggregateData">
+                                <table class="table table-bordered table-inverse nomargin">
+                                    <thead>
+                                    <tr>
+                                        <th style="cursor: pointer" ng-click="checkDimension(column.name)"
+                                            ng-repeat="column in aggregateData.columnList">{{column.name}}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!--{{aggregateData}}-->
+                                    <tr ng-repeat="dataLine in aggregateData.data">
+                                        <td ng-repeat="data in dataLine track by $index"
+                                            ng-class="{'-':'danger'}[data]">
+                                            {{data}}
+                                        </td>
+                                        <!--ng-class="{'#NULL':'danger'}[data]">-->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-2 control-label">数据过滤</label>
+                                <div class="col-md-10">
+                                    <div>
+                                        <table class="table table-bordered table-inverse nomargin">
+                                            <thead>
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>用户信息</th>
+                                                <th>对应字段</th>
+                                                <th>操作</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr class="ng-scope" ng-repeat="item in curDataset.data.backendFilters track by $index">
+                                                <td class="ng-binding">
+                                                    {{$index + 1}}
+                                                </td>
+                                                <td class="ng-binding">
+                                                    <select class="form-control" name="operation" ng-model="item.sessionKey">
+                                                        <option value ="{{key}}" ng-repeat="(key, value) in userInfo track by $index">{{value}}</option>
+                                                    </select>
+                                                </td>
+                                                <td class="ng-binding">
+                                                    <select class="form-control" name="operation" ng-model="item.cols">
+                                                        <option value ="{{item.column}}" ng-repeat="item in filterCols track by $index">{{item.column}}</option>
+                                                    </select>
+                                                </td>
+                                                <td class="ng-binding">
+                                                    <button type="button" class="btn btn-danger"
+                                                            ng-click="deleteFilter($index)">删除
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <div style="margin-top: 10px">
+                                            <button type="button" class="btn btn-success"
+                                                    ng-click="addFilter()">添加
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <label class="col-md-2 control-label">参数和可选值</label>
+                                <div class="col-md-10">
+                                    <div>
+                                        <table class="table table-bordered table-inverse nomargin">
+                                            <thead>
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>参数</th>
+                                                <th>可取值</th>
+                                                <!--<th>单选</th>-->
+                                                <!--<th>多选</th>-->
+                                                <th>操作</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr class="ng-scope" ng-repeat="item in curDataset.data.schema.paramList track by $index">
+                                                <td class="ng-binding">
+                                                    {{$index + 1}}
+                                                </td>
+                                                <td class="ng-binding">
+                                                    <input type="text" class="form-control" placeholder="名字" ng-model="item.column">
+                                                    <input type="radio" ng-model="item.selector" value="single"/>单选
+                                                    <input type="radio" ng-model="item.selector" value="multiple"/>多选
+                                                </td>
+                                                <td class="ng-binding">
+                                                    <textarea class="form-control" ng-model="showParamData[$index]"></textarea>
+                                                </td>
+                                                <!--<td class="ng-binding">-->
+                                                    <!--<input type="radio" value="single" name="{{$index}}" ng-model="item.selectType">-->
+                                                <!--</td>-->
+                                                <!--<td class="ng-binding">-->
+                                                    <!--<input type="radio" value="multi" name="{{$index}}" ng-model="item.selectType">-->
+                                                <!--</td>-->
+                                                <td class="ng-binding">
+                                                    <button type="button" class="btn btn-danger"
+                                                            ng-click="deleteParam($index)">删除
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <div style="margin-top: 10px">
+                                            <button type="button" class="btn btn-success"
+                                                    ng-click="addParam()">添加
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <label class="col-md-2 control-label">维度计算属性</label>
+                                <div class="col-md-10">
+                                    <table class="table table-bordered table-inverse nomargin">
+                                        <thead>
+                                        <tr>
+                                            <th style="width:50px">序号</th>
+                                            <th style="width:150px">名称</th>
+                                            <!--<th>预计算</th>-->
+                                            <!--<th>计算公式</th>-->
+                                            <th>计算</th>
+                                            <!--<th>依赖项</th>-->
+                                            <!--<th>操作</th>-->
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="ng-scope" ng-repeat="item in curDataset.data.schema.computedDimension track by $index">
+                                            <td class="ng-binding">
+                                                {{$index + 1}}
+                                            </td>
+                                            <td class="ng-binding">
+                                                <input type="text" class="form-control" placeholder="名字" ng-model="item.column">
+                                                <input type="radio" ng-model="item.aggType" value="sum"/>数
+                                                <input type="radio" ng-model="item.aggType" value="string"/>非数
+                                                <a class="btn-danger" ng-click="deleteComputed($index)">删除</a>
+                                            </td>
+                                            <td class="ng-binding">
+                                                <label>预计算</label>
+                                                <textarea class="form-control"  ng-model="item.preCalc"></textarea>
+                                                <label>计算</label>
+                                                <textarea class="form-control" ng-model="item.formula"></textarea>
+                                            </td>
+                                            <!--<td class="ng-binding">-->
+                                                <!--<input type="text"  ng-model="showDependOn[$index]">-->
+                                            <!--</td>-->
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div style="margin-top: 10px">
+                                        <button type="button" class="btn btn-success"
+                                                ng-click="addComputed()">添加
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <label class="col-md-2 control-label">指标计算属性</label>
+                                <div class="col-md-10">
+                                    <table class="table table-bordered table-inverse nomargin">
+                                        <thead>
+                                        <tr>
+                                            <th style="width:50px">序号</th>
+                                            <th style="width:150px">名称</th>
+                                            <!--<th>预计算</th>-->
+                                            <!--<th>计算公式</th>-->
+                                            <th>计算</th>
+                                            <!--<th>依赖项</th>-->
+                                            <!--<th>操作</th>-->
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="ng-scope" ng-repeat="item in curDataset.data.schema.computed track by $index">
+                                            <td class="ng-binding">
+                                                {{$index + 1}}
+                                            </td>
+                                            <td class="ng-binding">
+                                                <input type="text" class="form-control" placeholder="名字" ng-model="item.column">
+                                                <input type="radio" ng-model="item.aggType" value="sum"/>数
+                                                <input type="radio" ng-model="item.aggType" value="string"/>非数
+                                                <a type="button" class="btn-danger" ng-click="deleteValueComputed($index)">删除</a>
+                                            </td>
+                                            <!--<td class="ng-binding">-->
+                                            <!--<textarea class="form-control"  ng-model="item.preCalc"></textarea>-->
+                                            <!--</td>-->
+                                            <!--<td class="ng-binding">-->
+                                            <!--<textarea class="form-control" ng-model="item.formula"></textarea>-->
+                                            <!--</td>-->
+                                            <td class="ng-binding">
+                                                <label>预计算</label>
+                                                <textarea class="form-control"  ng-model="item.preCalc"></textarea>
+                                                <label>计算</label>
+                                                <textarea class="form-control" ng-model="item.formula"></textarea>
+                                            </td>
+                                            <!--<td class="ng-binding">-->
+                                            <!--<input type="text"  ng-model="showDependOn[$index]">-->
+                                            <!--</td>-->
+                                            <!--<td class="ng-binding">-->
+                                            <!--<button type="button" class="btn btn-danger"-->
+                                            <!--ng-click="deleteValueComputed($index)">删除-->
+                                            <!--</button>-->
+                                            <!--</td>-->
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div style="margin-top: 10px">
+                                        <button type="button" class="btn btn-success"
+                                                ng-click="addValueComputed()">添加
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="dataset_preview"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-footer-->
+                <div class="overlay" ng-show="loading">
+                    <i class="fa fa-spinner fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="setDataRelated.html">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
+            <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">设置数据关联关系</h4>
+    </div>
+    <div class="modal-body">
+        <div class="dataRelated">
+            {{curDataset.dimension}}
+            <div ng-repeat="list in dataRelatedList">
+                <div class="dataRelated-title">{{list.name}}</div>
+                <label ng-repeat="item in list.dimCommons"
+                       ng-class="{active:activeCommonId==item.commonId}"
+                       ng-click="changeDataRelated(item.commonId)">{{item.commonName}}</label>
+                <!--item.colId&&item.datasetId-->
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">{{'COMMON.OK'|translate}}</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">{{'COMMON.CANCEL'|translate}}</button>
+    </div>
+</script>

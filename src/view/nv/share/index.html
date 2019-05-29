@@ -1,0 +1,192 @@
+<style>
+    .mainpanel {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .contentpanel {
+        position: absolute;
+        top: 65px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .people-list .people-options {
+        margin-bottom: 5px;
+    }
+
+    span.role-item {
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 5px;
+        border-radius: 4px;
+        margin: 0 5px 5px 0;
+        cursor: default;
+    }
+
+    span.role-item button {
+        border: 0;
+        background-color: transparent;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        width: 10px;
+    }
+</style>
+<!-- Content Wrapper. Contains page content -->
+<div id="inner-container" class="flex-col content"
+     style="position:absolute;top:10px;left:10px;right:10px;bottom:0;overflow: hidden">
+    <div class="row flex flex-row">
+        <div class="flex1 flex-col" style="margin-right: 10px;">
+            <dov class="flex1" style="overflow: auto">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h4 class="panel-title ng-binding"><i class="fa fa-share-alt"></i>
+                            {{'CONFIG.SHARE_RES.YOUR_RES'|translate}}</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div js-tree="treeConfig" ng-model="resList"
+                             tree="treeInstance" tree-events="changed:changed;">
+                        </div>
+                    </div>
+                </div>
+            </dov>
+        </div>
+        <div class="flex3 flex-col">
+            <div class="people-list ng-scope">
+                <div class="people-options">
+                    <div class="input-group">
+                        <span class="input-group-addon">{{'CONFIG.WIDGET.FIND'|translate}}</span>
+                        <input type="text" class="form-control" ng-model="roleKeyword" placeholder="请输入角色名...">
+                    </div>
+                </div>
+            </div>
+            <div class="flex1" style="overflow: auto">
+                <div class="panel panel-profile list-view dropable panel panel-profile list-view"
+                     ng-repeat="role in roleList | filter:{roleName:roleKeyword}"
+                     roleId="{{role.roleId}}">
+                    <div class="panel-heading" style="cursor: pointer"
+                         ng-click="getDataset(role.roleId)">
+                        <div class="media">
+                            <div class="media-left">
+                                <a>
+                                    <img class="media-object img-circle" src="imgs/user-male-circle-blue-128.png"
+                                         alt="">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <!--<div>ng-click="changeState(role.roleId)"</div>-->
+                                <h4 class="media-heading"><span class="glyphicon glyphicon-user"></span>{{role.roleName}}
+                                    <i class="fa fa-angle-double-up" style="margin-left: 10px;"
+                                       ng-class="{true:'fa-angle-double-down',false:'fa-angle-double-up'}[activeId == role.roleId]"></i>
+                                </h4>
+                            </div>
+                        </div><!-- media -->
+                        <!--<ul class="panel-options">
+                            <li><a class="tooltips" href="" title="" data-original-title="View Options"><i class="glyphicon glyphicon-option-vertical"></i></a></li>
+                        </ul>-->
+                    </div>
+                    <div class="panel-body people-info" ng-show="activeId == role.roleId">
+                        <div class="row">
+                            <div ng-if="!getResListByRoleId(role.roleId,'board').length &&
+                                        !getResListByRoleId(role.roleId,'dataset').length &&
+                                        !getResListByRoleId(role.roleId,'widget').length &&
+                                        !getResListByRoleId(role.roleId,'mind').length">暂无分享信息
+                            </div>
+                            <div class="col-sm-12" data-resType="board"
+                                 ng-if="getResListByRoleId(role.roleId,'board').length>0">
+                                <div class="info-group">
+                                    <label><span ng-class="title">数据主题:</span></label>
+                                    <span ng-repeat="res in getResListByRoleId(role.roleId,'board')" class="role-item">
+                                        {{res.text}}
+                                        <button title="点击删除"
+                                                ng-click="deleteResInRoleGroup(role.roleId,res.resId,res.type);">
+                                            <i class="fa fa-trash"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12" data-resType="dataset"
+                                 ng-if="getResListByRoleId(role.roleId,'dataset').length>0">
+                                <div class="info-group">
+                                    <label><span ng-class="title">数据模型:</span></label>
+                                    <span ng-repeat="res in getResListByRoleId(role.roleId,'dataset')"
+                                          class="role-item">
+                                        {{res.text}}
+                                        <button title="点击删除"
+                                                ng-click="deleteResInRoleGroup(role.roleId,res.resId,res.type);">
+                                            <i class="fa fa-trash"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12" data-resType="widget"
+                                 ng-if="getResListByRoleId(role.roleId,'widget').length>0">
+                                <div class="info-group">
+                                    <label><span ng-class="title">数据图表:</span></label>
+                                    <span ng-repeat="res in getResListByRoleId(role.roleId,'widget')" class="role-item">
+                                        {{res.text}}
+                                        <button title="点击删除"
+                                                ng-click="deleteResInRoleGroup(role.roleId,res.resId,res.type);">
+                                            <i class="fa fa-trash"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12" data-resType="mind"
+                                 ng-if="getResListByRoleId(role.roleId,'mind').length>0">
+                                <div class="info-group">
+                                    <label><span ng-class="title">脑图:</span></label>
+                                    <span ng-repeat="res in getResListByRoleId(role.roleId,'mind')" class="role-item">
+                                        {{res.text}}
+                                        <button title="点击删除"
+                                                ng-click="deleteResInRoleGroup(role.roleId,res.resId,res.type);">
+                                            <i class="fa fa-trash"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div><!-- row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 {{selectedRoleId!=null?'show':'hide'}}">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <div class="input-group">
+                        <span class="input-group-addon">{{'CONFIG.WIDGET.FIND'|translate}}</span>
+                        <input type="text" class="form-control" ng-model="userKeyword" placeholder="请输入用户名...">
+                    </div>
+                </div>
+                <div class="panel-body" style="height: 530px; overflow: auto;">
+                    <style>
+                        .userSingle {
+                            border: solid 1px grey;
+                            margin-bottom: 3px;
+                            line-height: 30px;
+                            padding-left: 10px;
+                        }
+                    </style>
+                    <ul class="media-list user-list">
+                        <li ng-repeat="user in selectedUserList | filter:{userName:userKeyword}" class="media"
+                            userId="{{user.userId}}">
+                            <div class="media-left">
+                                <a href="people-directory.html#">
+                                    <img class="media-object img-circle" src="imgs/user6.png" alt="">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{user.userName}}</h4>
+                                <!--<span>5,323</span> Followers-->
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</div>

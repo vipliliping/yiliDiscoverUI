@@ -1,0 +1,75 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="close()">
+        <span aria-hidden="true">×</span></button>
+    <h4 class="modal-title">{{'CONFIG.DASHBOARD.PARAM'|translate}}</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12" ng-repeat="alert in alerts">
+            <div uib-alert ng-class="'alert-' + (alert.type || 'warning')"
+                 close="alerts.splice($index, 1)">{{alert.msg}}
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 10px">
+        <div class="col-md-12 form-horizontal">
+            <div class="input-group">
+                <span class="input-group-addon">{{'CONFIG.DASHBOARD.PARAM_NAME'|translate}}</span>
+                <input type="text" class="form-control" ng-model="param.name">
+            </div>
+        </div>
+        <br/>
+    </div>
+    <div class="row" style="margin-bottom: 10px">
+        <div class="col-md-5">
+            <div class="cubeTree">
+                <div class="title"><i class="fa fa-cube"></i><span>{{'CONFIG.DASHBOARD.CUBE_TREE'|translate}}</span></div>
+                <div class="cubes">
+                    <div ng-if="boardDataset.length" ng-repeat="c in boardDataset">
+                        <div class="cube" ng-click="foldCube(c, $event)">
+                            <i class="cubeName"><img src="lib/adminLTE/img/arrow.png">{{c.name}}</i>
+                            <span ng-repeat="v in c.columns"
+                                  ng-click="add(c, v)"
+                                  data-column="{{v.column}}" ng-style="{height:v.type==='level'?'unset':''}">
+                                {{v.alias ? v.alias : v.column}}
+                                <i ng-if="v.alias && v.type !== 'level'">({{v.column}})</i>
+                                <span ng-if="v.type === 'level'" ng-repeat="vc in v.columns" ng-click="add(c, vc, v.alias, v.type)" class="alias" data-dh="{{vc.column}}">
+                                    {{v.alias}}-{{vc.alias ? vc.alias : vc.column}}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div ng-if="!boardDataset.length" style="text-align: center;font-size: 24px;color: #bbb;line-height: 60px;">暂无列纬度</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-5">
+            <div class="cubeSelected">
+                <div class="title"><span>{{'CONFIG.DASHBOARD.LINKED_COLUMN'|translate}}</span></div>
+                <div class="cubes">
+                    <span ng-repeat="v in param.col" ng-click="deleteSelected($index, v.type)">
+                        {{'[' + v.name + '].[' + v.alias + v.column + ']';}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-switch="param.paramType" style="display: none">
+        <div ng-switch-when="slider">
+            <div ng-include="'src/view/config/board/modal/param/slider.html'"></div>
+        </div>
+        <div ng-switch-default>
+            <div ng-include="'src/view/config/board/modal/param/selector.html'"></div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default pull-left" data-dismiss="modal" ng-click="close()">{{'COMMON.CANCEL'|translate}}</button>
+    <button type="button" class="btn btn-primary" ng-click="ok()">{{'COMMON.OK'|translate}}</button>
+</div>
+<div class="overlay" ng-show="status.i!=0">
+    <i class="fa fa-spinner fa-spin"></i>
+</div>
