@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+</head>
+<body>
+<button id="start">执行脚本</button>
+</body>
+<script>
+    $(function () {
+        $('#start').click(function () {
+            $.ajax({
+                url: 'http://21.122.102.9:8087/dashboard/getAllDatasetList.do',
+                type: "POST",
+            }).done(function (getAllDatasetList) {
+                $.ajax({
+                    url: 'http://21.122.102.9:8087/dashboard/getAllWidgetList.do',
+                    type: "POST"
+                }).done(function (getAllWidgetList) {
+//                    getAllDatasetList.length
+                    for (var j = 0; j < getAllDatasetList.length; j++) {
+                        var length = (getAllDatasetList[j].id).length;
+                        for (var i = 0; i < getAllWidgetList.length; i++) {
+                            if ((getAllDatasetList[j].id).slice(0, length - 8) == getAllWidgetList[i].data.datasetId) {
+                                getAllWidgetList[i].data.datasetId = getAllDatasetList[j].id;
+                                $.ajax({
+                                    url: "http://21.122.102.9:8087/dashboard/updateWidget.do",
+                                    type: "POST",
+                                    data: {
+                                        json: JSON.stringify(getAllWidgetList[i])
+                                    },
+                                    dataType: "json"
+                                }).done(function () {
+
+                                })
+                            }
+                        }
+                    }
+                    $.ajax({
+                        url: 'http://21.122.102.9:8087/dashboard/getAllWidgetList.do',
+                        type: "POST"
+                    }).done(function (getAllWidgetList2) {
+                        console.log("getAllWidgetList@@@@@", getAllWidgetList2);
+                    })
+                })
+            })
+        })
+    })
+</script>
+</html>

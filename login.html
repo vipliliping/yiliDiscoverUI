@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Discovery | Starter</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <!--build:css css/login.css-->
+    <link rel="stylesheet" href="/css/quirk.css">
+    <link rel="stylesheet" href="/css/custom.css">
+    <!--endbuild-->
+
+    <!--[if lt IE 9]>
+    <script src="lib/html5shiv.min.js"></script>
+    <script src="lib/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="signwrapper">
+
+<div class="sign-overlay"></div>
+<div class="signpanel"></div>
+
+<div class="panel signin">
+    <div class="panel-heading">
+        <h1><img src="imgs/logo.png" height="60" width="200"/></h1>
+        <h4 class="panel-title">您好!请登录</h4>
+    </div>
+    <div class="panel-body">
+        <div>
+            <div class="form-group mb10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input id="name" type="text" class="form-control" name="username" placeholder="用户名">
+                </div>
+            </div>
+            <div class="form-group nomargin">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input id="password" type="password" class="form-control" placeholder="密码" name="password">
+                </div>
+            </div>
+            <div class="errorMess" style="display:none;" id="errorMess"><i class="glyphicon glyphicon-minus-sign"></i>
+                用户名或密码错误
+            </div>
+            <div class="form-group mt20">
+                <button id="login" class="btn btn-success btn-quirk btn-block">登录</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--build:replace_jquery-->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!--endbuild-->
+
+<script src="config.js"></script>
+<script>
+  $(function () {
+    var login = function () {
+      var name = $('#name').val()
+      var password = $('#password').val()
+      var paramter = {}
+      paramter.username = name
+      paramter.password = password
+      $.post(baseUrl + 'login', paramter).then(function (data) {
+        window.location = 'starter.html'
+      }, function (data) {
+        $('#errorMess').show()
+      })
+    }
+    $('#login').on('click', login)
+    $(document).keyup(function (event) {
+      if (event.keyCode == 13) {
+        $('#login').trigger('click')
+      }
+    })
+  })
+</script>
+</body>
+</html>

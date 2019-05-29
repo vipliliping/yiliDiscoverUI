@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Excel Import</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body style="margin: 30px;">
+	<form id="form1">
+		<div id="import_div">
+			<label>操作类型：</label>
+			<select id="operation" name="operation">
+				<option value ="new" selected>新建数据源</option>
+				<option value ="update">更新数据源</option>
+			</select>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<label>数据源：</label>
+			<select id="dataSource" name="sourceName" disabled="disabled">
+				<option value ="0" selected></option>
+			</select>
+		</div>
+		<br />
+		<div>
+			<input id="excel_file" type="file" name="filename" accept="xlsx" size="80" />
+			<input id="excel_button" type="button" value="导入Excel" onclick="importFile();" />
+		</div>
+		<br />
+		<span id="importMsg" style="color: red;"></span>
+	</form>
+	<br />
+	<table id="table"></table>
+	<br />
+	<div id="source_edit" hidden="hidden">
+		<span>数据源名称:</span>
+		<input id="source_name" type="input" value=""/>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input id="upload_button" type="button" value="确认导入" onclick="upload();"/>
+	</div>
+	<!-- jQuery 2.2.3 -->
+	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+	<script type="text/javascript">
+        $(function () {
+            $('#operation').change(function(){
+                var curVal = $(this).children('option:selected').val();
+                if (curVal=="update") {
+                    $("#dataSource").removeAttr("disabled");
+				} else {
+                    $("#dataSource").attr("disabled","disabled");
+				}
+            })
+
+            $.ajax({
+                url: "excel/init.do",
+                type: "post",
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    var dataSourceList = data.dataSourceList;
+                    for (var i = 0; i < dataSourceList.length; i++) {
+						$("#dataSource").append("<option value='" + dataSourceList[i].name + "'>" + dataSourceList[i].name + "</option>");
+                    }
+                }
+            });
+        });
+
+		var excel_data;
+
+		function importFile() {
+			var excel_file = $("#excel_file").val();
+			if (excel_file == "" || excel_file.length == 0) {
+				alert("请选择文件路径！");
+				return;
+			}
+
+			var form = new FormData(document.getElementById("form1"));
+			$.ajax({
+				url : "excel/import.do",
+				type : "post",
+				data : form,
+				processData : false,
+				contentType : false,
+				success : function(data) {
+                    var operation = $("#operation").children('option:selected').val();
+
+					if (data.length == 0) {
+					    if (operation == "update") {
+                            $("#importMsg").html("上传文件字段与之前版本不一致！");
+						} else {
+                            $("#importMsg").html("上传失败！");
+                        }
+						return;
+					}
+
+					$("#importMsg").html("上传成功，请预览数据并选择每一列的数据类型！");
+					excel_data = data;
+
+					// 列头
+					var html = "<tr>"
+					for (var i = 0; i < data.head.length; i++) {
+						html += "<th>" + data.head[i] + "</th>";
+					}
+					html += "</tr>"
+
+					// 类型选择
+					html += "<tr>";
+					if (operation == "new") {
+                        for (var i = 0; i < data.type.length; i++) {
+                            switch (data.type[i]) {
+                                case "INTEGER":
+                                    html += "<td><select>"
+                                        + "<option value=\"INTEGER\" selected>整数</option>"
+                                        + "<option value=\"REAL\">小数</option>"
+                                        + "<option value=\"TEXT\">字符串</option>"
+                                        + "</select></td>";
+                                    break;
+                                case "REAL":
+                                    html += "<td><select>"
+                                        + "<option value=\"INTEGER\">整数</option>"
+                                        + "<option value=\"REAL\" selected>小数</option>"
+                                        + "<option value=\"TEXT\">字符串</option>"
+                                        + "</select></td>";
+                                    break;
+                                default:
+                                    html += "<td><select>"
+                                        + "<option value=\"INTEGER\">整数</option>"
+                                        + "<option value=\"REAL\">小数</option>"
+                                        + "<option value=\"TEXT\" selected>字符串</option>"
+                                        + "</select></td>";
+                                    break;
+                            }
+                        }
+                    }
+
+					// 数据
+					for (var i = 0; i < data.data.length; i++) {
+						html += "<tr>";
+						for (var j = 0; j < data.data[i].length; j++) {
+							html += "<td>" + data.data[i][j] + "</td>";
+						}
+						html += "</tr>";
+					}
+					$("#table").html(html);
+					$("#upload_button").show();
+					$("#source_edit").show();
+					$("#import_div").hide();
+                    if (operation == "update") {
+                        $("#source_name").val($("#dataSource").children('option:selected').val());
+                        $("#source_name").attr("disabled","disabled");
+                    }
+				},
+				error : function(e) {
+					$("#importMsg").html("上传失败！");
+				}
+			});
+		}
+
+		function upload() {
+		    if ($("#source_name").val() == "") {
+		        alert("请输入一个数据源名称");
+		        return;
+			}
+
+            var operation = $("#operation").children('option:selected').val();
+
+			// 重新加载数据类型
+            if (operation == "new") {
+                var typeList = [];
+                $("#table").find("tr").eq(1).find("td").each(function () {
+                    typeList.push($(this).find("select").val());
+                });
+                excel_data.type = typeList;
+            }
+
+            $.ajax({
+                url: "sqlite/createTable.do",
+                type: "post",
+                dataType: "json",
+                data: {
+                    data: JSON.stringify(excel_data),
+					sourceName: $("#source_name").val(),
+                    operation : $("#operation").val()
+				},
+                success: function (data) {
+                    if (data.status == 1) {
+                        window.location.href = "success.html";
+                    } else if (data.status == 2) {
+                        alert(data.msg);
+                    } else {
+                        alert("数据保存失败！");
+                    }
+                },
+                error: function (e) {
+                    alert("数据保存失败！");
+                }
+            });
+		}
+	</script>
+</body>
+</html>

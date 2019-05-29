@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="plugins/powertip/jquery.powertip.min.css">
+</head>
+<body>
+<table>
+    <tr>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+    </tr>
+    <tbody>
+    <tr data-i="0">
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+    </tr>
+    <tr data-i="1">
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+    </tr>
+    <tr data-i="2">
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+    </tr>
+    </tbody>
+</table>
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="plugins/powertip/jquery.powertip.js"></script>
+<script>
+  $(function () {
+    var text
+    var formatter = function (text) {
+      return 'N:' + text
+    }
+    $('tbody')
+      .data('powertip', function () {
+        return formatter(text)
+      })
+      .powerTip({
+        followMouse: true
+      })
+      .on('mouseover', 'td', function (e) {
+        text = $(e.target).text()
+        $("#powerTip").text(formatter(text))
+      })
+  })
+</script>
+</body>
+</html>

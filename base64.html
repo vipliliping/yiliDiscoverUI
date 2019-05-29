@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+</head>
+<body>
+<p id="test"></p>
+<script>
+    var mapImgSrc = 'theme/theme_Beili01/images/mapbk.jpg';
+    converImgToBase64(mapImgSrc, function (base64Img) {
+        console.log("base64Img", base64Img);
+        $("#test").html(base64Img)
+    });
+
+    function converImgToBase64(mapImgSrc, callback, outputFormat) {
+        var canvas = document.createElement('CANVAS'),
+            ctx = canvas.getContext('2d'),
+            img = new Image;
+        img.crossOrigin = 'Anonymous';
+        img.onload = function () {
+            canvas.height = img.height;
+            canvas.width = img.width;
+            ctx.drawImage(img, 0, 0);
+            var dataUrl = canvas.toDataURL(outputFormat || 'image/png');
+            callback.call(this, dataUrl);
+            canvas = null;
+        };
+        img.src = mapImgSrc;
+    };
+</script>
+</body>
+</html>

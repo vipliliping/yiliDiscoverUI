@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html ng-controller="discoveryCtrl" ng-app="discovery">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Discovery | Starter</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!--build:css css/style.css-->
+    <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/css/font-awesome.min.css">
+    <link rel="stylesheet" href="lib/css/ionicons.min.css">
+    <link rel="stylesheet" href="lib/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="css/cboard.css">
+    <link rel="stylesheet" href="css/tabs.sideways.css">
+    <link rel="stylesheet" href="plugins/ngJsTree/style.css">
+    <link rel="stylesheet" href="plugins/jQueryUI/theme.css">
+    <link rel="stylesheet" href="plugins/jQueryUI/jquery-ui.css">
+    <link rel="stylesheet" href="lib/gridster/angular-gridster.min.css">
+    <link rel="stylesheet" href="lib/spliter/angular-flex-splitter.css">
+    <link rel="stylesheet" href="lib/wangeditor/release/wangEditor.min.css">
+    <link rel="stylesheet" href="plugins/gantt/dhtmlxgantt.css" />
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="css/select.css">
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="plugins/rzslider/rzslider.min.css">
+    <link rel="stylesheet" href="lib/css/angular-cron-jobs.min.css">
+    <link rel="stylesheet" href="plugins/timeline/map_tree.css">
+    <link rel="stylesheet" href="plugins/tree/tree.css">
+    <link rel="stylesheet" href="plugins/jquery-contextmenu/jquery.contextMenu.min.css">
+    <link rel="stylesheet" href="plugins/bootstrap-table/bootstrap-table.min.css">
+    <link rel="stylesheet" href="plugins/jsmind/jsmind.css">
+    <link rel="stylesheet" href="plugins/multiple-select/multiple-select.css">
+    <link rel="stylesheet" href="plugins/powertip/jquery.powertip.min.css">
+    <!-- treegrid插件样式 -->
+    <link rel="stylesheet" href="plugins/treeGrid/jqx.base.css">
+    <link rel="stylesheet" href="plugins/treeGrid/custom.css">
+
+    <link rel="stylesheet" href="css/quirk.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="plugins/momentPicker/angular-moment-picker.min.css">
+    <link rel="stylesheet" href="css/yili.css">
+    <!--endbuild-->
+
+    <!--[if lt IE 9]>
+    <script src="lib/html5shiv.min.js"></script>
+    <script src="lib/respond.min.js"></script>
+    <![endif]-->
+
+    <!--<link rel="stylesheet" href="theme/ample/css/style.css">-->
+    <!--<link rel="stylesheet" href="../lib/jquery-toggles/toggles-full.css">-->
+    <style>
+        .modal-fit .modal-dialog {
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            padding: 50px;
+        }
+
+        .modal-fit .modal-body {
+            height: calc(100vh - 200px);
+            overflow: auto;
+        }
+
+        @media (min-width: 768px) {
+            .modal-fit .modal-dialog {
+                width: auto;
+            }
+        }
+
+        .anchorBL {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<header class="main-header">
+    <div class="headerpanel" ng-include="'theme/quirk/main-header.html'"></div>
+</header>
+<section>
+    <div class="leftpanel" ng-include="'theme/quirk/main-sidebar.html'"></div>
+    <div class="mainpanel">
+        <div class="contentpanel">
+            <ui-view>
+            </ui-view>
+        </div><!-- contentpanel -->
+    </div><!-- mainpanel -->
+</section>
+<!--<script src="http://api.map.baidu.com/api?v=2.0&ak=qDZuUrgvYHP0zGYT9agCx8UuRos9MC02"></script>-->
+<script src="config.js"></script>
+<script>
+  window.isPreview = false
+</script>
+<!--build:copy js/jquery.js-->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!--endbuild-->
+
+<!--build:libs js/libs.js-->
+<script src="lib/angular.min.js"></script>
+<script src="lib/angular-ui-router.min.js"></script>
+<script src="lib/angular-md5.min.js"></script>
+<script src="lib/angular-drag-and-drop-lists.js"></script>
+<script src="lib/angular-sanitize.min.js"></script>
+<script src="lib/ui-bootstrap-tpls-2.1.3.min.js"></script>
+<script src="lib/angular-translate.js"></script>
+<script src="lib/angular-translate-loader-partial.js"></script>
+<script src="lib/upload/ng-file-upload-shim.js"></script>
+<script src="lib/upload/ng-file-upload.js"></script>
+<script src="lib/wangeditor/release/wangEditor.min.js"></script>
+
+<script src="lib/numbro.min.js"></script>
+<script src="lib/ui-select.min.js"></script>
+
+<script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+<script src="lib/bootstrap/bootstrap.min.js"></script>
+<script src="lib/adminLTE/js/app.js"></script>
+<script src="plugins/ngJsTree/jstree.js"></script>
+<script src="plugins/ngJsTree/ngJsTree.js"></script>
+<script src="plugins/powertip/jquery.powertip.js"></script>
+
+<!--<script src="plugins/echart/echarts-3.7.2.min.js"></script>-->
+<script src="plugins/echart/echarts-4.min.js"></script>
+<script src="plugins/echart/echarts-wordcloud.min.js"></script>
+<script src="plugins/echart/echarts-gl.min.js"></script>
+<script src="plugins/echart/china.js"></script>
+<script src="plugins/echart/chinaZone.js"></script>$target.data
+<script src="plugins/echart/theme-fin1.js"></script>
+<!--<script src="plugins/echart/theme-macarons.js"></script>-->
+<!--<script src="plugins/echart/theme-walden.js"></script>-->
+<script src="plugins/echart/echarts-liquidfill.min.js"></script>
+<!--<script src="plugins/echart/bmap.js"></script>-->
+
+<script src="plugins/gantt/dhtmlxgantt.js"></script>
+<script src="plugins/gantt/dhtmlxgantt_tooltip.js"></script>
+<script src="plugins/gantt/dhtmlxgantt_locale_cn.js"></script>
+<script src="plugins/gantt/ext/dhtmlxgantt_marker.js"></script>
+<script src="lib/jquery.ba-resize.js"></script>
+
+<script src="plugins/xlsx/xlsx.full.min.js"></script>
+<script src="plugins/ace/ace.js"></script>
+<script src="plugins/ace/cb-complete-list.js"></script>
+<script type="text/javascript" src="plugins/ace/ext-language_tools.js"></script>
+<script src="plugins/ui-ace/ui-ace.js"></script>
+<script src="plugins/FineMap/d3.v3.js"></script>
+<script src="plugins/FineMap/d3.tip.js"></script>
+<script src="plugins/rzslider/rzslider.min.js"></script>
+<script src="plugins/daterangepicker/moment.js"></script>
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<script src="plugins/momentPicker/moment-with-locales.js"></script>
+<script src="plugins/momentPicker/angular-moment-picker.min.js"></script>
+<script src="lib/angular-daterangepicker.min.js"></script>
+<script src="lib/angular-cron-jobs.min.js"></script>
+<script src="plugins/datatables/jquery.dataTables.js"></script>
+<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="plugins/timeline/timeline.js"></script>
+<script src="plugins/tree/tree.js"></script>
+<script src="lib/angular-uuid4.min.js"></script>
+<script src="plugins/jquery-contextmenu/jquery.contextMenu.min.js"></script>
+<script src="plugins/jquery-contextmenu/jquery.ui.position.min.js"></script>
+<script src="lib/html2canvas.js"></script>
+<script src="lib/underscore.min.js"></script>
+<script src="plugins/crossTable/plugin.js"></script>
+<script src="plugins/artTemplate/template4.js"></script>
+<script src="lib/gridster/angular-gridster.min.js"></script>
+<script src="lib/spliter/angular-flex-splitter.js"></script>
+<script src="src/Settings.js"></script>
+
+<script src="plugins/jsmind/jsmind.js"></script>
+<script src="plugins/jsmind/jsmind.draggable.js"></script>
+<script src="plugins/jsmind/jsmind.screenshot.js"></script>
+
+<script src="plugins/JQContextMenu/jquery.contextMenu.min.js"></script>
+<script src="plugins/JQContextMenu/jquery.ui.position.min.js"></script>
+<script src="plugins/multiple-select/multiple-select.js"></script>
+
+<script src="plugins/bootstrap-table/bootstrap-table.min.js"></script>
+
+<script src="plugins/momentPicker/moment-with-locales.js"></script>
+<script src="plugins/momentPicker/angular-moment-picker.min.js"></script>
+
+<!-- treegrid插件 -->
+<script src="plugins/treeGrid/jqxcore.js"></script>
+<script src="plugins/treeGrid/jqxdata.js"></script>
+<script src="plugins/treeGrid/jqxbuttons.js"></script>
+<script src="plugins/treeGrid/jqxdatatable.js"></script>
+<script src="plugins/treeGrid/jqxscrollbar.js"></script>
+<script src="plugins/treeGrid/jqxtreegrid.js"></script>
+<script src="plugins/treeGrid/jqxlistbox.js"></script>
+<script src="plugins/treeGrid/jqxdropdownlist.js"></script>
+<!--endbuild-->
+
+<!--build:app js/app.js-->
+<script src="screen/dlut.utils.js"></script>
+<script src="src/util/CBoardEChartUtils.js"></script>
+<script src="src/util/CBoardEChartRender.js"></script>
+<script src="src/util/CBoardCommonUtils.js"></script>
+<script src="src/util/CBoardKpiRender.js"></script>
+<script src="src/util/CBoardTableRender.js"></script>
+<script src="src/util/CBoardMapRender.js"></script>
+<!--<script src="src/util/CBoardGisRender.js"></script>-->
+<!--<script src="src/util/CBoardJsTreeUtils.js"></script>-->
+<script src="src/util/CBoardFlexRender.js"></script>
+<script src="src/util/CBoardFlex2Render.js"></script>
+<script src="src/util/CBoardDataLineTableRender.js"></script>
+<script src="src/util/CBoardGanttRender.js"></script>
+<script src="src/util/CBoardDataTableRender.js"></script>
+<script src="src/util/CBoardCrossGreatTableRender.js"></script>
+<script src="src/util/CBoardSelectorRender.js"></script>
+<script src="src/util/CBoardTreeGridRender.js"></script>
+<script src="src/ng-app.js"></script>
+<script src="src/ng-config.constant.js"></script>
+<script src="src/ng-config.router.js"></script>
+<script src="src/ng-config.http.js"></script>
+<script src="src/ng-config.translate.js"></script>
+<script src="src/controller/cboard/cBoardCtrl.js"></script>
+<script src="src/controller/cboard/menuItemCtrl.js"></script>
+<script src="src/common/tableCtrl.js"></script>
+
+<script src="src/controller/dashboard/dashboardViewCtrl.js"></script>
+<script src="src/controller/config/widgetCtrl.js"></script>
+<script src="src/controller/config/datasourceCtrl.js"></script>
+<script src="src/controller/config/boardCtrl.js"></script>
+<!--<script src="src/controller/config/freeLayoutCtrl.js"></script>-->
+<script src="src/controller/config/folderTreeCtrl.js"></script>
+<script src="src/controller/config/categoryCtrl.js"></script>
+<script src="src/controller/config/datasetCtrl.js"></script>
+<script src="src/controller/config/buildModelCtrl.js"></script>
+<script src="src/controller/admin/userAdminCtrl.js"></script>
+<script src="src/controller/config/jobCtrl.js"></script>
+<script src="src/controller/config/job/mailJobCtrl.js"></script>
+<script src="src/controller/config/shareResCtrl.js"></script>
+<script src="src/controller/utils/paramSelector.js"></script>
+<script src="src/controller/nv/permission/PermissionSettingCtrl.js"></script>
+
+<script src="src/service/dashboard/dashboardService.js"></script>
+<!--<script src="src/service/dashboard/freeLayoutService.js"></script>-->
+<script src="src/service/data/dataService.js"></script>
+<script src="src/directive/dashboard/dashboardWidget.js"></script>
+
+<script src="src/filter/dashboard/dashboardViewFilter.js"></script>
+
+
+<script src="src/util/CBoardD3Render.js"></script>
+<script src="src/service/dashboard/BoardParamService.js"></script>
+<script src="src/service/data/ComputedValueService.js"></script>
+<script src="src/service/dashboard/menuDataService.js"></script>
+<script src="src/service/chart/chartDataProcess.js"></script>
+<script src="src/service/chart/chartFunnelService.js"></script>
+<script src="src/service/chart/chartKpiService.js"></script>
+<script src="src/service/chart/chartLineMapService.js"></script>
+<script src="src/service/chart/chartLineService.js"></script>
+<script src="src/service/chart/chartLine2Service.js"></script>
+<script src="src/service/chart/chartLine3Service.js"></script>
+<script src="src/service/chart/chartPieService.js"></script>
+<script src="src/service/chart/chartPie2Service.js"></script>
+<script src="src/service/chart/chartFlexChartService.js"></script>
+<script src="src/service/chart/chartFlexD3ChartService.js"></script>
+<script src="src/service/chart/chartSankeyService.js"></script>
+<script src="src/service/chart/chartCircularService.js"></script>
+<script src="src/service/chart/chartEchart3dMapService.js"></script>
+<script src="src/service/chart/chartEchart3dMapLineService.js"></script>
+<script src="src/service/chart/chartEchart3dBarService.js"></script>
+<script src="src/service/chart/chartEchartCityMapService.js"></script>
+<script src="src/service/chart/chartEchart3dAreaService.js"></script>
+<script src="src/service/chart/chartBarPolarStackService.js"></script>
+<script src="src/service/chart/chartPieProportionService.js"></script>
+<script src="src/service/chart/chartRadarService.js"></script>
+<script src="src/service/chart/chartService.js"></script>
+<script src="src/service/chart/chartMapService.js"></script>
+<script src="src/service/updater/updateService.js"></script>
+<script src="src/service/chart/chartRoseService.js"></script>
+<!--<script src="src/service/chart/chartGisService.js"></script>-->
+<script src="src/service/chart/chartD3ChordService.js"></script>
+<script src="src/service/chart/chartTableService.js"></script>
+<script src="src/service/chart/chartScatterService.js"></script>
+<script src="src/service/chart/chartScatter2Service.js"></script>
+<script src="src/service/chart/chartCrossTableService.js"></script>
+<script src="src/service/chart/chartCrossTableGreatService.js"></script>
+<script src="src/service/chart/chartSelectorService.js"></script>
+<script src="src/service/chart/chartGaugeService.js"></script>
+<script src="src/service/chart/chartWordCloudService.js"></script>
+<script src="src/service/chart/chartTreeMapService.js"></script>
+<script src="src/service/chart/chartAreaMapService.js"></script>
+<script src="src/service/chart/chartHeatMapCalendarService.js"></script>
+<script src="src/service/chart/chartHeatMapTableService.js"></script>
+<script src="src/service/chart/chartMarkLineMapService.js"></script>
+<script src="src/service/chart/chartLiquidFillService.js"></script>
+<script src="src/service/chart/chartD3DemoService.js"></script>
+<script src="src/service/chart/chartCodeFlowerService.js"></script>
+<script src="src/service/chart/chartFlexService.js"></script>
+<script src="src/service/chart/chartFlex2Service.js"></script>
+<script src="src/service/chart/chartGanttService.js"></script>
+<script src="src/service/chart/chartBarLimitsService.js"></script>
+<script src="src/service/chart/chartDataLineTableService.js"></script>
+<script src="src/service/chart/chartEchartBmapService.js"></script>
+<script src="src/service/chart/chartEchartZoneMapService.js"></script>
+<script src="src/service/chart/chartTreeGridService.js"></script>
+
+<script src="src/controller/nv/dashboard/NvParamCtrl.js"></script>
+<script src="src/controller/nv/dashboard/NvSelectorCtrl.js"></script>
+<!--<script src="src/controller/nv/dashboard/paramCtrl.js"></script>-->
+<script src="src/controller/nv/share/NvShareCtrl.js"></script>
+<script src="src/controller/nv/screen/NvScreenMenuCtrl.js"></script>
+<script src="src/controller/nv/statistics/NvStatisticsCtrl.js"></script>
+<script src="src/controller/nv/typeControl/NvTypeControlCtrl.js"></script>
+<script src="src/controller/nv/datasource/NvDataSourceCtrl.js"></script>
+<script src="src/controller/nv/docs/NvDocsAnalyse.js"></script>
+<script src="src/controller/nv/docs/NvDocsResult.js"></script>
+<script src="src/controller/nv/docs/related/NvDocsRelatedWidgetCtrl.js"></script>
+<script src="src/controller/nv/docs/related/NvDocsRelatedDatasetCtrl.js"></script>
+<script src="src/util/JsTreeUtils.js"></script>
+<script src="src/service/util/ModalUtils.js"></script>
+
+<script src="src/directive/dashboard/nvDashboardWidget.js"></script>
+
+<script src="src/controller/nv/render/renderCtrl.js"></script>
+<script src="src/controller/nv/home/NvHomeCtrl.js"></script>
+<script src="src/controller/nv/cube/NvCubeCtrl.js"></script>
+<script src="src/controller/nv/mind/nvJsMindCtrl.js"></script>
+<script src="src/controller/nv/mind/nvJsMindListCtrl.js"></script>
+<script src="src/controller/nv/dashboard/NvDashboardCtrl.js"></script>
+<script src="src/controller/nv/explore/NvExploreEditCtrl.js"></script>
+<script src="src/controller/nv/explore/NvExploreListCtrl.js"></script>
+<script src="src/controller/nv/dashboard/NvDashboardViewCtrl.js"></script>
+<script src="src/controller/nv/dashboard/NvDashboardViewModelCtrl.js"></script>
+<script src="src/service/event/DefaultEventService.js"></script>
+
+
+<script src="src/controller/nv/onlyChart/OnlyChartCtrl.js"></script>
+<!--endbuild-->
+
+<!-- inject:js -->
+<!-- js files will be automatically insert here -->
+<!-- endinject -->
+
+<!-- templates from $templateCache -->
+<!-- build:templates -->
+<!-- endbuild -->
+
+<script type="text/ng-template" id="echartContent">
+    <div class="col-md-{{widget.width}}">
+        <div class="box box-solid" style="z-index: 99;">
+            <div class="box-header" ng-mouseover="x=true" ng-mouseleave="x=false">
+                <!--<i class="fa fa-bar-chart-o"></i>-->
+                <h3 class="box-title">{{widget.name}}</h3>
+                <div class="box-tools pull-right" ng-show="x" ng-init="x=false">
+                    <button type="button" class="btn btn-box-tool" ng-click="reload(widget)"><i
+                            class="fa fa-refresh"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" ng-if="widgetCfg" ng-click="config(widget)"><i
+                            class="fa fa-wrench"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" ng-click="modalChart(widget)"><i
+                            class="fa fa-square-o"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" ng-style="{height:myheight+'px'}" style="padding: 3px 0px 3px 13px;">
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="kpiContent">
+    <div class="col-md-{{widget.width}} kpi-body">
+    </div>
+</script>
+<script type="text/ng-template" id="chartContent">
+    <div class="col-md-{{widget.width}}" style="z-index: 99;">
+        <div class="box box-solid">
+            <div class="box-header" ng-mouseover="x=true" ng-mouseleave="x=false">
+                <!--<i class="fa fa-bar-chart-o"></i>-->
+                <h3 class="box-title">{{widget.name}}</h3>
+                <div class="box-tools pull-right" ng-show="x" ng-init="x=false">
+                    <button type="button" class="btn btn-box-tool" ng-click="reload(widget)"><i
+                            class="fa fa-refresh"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" ng-if="widgetCfg" ng-click="config(widget)"><i
+                            class="fa fa-wrench"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" ng-click="modalTable(widget)"><i
+                            class="fa fa-square-o"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" ng-style="{height:myheight+'px'}" style="padding: 3px 0px 3px 13px;">
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="nvD3Content">
+    <div class="box-body d3" name="{{widget.widget.data.wName}}" style="height:100%;width:100%;padding:0px;background: transparent"></div>
+</script>
+<script type="text/ng-template" id="nvEchartContent">
+    <div class="box-body cscc" name="{{widget.widget.data.wName}}" style="height:100%;width:90%;padding:0px"></div>
+</script>
+<script type="text/ng-template" id="nvKpiContent">
+    <div class="kpi-body" name="{{widget.widget.data.wName}}" style="height:100%;width:100%;padding:0px"></div>
+</script>
+<script type="text/ng-template" id="nvChartContent">
+    <div class="box-body nvc" name="{{widget.widget.data.wName}}" style="height:100%;width:100%;padding:0px"></div>
+</script>
+<script type="text/ng-template" id="selectorContent">
+    <div class="box-body" style="height:100%;width:100%;padding:0px;background: transparent"></div>
+</script>
+<script type="text/ng-template" id="jsMindContent">
+    <div class="chart-title" style="padding: 5px 0;font-size: 16px"></div>
+    <div class="box-body" style="height:300px !important;width: 300px;padding: 0;margin-top: -5px;margin-left: -20px"></div>
+</script>
+</body>
+</html>
