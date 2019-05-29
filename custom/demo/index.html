@@ -1,0 +1,54 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>discovery Demo</title>
+</head>
+<body>
+<div class="container"></div>
+<button class="testGotoScreen">测试三屏跳转事件</button>
+</body>
+<script src="../libs/jquery-2.2.3.min.js"></script>
+<script src="../libs/socket.io-1.4.5.js"></script>
+<script src="../libs/discovery.js"></script>
+<script>
+	$(function(){
+		var $container = $(".container")
+		function drawList(list){
+			for(var i=0;i<list.length;i++){
+				var item = list[i]
+				var $li = $('<div class="item" data-index="'+i+'">型号:'+item['型号']+",数量:"+item['数量']+"</div>")
+				$li.data('item',item)
+				$container.append($li)
+			}
+		}
+		$container.on('click','.item',function(){
+			var $this = $(this)
+			var item = $this.data('item')
+			//$.discovery.event.trigger()
+			var params = {}
+			params['型号'] = item['型号']
+			$.discovery.selfPageFilter(params)
+		})
+		
+		//ajax dataset
+		$.discovery.dataset('630b1fccc3944977ab0b5a2e6f32d5a8')
+			.where([{col:'型号',type:'=',values:["歼教-7","歼轰-7A飞机"]}])
+			.groupBy(['型号'])
+			.sum(['数量'])
+			.submit()
+			.then(function(list){
+				drawList(list)
+			})
+		//event 
+		$.discovery.on('haha',function(data){
+			console.log('haha',data)
+		})
+		$.discovery.trigger('haha',{aaa:1})
+		$('.testGotoScreen').on('click',function(){
+			$.discovery.gotoScreen("b2103793d6c94d5dab33871b54e85da2",{
+				"经费类型名称":"国防科研试制费"
+			})
+		})
+	})
+</script>
+</html>
