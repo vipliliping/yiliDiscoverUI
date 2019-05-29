@@ -1,0 +1,97 @@
+{
+  "option":[{
+      "type":["widget","param","board"],
+      "chart_type":"ALL",
+      "group":"边框样式",
+      "class":[{
+        "id": "borderStyle01",
+        "name":"边框1",
+        "class":["panelTheme"],
+        "thumb":"a1.jpg"
+      },{
+        "id": "borderStyle02",
+        "name":"边框2",
+        "class":["borderStyleClassA2"],
+        "thumb":"b1.jpg"
+      },{
+        "id": "borderStyle03",
+        "name":"无边框",
+        "class":["borderStyleNone"],
+        "thumb":"c1.jpg"
+    }]},{
+      "type":["widget","param","board"],
+      "chart_type":"ALL",
+      "group":"标题样式",
+      "class":[{
+        "id": "titleStyle01",
+        "name":"标题1",
+        "class":["titleStyleClassA1"],
+        "thumb":"a1.jpg"
+      },{
+        "id": "titleStyle02",
+        "name":"标题2",
+        "class":["titleStyleClassA2"],
+        "thumb":"b1.jpg"
+      },{
+        "id": "titleStyle03",
+        "name":"无标题",
+        "class":["titleStyleNone"],
+        "thumb":"c1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":["pie"],
+    "group":"图表主题",
+    "class":[{
+      "id": "titleStyle01",
+      "name":"标题1",
+      "option":"pieOption",
+      "thumb":"a1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":"ALL",
+    "group":"图表轴线",
+    "class":[{
+      "id": "chartNoAxis",
+      "name":"无轴线",
+      "option":"noAxis",
+      "thumb":"a1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":["barPolarStack","line"],
+    "group":"图表样式",
+    "class":[{
+      "id": "chartStyle",
+      "name":"渐变",
+      "option":"chartStyle1",
+      "thumb":"a1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":["pieProportion"],
+    "group":"图表样式字号",
+    "class":[{
+      "id": "chartStyle2A",
+      "name":"字号大",
+      "option":"chartStyle2A",
+      "thumb":"a1.jpg"
+    }]},
+    {
+    "type":["widget"],
+    "chart_type":["line"],
+    "group":"图表样式",
+    "class":[{
+      "id": "greenBlueBar",
+      "name":"蓝绿条",
+      "option":"greenBlueBar",
+      "thumb":"a1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":["heatMapTable"],
+    "group":"图表样式",
+    "class":[{
+      "id": "noBackground",
+      "name":"无底色",
+      "option":"noBackground",
+      "thumb":"a1.jpg"
+    }]}
+  ]
+}

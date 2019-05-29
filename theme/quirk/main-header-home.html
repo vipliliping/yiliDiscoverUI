@@ -1,0 +1,145 @@
+        <div class="logopanel" style="display: none">
+            <h2><a href="home.html"><img src="imgs/logo.png"/></a></h2>
+        </div><!-- logopanel -->
+        <div class="headerbar">
+
+        </div><!-- headerbar -->
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="container-fluid container-bk">
+                <div id="navbar" class="navbar-collapse collapse" aria-expanded="false">
+                    <ul class="nav navbar-nav navbar-right dropdown-bk">
+                        <li class="dropdown drop-pos">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                                <i class="glyphicon glyphicon-user"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-bk">
+                                <li><a ng-click="changePwd()" class="dropdown-font"><i class="glyphicon glyphicon-user"></i> 修改密码</a></li>
+                                <li><a href="login.do?logout" class="dropdown-font"><i class="glyphicon glyphicon-log-out"></i> 退出登录</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div ng-controller="menuItemCtrl" ng-include="'src/view/directive/menuItem.html'"></div>
+                </div>
+            </div>
+        </nav>
+        <style>
+            .container-bk {
+                background-color: #262b36;
+            }
+            .navbar {
+                background: none;
+            }
+            .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+                color: white;
+                background: none;
+            }
+        </style>
+<script>
+    $(function () {
+        $('#menuToggle').click(function () {
+            var collapsedMargin = $('.mainpanel').css('margin-left');
+            var collapsedLeft = $('.mainpanel').css('left');
+
+            if (collapsedMargin === '220px' || collapsedLeft === '220px') {
+                toggleMenu(-220, 0);
+            } else {
+                toggleMenu(0, 220);
+            }
+
+        });
+
+        function toggleMenu(marginLeft, marginMain) {
+            var emailList = ($(window).width() <= 768 && $(window).width() > 640) ? 320 : 360;
+            if ($('.mainpanel').css('position') === 'relative') {
+                $('.logopanel, .leftpanel').animate({left: marginLeft}, 'fast');
+                $('.headerbar, .mainpanel').animate({left: marginMain}, 'fast');
+                $('.emailcontent, .email-options').animate({left: marginMain}, 'fast');
+                $('.emailpanel').animate({left: marginMain + emailList}, 'fast');
+                if ($('body').css('overflow') == 'hidden') {
+                    $('body').css({overflow: ''});
+                } else {
+                    $('body').css({overflow: 'hidden'});
+                }
+            } else {
+                $('.logopanel, .leftpanel').animate({marginLeft: marginLeft}, 'fast');
+                $('.headerbar, .mainpanel').animate({marginLeft: marginMain}, 'fast');
+                $('.emailcontent, .email-options').animate({left: marginMain}, 'fast');
+                $('.emailpanel').animate({left: marginMain + emailList}, 'fast');
+            }
+        }
+    })
+</script>
+<!-- Logo -->
+<a href="starter.html" class="logo" style="display: none">
+    <!-- mini logo for sidebar mini 50x50 pixels -->
+    <span class="logo-mini"><b>CB</b></span>
+    <!-- logo for regular state and mobile devices -->
+    <span class="logo-lg"><b>CB</b>oard</span>
+</a>
+
+<!-- Header Navbar -->
+<nav class="navbar navbar-static-top" role="navigation" style="display: none">
+    <!-- Sidebar toggle button-->
+    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">{{'HEADER.TOGGLE_NAVIGATION'|translate}}</span>
+    </a>
+    <!-- Navbar Right Menu -->
+    <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+            <!-- User Account Menu -->
+            <li class="dropdown user user-menu">
+                <!-- Menu Toggle Button -->
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <!-- The user image in the navbar-->
+                    <img src="{{user.avatar}}" class="user-image">
+                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                    <span class="hidden-xs">{{user.username}}</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <!-- The user image in the menu -->
+                    <li class="user-header">
+                        <img src="{{user.avatar}}" class="img-circle">
+                        <p>
+                            {{user.username + ' - ' + user.company + ' ' + user.department}}
+                            <small>{{user.userId}}</small>
+                        </p>
+                    </li>
+                    <!-- Menu Body -->
+                    <!--<li class="user-body">-->
+                    <!--<div class="row">-->
+                    <!--<div class="col-xs-4 text-center">-->
+                    <!--<a href="#">Followers</a>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-4 text-center">-->
+                    <!--<a href="#">Sales</a>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-4 text-center">-->
+                    <!--<a href="#">Friends</a>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash; /.row &ndash;&gt;-->
+                    <!--</li>-->
+                    <!-- Menu Footer-->
+                    <li class="user-footer">
+                        <div class="pull-left">
+                            <div class="btn btn-default btn-flat" ng-click="changePwd()">
+                                {{'HEADER.CHANGE_PASSWORD'|translate}}
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            <a href="j_spring_cas_security_logout" class="btn btn-default btn-flat">{{'HEADER.SIGN_OUT'|translate}}</a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

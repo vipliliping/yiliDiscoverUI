@@ -1,0 +1,101 @@
+{
+  "option":[{
+      "type":["widget","param","board"],
+      "chart_type":"ALL",
+      "group":"边框样式",
+      "class":[{
+        "id": "borderStyle03",
+        "name":"无边框",
+        "class":["borderStyleNone"],
+        "thumb":"c1.jpg"
+    }]},{
+    "type":["widget","param","board"],
+    "chart_type":"ALL",
+    "group":"标题样式",
+    "class":[{
+      "id": "titleStyle01",
+      "name":"无标题",
+      "class":["titleStyleNone"],
+      "thumb":"c1.jpg"
+    },{
+      "id": "titleStyle02",
+      "name":"标题居中",
+      "class":["titleStyle02"],
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget","param","board"],
+    "chart_type":["flex2"],
+    "group":"装备图标",
+    "class":[{
+      "id": "equipIcon_plane",
+      "name":"飞机",
+      "class":["equipIcon_plane"],
+      "thumb":"c1.jpg"
+    },{
+      "id": "equipIcon_motor",
+      "name":"发动机",
+      "class":["equipIcon_motor"],
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget","param","board"],
+    "chart_type":["flex2"],
+    "group":"图表颜色",
+    "class":[{
+      "id": "equipIcon_color01",
+      "name":"蓝色",
+      "class":["equipIcon_color01"],
+      "thumb":"c1.jpg"
+    },{
+      "id": "equipIcon_color02",
+      "name":"黑色",
+      "class":["equipIcon_color02"],
+      "thumb":"c1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":"ALL",
+    "group":"图表轴线",
+    "class":[{
+      "id": "chartNoAxis",
+      "name":"无轴线",
+      "option":"noAxis",
+      "thumb":"a1.jpg"
+    }]},{
+      "type":["widget","board"],
+      "chart_type":["line", "pie"],
+      "group":"图表颜色",
+      "class":[{
+        "id": "chartColor01",
+        "name":"chartColor01",
+        "option":"chartColor01",
+        "thumb":"c1.jpg"
+    },{
+        "id": "chartColor02",
+        "name":"chartColor02",
+        "option":"chartColor02",
+        "thumb":"c1.jpg"
+      },{
+        "id": "chartColor03",
+        "name":"chartColor03",
+        "option":"chartColor03",
+        "thumb":"c1.jpg"
+      }]},{
+      "type":["widget","board"],
+      "chart_type":["pieProportion"],
+      "group":"图表颜色",
+      "class":[{
+        "id": "chartBeiliColor01",
+        "name":"北理蓝灰",
+        "option":"chartBeiliColor01",
+        "thumb":"c1.jpg"
+    }]},{
+    "type":["widget"],
+    "chart_type":["line"],
+    "group":"线条样式",
+    "class":[{
+      "id": "lineStyleThick",
+      "name":"粗线条",
+      "option":"lineStyleThick",
+      "thumb":"c1.jpg"
+    }]}
+  ]
+}

@@ -1,0 +1,163 @@
+.contentTheme {
+    background-position: center center;
+    /*background-color: red;*/
+    background-size: cover;
+    background-image: url("/theme/theme_StarrySky/StarrySkyImg.jpg");
+}
+
+.contentTheme .content-header h1 {
+    color: white;
+}
+
+.contentTheme .panelTheme {
+    padding-top: 18px;
+}
+
+.contentTheme .panelTheme > .box {
+    background: url("/theme/theme_StarrySky/images/panelTheme_bk.png") repeat;
+    border: 2px solid rgba(73, 217, 254, 0.5);
+    border-radius: 0px;
+}
+
+.contentTheme .panelTheme .box {
+    margin-bottom: 0px;
+!important
+}
+
+.contentTheme .panelTheme .box .box {
+    background: none;
+}
+
+.contentTheme .panelTheme > .box > .box-header .box-header-btns i {
+    color: #49d9fe;
+}
+
+.contentTheme .panelTheme > .box > .box-header {
+    height: 31px;
+    line-height: 31px;
+    padding: 0px;
+    text-align: center;
+    position: relative;
+    display: block;
+    margin-top: -15px;
+}
+
+.contentTheme .panelTheme > .box > .box-header .box-header-btns {
+    position: absolute;
+    right: 6px;
+    top: 1px;
+    margin-top: 15px;
+    z-index: 999;
+}
+
+.contentTheme .panelTheme > .box > .box-header.with-border {
+    border: none;
+}
+
+.contentTheme .panelTheme > .box > .box-content {
+    margin-top: 7px;
+}
+
+.contentTheme .panelTheme > .box .box-solid {
+    border: none;
+}
+
+.contentTheme .panelTheme > .box > .box-header > span {
+    position: relative;
+}
+
+.contentTheme .panelTheme > .box > .box-header > span .horn-left {
+    background: url("/theme/theme_StarrySky/images/headertitle_before.png") no-repeat;
+    position: absolute;
+    left: -105px;
+    top: -18px;
+    width: 105px;
+    height: 31px;
+}
+
+.contentTheme .panelTheme > .box > .box-header > span .horn-right {
+    background: url("/theme/theme_StarrySky/images/headertitle_after.png") no-repeat;
+    position: absolute;
+    right: -105px;
+    top: -18px;
+    width: 105px;
+    height: 31px;
+}
+
+.contentTheme .panelTheme > .box > .box-header > span i {
+    font-style: normal;
+    color: #fff;
+    font-size: 16px;
+    background: url("/theme/theme_StarrySky/images/headertitle_bk.png") repeat-x;
+    height: 31px;
+    display: inline-block;
+    margin: 0 auto;
+    padding: 0px 10px;
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*.contentTheme .panelTheme > .box > .box-header > span:before{
+    margin-top:-23px;
+    vertical-align:middle;
+    display:inline-block;
+    height:31px;
+    content: url("/theme/theme_StarrySky/images/headertitle_before.png");
+}
+
+.contentTheme .panelTheme > .box > .box-header > span:after{
+    margin-top:-23px;
+    vertical-align:middle;
+    display:inline-block;
+    height:31px;
+    content: url("/theme/theme_StarrySky/images/headertitle_after.png");
+}*/
+
+.contentTheme .panelTheme .handle-se, .handle-ne, .handle-sw, .handle-nw {
+    background: url("/theme/theme_StarrySky/images/themepanel_horn.png") no-repeat;
+    width: 18px;
+    height: 18px;
+}
+
+.contentTheme .panelTheme .handle-se {
+    border-width: 0 0 18px 18px;
+}
+
+.contentTheme .panelTheme .handle-se {
+    /*-ms-transform:rotate(90deg); !* Internet Explorer *!
+    -moz-transform:rotate(90deg); !* Firefox *!
+    -webkit-transform:rotate(90deg); !* Safari 和 Chrome *!
+    -o-transform:rotate(90deg); !* Opera *!*/
+    background-position: -19px -1px;
+}
+
+.contentTheme .panelTheme .handle-ne {
+    -ms-transform: rotate(-90deg); /* Internet Explorer */
+    -moz-transform: rotate(-90deg); /* Firefox */
+    -webkit-transform: rotate(-90deg); /* Safari 和 Chrome */
+    -o-transform: rotate(-90deg); /* Opera */
+}
+
+.contentTheme .panelTheme .handle-sw {
+    -ms-transform: rotate(90deg); /* Internet Explorer */
+    -moz-transform: rotate(90deg); /* Firefox */
+    -webkit-transform: rotate(90deg); /* Safari 和 Chrome */
+    -o-transform: rotate(90deg); /* Opera */
+}
+
+.contentTheme .panelTheme .handle-nw {
+    -ms-transform: rotate(180deg); /* Internet Explorer */
+    -moz-transform: rotate(180deg); /* Firefox */
+    -webkit-transform: rotate(180deg); /* Safari 和 Chrome */
+    -o-transform: rotate(180deg); /* Opera */
+}
+
+.contentTheme .panelTheme .handle-n {
+    margin-top: 15px;
+}
+
+.contentTheme .panelTheme .handle-ne, .handle-nw {
+    margin-top: 19px;
+}
