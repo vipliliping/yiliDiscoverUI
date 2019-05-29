@@ -1,0 +1,67 @@
+.loading-hidden {
+    overflow: hidden !important;
+}
+
+.modal-fit .modal-dialog {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    padding: 50px;
+}
+
+.modal-fit .modal-body {
+    height: calc(100vh - 200px);
+    overflow: auto;
+}
+
+@media (min-width: 768px) {
+    .modal-fit .modal-dialog {
+        width: auto;
+    }
+}
+
+.mainpanel {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.preview-hide {
+    display: none !important;
+}
+
+body {
+    background-color: transparent !important;
+}
+
+html {
+    background: #f1f2f7 !important;
+    /*overflow: hidden !important;*/
+}
+
+.contentTheme {
+    padding: 10px;
+    background-color: transparent;
+    height: auto !important;
+}
+
+.signLine {
+    display: none !important;
+}
+
+.conditionGroup {
+    display: none !important;
+}
+
+.contentTheme .panelTheme > .titleStyleNone.box.borderStyleNone:hover.box {
+    border: none;
+}
+
+.anchorBL {
+    display: none;
+}
+
+.gridster-item-resizable-handler {
+    display: none;
+}
